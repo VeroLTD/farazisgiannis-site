@@ -8,5 +8,5 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
 - The contact form posts to `https://app.avrastro.com/v1/enquiry` (the owner's own server in the EU), which e-mails it
   and stores nothing. No cookies, analytics or third-party scripts/fonts.
 - Published by `.github/workflows/pages.yml` (GitHub Pages). Preview while the domain still points to Design.com:
-  repository variable `SITE_PREFIX=/farazisgiannis-site` → https://veroltd.github.io/farazisgiannis-site/ (not indexed).
+  `site-prefix.txt` = `/farazisgiannis-site` → https://veroltd.github.io/farazisgiannis-site/ (not indexed).
 - Fonts: GFS Didot and Commissioner (SIL Open Font License, files in `assets/fonts`). Portrait: the owner's own photo.
