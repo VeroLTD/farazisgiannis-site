@@ -1,0 +1,39 @@
+# Builds the site (python3 build.py, no dependencies) and publishes it with GitHub Pages.
+# Until farazisgiannis.com points here, the repository variable SITE_PREFIX is /farazisgiannis-site (preview at
+# https://veroltd.github.io/farazisgiannis-site/, not indexed). After the DNS switch, set SITE_PREFIX to an empty value.
+name: Publish site
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        env:
+          SITE_PREFIX: ${{ vars.SITE_PREFIX }}
+        run: python3 build.py
+      - name: Check (every internal link and image exists)
+        run: python3 check.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
