@@ -5,7 +5,9 @@ Content follows the owner's brief of 10 Oct 2026 (FARAZIS_GIANNIS_CLAUDE_WEBSITE
 insurance work only; career since 2024; Nicosia, all of Cyprus; Greek and English; only the professional mobile
 +357 97 840941 (office +357 22 124867 approved); Eurolife ONLY in the contact section; no e-mail published; the
 contact form is e-mailed by the owner's own server (app.avrastro.com/v1/enquiry) and not stored; no analytics, no
-cookies. Run: python3 build.py  (no dependencies)
+cookies. Design v2 (owner feedback 10 Oct 22:25): full logo in the header (no name text beside it), a photo for every
+topic (CC0 photos from the AVRASTRO library, assets/img/photos/CREDITS.md), richer layout in AVRASTRO's quality.
+Run: python3 build.py  (no dependencies)
 """
 import html, json, os, shutil
 from datetime import date
@@ -13,7 +15,7 @@ from datetime import date
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'site')
 BASE = 'https://farazisgiannis.com'
-UPDATED = '2026-10-10'
+UPDATED = '2026-10-10b'
 PHONE = '+357 97 840941'; TEL = '+35797840941'
 OFFICE = '+357 22 124867'; OFFICE_TEL = '+35722124867'
 WHATSAPP = 'https://wa.me/35797840941'
@@ -21,7 +23,6 @@ LINKEDIN = 'https://www.linkedin.com/in/giannis-farazis-209221350/'
 AVRASTRO = 'https://avrastro.com'
 ENQUIRY = 'https://app.avrastro.com/v1/enquiry'
 
-# page id -> slug per language
 SLUGS = {
     'home': {'el': '', 'en': ''},
     'about': {'el': 'sxetika', 'en': 'about'},
@@ -41,34 +42,45 @@ T = {
         'contact': {'el': 'Επικοινωνία', 'en': 'Contact'}, 'privacy': {'el': 'Απόρρητο', 'en': 'Privacy'},
     },
     'call': {'el': 'Καλέστε', 'en': 'Call'},
-    'whatsapp': {'el': 'WhatsApp', 'en': 'WhatsApp'},
-    'book': {'el': 'Κλείστε μια συζήτηση', 'en': 'Arrange a conversation'},
     'menu': {'el': 'Μενού', 'en': 'Menu'},
     'skip': {'el': 'Μετάβαση στο περιεχόμενο', 'en': 'Skip to content'},
     'other': {'el': 'English', 'en': 'Ελληνικά'},
     'where': {'el': 'Λευκωσία · εξυπηρέτηση σε όλη την Κύπρο · Ελληνικά και Αγγλικά', 'en': 'Nicosia · serving clients across Cyprus · Greek and English'},
     'motto': {'el': 'Μαζί σου, κάθε στιγμή.', 'en': 'With you, every moment.'},
     'triad': {'el': 'Προστασία | Αποταμίευση | Ηρεμία', 'en': 'Protection | Savings | Peace of mind'},
+    'more': {'el': 'Περισσότερα', 'en': 'Read more'},
     'foot': {'el': 'Ασφαλιστικός Σύμβουλος στην Κύπρο. Οι πληροφορίες του ιστότοπου είναι γενικές και δεν αποτελούν εξατομικευμένη συμβουλή.',
              'en': 'Insurance Advisor in Cyprus. The information on this website is general and is not personal advice.'},
 }
 
 def L(v, lang): return v[lang] if isinstance(v, dict) else v
 def esc(s): return html.escape(s, quote=True)
-def url(page, lang):
+def url(page, lang, anchor=''):
     slug = SLUGS[page][lang]
-    p = ('/en/' if lang == 'en' else '/') + (slug + '/' if slug else '')
-    return p
+    return ('/en/' if lang == 'en' else '/') + (slug + '/' if slug else '') + (('#' + anchor) if anchor else '')
 
 ICON = {
     'phone': '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3h3l2 5-2.5 1.5a11 11 0 0 0 7 7L16 14l5 2v3a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>',
     'wa': '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l1.3-3.8A8 8 0 1 1 8 19z"/><path d="M9 9.5c.3 2 2.2 4.2 4.5 4.8l1.2-1.1 1.8.8c-.2 1-1 1.8-2 1.8A6 6 0 0 1 8 9.8c0-1 .8-1.8 1.8-2l.8 1.8z"/></svg>',
+    'clear': '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 8h20l8 8v24H10z"/><path d="M30 8v8h8"/><path d="M16 24h16M16 30h16M16 36h10"/></svg>',
+    'calm': '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="24" r="16"/><path d="M17 27c2 3 4.5 4.5 7 4.5s5-1.5 7-4.5"/><path d="M18 19h.01M30 19h.01" stroke-width="3" stroke-linecap="round"/></svg>',
+    'with': '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 40s-14-8.5-14-19a8 8 0 0 1 14-5.3A8 8 0 0 1 38 21c0 10.5-14 19-14 19z"/></svg>',
+    'cy': '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M24 42s13-12 13-23a13 13 0 0 0-26 0c0 11 13 23 13 23z"/><circle cx="24" cy="19" r="4.5"/></svg>',
+    'check': '<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10.5l4 4 8-9"/></svg>',
+    'arrow': '<svg viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10h11M11 5l5 5-5 5"/></svg>',
 }
-# brass line-work behind the portrait: the diagonals and arcs of the GF monogram, drawn freely
 LINES = ('<svg class="lines" viewBox="0 0 400 400" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2">'
          '<path d="M330 40H190A150 150 0 0 0 60 255"/><path d="M330 92H150"/><path d="M215 92 55 252"/>'
          '<path d="M330 190H180L40 330"/><path d="M220 190 80 330"/><path d="M262 214 168 308"/>'
          '<path d="M330 190A150 150 0 0 1 120 330"/></svg>')
+
+def photo(key, alt='', cls='', eager=False):
+    return (f'<img class="{cls}" src="/assets/img/photos/{key}.webp" width="900" height="600" alt="{esc(alt)}"'
+            + ('' if eager else ' loading="lazy"') + ' decoding="async">')
+
+def portrait(alt='', cls='', eager=False):
+    return (f'<picture><source srcset="/assets/img/giannis-farazis-portrait.webp" type="image/webp"><img class="{cls}" src="/assets/img/giannis-farazis-portrait.jpg" '
+            f'width="480" height="600" alt="{esc(alt)}"' + (' fetchpriority="high"' if eager else ' loading="lazy"') + '></picture>')
 
 def head(lang, page, title, desc, extra_ld=None):
     alt_lang = 'en' if lang == 'el' else 'el'
@@ -83,6 +95,7 @@ def head(lang, page, title, desc, extra_ld=None):
         'sameAs': [LINKEDIN, AVRASTRO + ('/en' if lang == 'en' else '') + '/giannis-farazis/'],
     }]
     if extra_ld: ld += extra_ld
+    navlinks = ''.join(f'<a href="{url(p, lang)}"' + (' aria-current="page"' if p == page else '') + f'>{L(T["nav"][p], lang)}</a>' for p in NAV)
     return f'''<!doctype html>
 <html lang="{lang}">
 <head>
@@ -112,198 +125,329 @@ def head(lang, page, title, desc, extra_ld=None):
 <body>
 <a class="skip" href="#main">{L(T['skip'], lang)}</a>
 <header class="site-head"><div class="wrap">
-<a class="brand" href="{url('home', lang)}"><img src="/assets/img/gf-mark.png" alt="" width="44" height="43"><span>{L(T['name'], lang)}</span></a>
+<a class="brand" href="{url('home', lang)}" aria-label="Giannis Farazis — {'Αρχική' if lang == 'el' else 'Home'}"><img src="/assets/img/gf-lockup.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="294" height="70"></a>
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">{L(T['menu'], lang)}</button>
 <nav class="nav" id="nav" aria-label="{'Κύριο μενού' if lang == 'el' else 'Main menu'}">
-{''.join(f'<a href="{url(p, lang)}"' + (' aria-current="page"' if p == page else '') + f'>{L(T["nav"][p], lang)}</a>' for p in NAV)}
+{navlinks}
 <a class="lang" href="{url(page, alt_lang)}" hreflang="{alt_lang}" lang="{alt_lang}">{L(T['other'], lang)}</a>
+<a class="nav-call" href="tel:{TEL}">{ICON['phone']}{PHONE}</a>
 </nav></div></header>
 <main id="main">
 '''
 
 def foot(lang):
+    el = lang == 'el'
     return f'''</main>
 <footer class="site-foot"><div class="wrap">
-<div><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — {esc(L(T['motto'], lang))}" width="150" height="87">
-<p>{L(T['foot'], lang)}</p>
-<p>© {date.today().year} {L(T['name'], lang)} · <a href="tel:{TEL}">{PHONE}</a> · <a href="{LINKEDIN}" rel="noopener">LinkedIn</a></p></div>
-<nav aria-label="{'Υποσέλιδο' if lang == 'el' else 'Footer'}">{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in NAV + ['privacy'])}</nav>
-</div></footer>
-<div class="callbar"><a href="tel:{TEL}">{L(T['call'], lang)}</a><a href="{WHATSAPP}" rel="noopener">WhatsApp</a></div>
+<div class="foot-brand"><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="200" height="115" loading="lazy">
+<p>{L(T['foot'], lang)}</p></div>
+<div class="foot-col"><h2>{'Σελίδες' if el else 'Pages'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in NAV + ['privacy'])}</div>
+<div class="foot-col"><h2>{'Επικοινωνία' if el else 'Contact'}</h2>
+<a href="tel:{TEL}">{PHONE}</a><a href="{WHATSAPP}" rel="noopener">WhatsApp</a><a href="{LINKEDIN}" rel="noopener">LinkedIn</a>
+<span>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</span></div>
+</div><div class="wrap foot-legal">© {date.today().year} {L(T['name'], lang)}</div></footer>
+<div class="callbar"><a href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)}</a><a href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a></div>
 <script src="/assets/js/site.js?v={UPDATED}" defer></script>
 </body></html>
 '''
 
-def actions(lang, dark=False):
+def actions(lang, extra=''):
     return f'''<div class="actions">
 <a class="btn btn-primary" href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)} {PHONE}</a>
-<a class="btn btn-ghost" href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a>
+<a class="btn btn-ghost" href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a>{extra}
 </div>'''
 
+def page_head(title, lead, img=None, alt=''):
+    media = f'<figure class="page-head__media">{photo(img, alt, eager=True)}</figure>' if img else ''
+    return f'<section class="page-head{" has-media" if img else ""}"><div class="wrap"><div class="page-head__text"><h1>{title}</h1><p>{lead}</p></div>{media}</div></section>'
+
+def cta_band(lang):
+    el = lang == 'el'
+    return f'''<section class="cta-band on-dark"><div class="wrap">
+<div class="cta-band__photo">{portrait('')}</div>
+<div><h2>{'Μια πρώτη συζήτηση, χωρίς δέσμευση' if el else 'A first conversation, with no commitment'}</h2>
+<p>{'Καλέστε, στείλτε μήνυμα στο WhatsApp ή αφήστε τα στοιχεία σας και θα σας καλέσω εγώ.' if el else 'Call, send a WhatsApp message, or leave your details and I will call you.'}</p>
+{actions(lang, f'<a class="btn btn-link" href="{url("contact", lang)}">{"Φόρμα επικοινωνίας" if el else "Contact form"}{ICON["arrow"]}</a>')}</div>
+</div></section>'''
+
 # ------------------------------------------------------------------ content
+# (id, photo, title, short, long, includes[], question)
 SOLUTIONS = [
-    ({'el': 'Ασφάλεια ζωής', 'en': 'Life insurance'},
-     {'el': 'Ένα ποσό για τους ανθρώπους σας αν δεν είστε εκεί: για το δάνειο, το εισόδημα της οικογένειας, τις σπουδές των παιδιών.', 'en': 'A sum for the people you love if you are not there: for the mortgage, the family’s income, the children’s studies.'},
+    ('life', 'life',
+     {'el': 'Ασφάλεια ζωής', 'en': 'Life insurance'},
+     {'el': 'Ένα ποσό για τους ανθρώπους σας αν δεν είστε εκεί.', 'en': 'A sum for the people you love if you are not there.'},
+     {'el': 'Η ασφάλεια ζωής πληρώνει ένα ποσό στους δικαιούχους που ορίζετε. Μπορεί να εξοφλήσει ένα δάνειο, να αντικαταστήσει για κάποια χρόνια το εισόδημα που χάνεται και να κρατήσει όρθιους τους στόχους της οικογένειας, όπως τις σπουδές των παιδιών.',
+      'en': 'Life insurance pays a sum to the beneficiaries you choose. It can pay off a loan, replace lost income for a number of years and keep your family’s plans on track, such as the children’s studies.'},
+     [{'el': 'Κάλυψη για συγκεκριμένα χρόνια ή για όλη τη ζωή', 'en': 'Cover for a set number of years, or for life'},
+      {'el': 'Πρόσθετες καλύψεις, όπως σοβαρές ασθένειες ή ανικανότητα', 'en': 'Extra cover such as serious illness or disability'},
+      {'el': 'Δικαιούχους που αλλάζετε όταν αλλάζει η ζωή σας', 'en': 'Beneficiaries you can change as your life changes'}],
      {'el': 'Πόσο κεφάλαιο και για πόσα χρόνια χρειάζεται η δική σας οικογένεια;', 'en': 'How much cover, and for how many years, does your family need?'}),
-    ({'el': 'Ιατροφαρμακευτική κάλυψη', 'en': 'Health and medical cover'},
-     {'el': 'Ένα ιδιωτικό σχέδιο δίπλα στο ΓεΣΥ, για νοσηλεία, επεμβάσεις ή θεραπεία στο εξωτερικό, ανάλογα με το τι θέλετε να καλύπτεται.', 'en': 'A private plan alongside GESY, for hospital stays, operations or treatment abroad, depending on what you want covered.'},
-     {'el': 'Τι μένει ακάλυπτο σήμερα και πόσο σας κοστίζει να το καλύψετε;', 'en': 'What is left uncovered today, and what would it cost to cover it?'}),
-    ({'el': 'Προσωπικό ατύχημα', 'en': 'Personal accident'},
-     {'el': 'Προστασία για τραυματισμό ή αναπηρία από ατύχημα, και για το εισόδημα που χάνεται όσο δεν μπορείτε να εργαστείτε.', 'en': 'Protection for injury or disability caused by an accident, and for the income lost while you cannot work.'},
+    ('health', 'health',
+     {'el': 'Ιατροφαρμακευτική κάλυψη', 'en': 'Health and medical cover'},
+     {'el': 'Ένα ιδιωτικό σχέδιο δίπλα στο ΓεΣΥ.', 'en': 'A private plan alongside GESY.'},
+     {'el': 'Το ΓεΣΥ καλύπτει πολλά, όχι όμως τα πάντα. Ένα ιδιωτικό σχέδιο υγείας το συμπληρώνει, όταν θέλετε θεραπεία εκτός ΓεΣΥ, ιδιωτικό δωμάτιο, ευελιξία στον χρόνο ή κάλυψη στο εξωτερικό.',
+      'en': 'GESY covers a great deal, but not everything. A private health plan complements it when you want treatment outside GESY, a private room, flexibility over timing, or cover abroad.'},
+     [{'el': 'Νοσηλεία και επεμβάσεις', 'en': 'Hospital stays and operations'},
+      {'el': 'Εξωνοσοκομειακά έξοδα, ανάλογα με το σχέδιο', 'en': 'Outpatient costs, depending on the plan'},
+      {'el': 'Θεραπεία στο εξωτερικό, ανάλογα με το σχέδιο', 'en': 'Treatment abroad, depending on the plan'}],
+     {'el': 'Τι μένει ακάλυπτο σήμερα και πόσο κοστίζει να το καλύψετε;', 'en': 'What is left uncovered today, and what would it cost to cover it?'}),
+    ('accident', 'accident',
+     {'el': 'Προσωπικό ατύχημα', 'en': 'Personal accident'},
+     {'el': 'Προστασία για τραυματισμό και για το εισόδημα που χάνεται.', 'en': 'Protection for injury, and for the income you lose.'},
+     {'el': 'Ένα ατύχημα μπορεί να σταματήσει τη δουλειά για εβδομάδες ή μήνες. Η ασφάλεια προσωπικού ατυχήματος δίνει ποσά για τραυματισμό ή αναπηρία και, ανάλογα με το σχέδιο, ένα επίδομα όσο δεν μπορείτε να εργαστείτε.',
+      'en': 'An accident can stop you working for weeks or months. Personal accident cover pays sums for injury or disability and, depending on the plan, an allowance while you cannot work.'},
+     [{'el': 'Ποσό για μόνιμη αναπηρία από ατύχημα', 'en': 'A sum for permanent disability from an accident'},
+      {'el': 'Επίδομα όσο δεν εργάζεστε, ανάλογα με το σχέδιο', 'en': 'An allowance while you cannot work, depending on the plan'},
+      {'el': 'Ιατρικά έξοδα από ατύχημα', 'en': 'Medical costs from an accident'}],
      {'el': 'Πώς θα πληρώνατε τα έξοδα αν σταματούσατε να εργάζεστε για μερικούς μήνες;', 'en': 'How would you pay your bills if you stopped working for a few months?'}),
-    ({'el': 'Σύνταξη', 'en': 'Retirement and pension planning'},
-     {'el': 'Τακτική αποταμίευση για να συμπληρώσετε τη σύνταξη των Κοινωνικών Ασφαλίσεων, ξεκινώντας όσο υπάρχει χρόνος.', 'en': 'Regular saving to top up your Social Insurance pension, starting while there is still time.'},
+    ('retirement', 'retirement',
+     {'el': 'Σύνταξη', 'en': 'Retirement and pension planning'},
+     {'el': 'Τακτική αποταμίευση για τα χρόνια μετά τη δουλειά.', 'en': 'Regular saving for the years after work.'},
+     {'el': 'Η σύνταξη των Κοινωνικών Ασφαλίσεων σπάνια φτάνει για τη ζωή που θέλετε. Ένα συνταξιοδοτικό πρόγραμμα χτίζει σταδιακά ένα κεφάλαιο, και όσο νωρίτερα ξεκινάτε τόσο μικρότερο είναι το ποσό που χρειάζεται κάθε μήνα.',
+      'en': 'A Social Insurance pension rarely covers the life you want. A pension plan builds up capital over time, and the earlier you start, the smaller the monthly amount you need.'},
+     [{'el': 'Μηνιαία ή ετήσια καταβολή', 'en': 'Monthly or yearly contributions'},
+      {'el': 'Κεφάλαιο ή τακτικό εισόδημα στη σύνταξη', 'en': 'A lump sum or regular income in retirement'},
+      {'el': 'Φορολογική έκπτωση, όπου ισχύει', 'en': 'Tax relief, where it applies'}],
      {'el': 'Πόσο εισόδημα θέλετε στη σύνταξη και πόσο λείπει;', 'en': 'How much income do you want in retirement, and how much is missing?'}),
-    ({'el': 'Αποταμίευση και επενδυτικά προγράμματα', 'en': 'Savings and insurance-linked investment plans'},
-     {'el': 'Μακροπρόθεσμη αποταμίευση με στόχο. Στα επενδυτικά προγράμματα η αξία ανεβαίνει και κατεβαίνει και δεν είναι εγγυημένη· το εξηγούμε καθαρά πριν αποφασίσετε.', 'en': 'Long-term saving towards a goal. In investment-linked plans the value goes up and down and is not guaranteed; we go through this clearly before you decide.'},
+    ('savings', 'savings',
+     {'el': 'Αποταμίευση και επενδυτικά προγράμματα', 'en': 'Savings and investment-linked plans'},
+     {'el': 'Μακροπρόθεσμη αποταμίευση με στόχο.', 'en': 'Long-term saving towards a goal.'},
+     {'el': 'Τακτική αποταμίευση για έναν στόχο που απέχει χρόνια: ένα κεφάλαιο, ένα σπίτι, ένα μαξιλάρι ασφαλείας. Στα επενδυτικά προγράμματα η αξία ανεβαίνει και κατεβαίνει και δεν είναι εγγυημένη· το εξηγούμε καθαρά πριν αποφασίσετε.',
+      'en': 'Regular saving for a goal that is years away: capital, a home, a safety cushion. In investment-linked plans the value goes up and down and is not guaranteed; we go through this clearly before you decide.'},
+     [{'el': 'Στόχος και ορίζοντας χρόνου που ορίζετε εσείς', 'en': 'A goal and time horizon you set'},
+      {'el': 'Επιλογή επιπέδου κινδύνου', 'en': 'A choice of risk level'},
+      {'el': 'Συχνά με κάλυψη ζωής', 'en': 'Often with life cover included'}],
      {'el': 'Για πόσα χρόνια μπορείτε να αφήσετε τα χρήματα και πόσο ρίσκο αντέχετε;', 'en': 'For how many years can you leave the money, and how much risk can you live with?'}),
-    ({'el': 'Παιδί και σπουδές', 'en': 'Children and education'},
-     {'el': 'Ένα σχέδιο που μαζεύει το ποσό των σπουδών μέχρι να χρειαστεί, και συνεχίζει αν συμβεί κάτι σε εσάς.', 'en': 'A plan that builds up the cost of studies by the time it is needed, and carries on if something happens to you.'},
+    ('education', 'education',
+     {'el': 'Παιδί και σπουδές', 'en': 'Children and education'},
+     {'el': 'Το ποσό των σπουδών, έτοιμο όταν χρειαστεί.', 'en': 'The cost of studies, ready when it is needed.'},
+     {'el': 'Ένα σχέδιο που μαζεύει σταδιακά το ποσό των σπουδών μέχρι την ηλικία που θα το χρειαστεί το παιδί. Συνήθως περιλαμβάνει κάλυψη του γονιού, ώστε το πλάνο να συνεχίζεται αν συμβεί κάτι.',
+      'en': 'A plan that gradually builds up the cost of studies by the age your child will need it. It usually includes cover on the parent, so the plan carries on if something happens.'},
+     [{'el': 'Κεφάλαιο στην ηλικία των σπουδών', 'en': 'Capital at the age of study'},
+      {'el': 'Συνέχιση του πλάνου αν συμβεί κάτι στον γονιό', 'en': 'The plan carries on if something happens to the parent'},
+      {'el': 'Για γονείς, παππούδες και νονούς', 'en': 'For parents, grandparents and godparents'}],
      {'el': 'Πόσα χρόνια έχετε μέχρι το πανεπιστήμιο και τι θα κοστίσει;', 'en': 'How many years until university, and what will it cost?'}),
-    ({'el': 'Προστασία δανείου', 'en': 'Loan protection'},
-     {'el': 'Ασφάλεια ζωής που συνδέεται με στεγαστικό ή άλλο δάνειο, ώστε το χρέος να μη μείνει στην οικογένεια.', 'en': 'Life cover linked to a mortgage or other loan, so the debt is not left to your family.'},
+    ('loan', 'loan',
+     {'el': 'Προστασία δανείου', 'en': 'Loan protection'},
+     {'el': 'Το σπίτι μένει στην οικογένεια, όχι το χρέος.', 'en': 'Your family keeps the home, not the debt.'},
+     {'el': 'Για ένα στεγαστικό δάνειο η τράπεζα ζητά συνήθως ασφάλεια ζωής. Βλέπουμε μαζί αν η κάλυψη ταιριάζει με το υπόλοιπο και τη διάρκεια του δανείου, και αν χρειάζεται κάτι επιπλέον για το εισόδημα της οικογένειας.',
+      'en': 'For a mortgage the bank usually asks for life cover. We check together whether the cover matches the balance and term of the loan, and whether your family’s income needs something more.'},
+     [{'el': 'Κεφάλαιο ίσο με το υπόλοιπο του δανείου', 'en': 'Cover that matches the loan balance'},
+      {'el': 'Εκχώρηση στην τράπεζα', 'en': 'Assignment to the bank'},
+      {'el': 'Επανεξέταση όταν αλλάζει το δάνειο', 'en': 'A review when the loan changes'}],
      {'el': 'Καλύπτει η τωρινή σας ασφάλεια ολόκληρο το υπόλοιπο του δανείου;', 'en': 'Does your current cover match the full balance of the loan?'}),
-    ({'el': 'Επιχειρήσεις και ομαδικά σχέδια', 'en': 'Business and group insurance'},
-     {'el': 'Ομαδική ασφάλεια ζωής και υγείας για το προσωπικό, και προστασία για τους ανθρώπους που κρατούν την επιχείρηση.', 'en': 'Group life and health cover for your staff, and protection for the people who keep the business going.'},
+    ('business', 'business',
+     {'el': 'Επιχειρήσεις και ομαδικά σχέδια', 'en': 'Business and group insurance'},
+     {'el': 'Για το προσωπικό και για τους ανθρώπους που κρατούν την επιχείρηση.', 'en': 'For your staff, and for the people who keep the business going.'},
+     {'el': 'Ομαδικά σχέδια ζωής και υγείας βοηθούν μια επιχείρηση να κρατήσει καλούς ανθρώπους. Η προστασία βασικών στελεχών και συνεταίρων κρατά την επιχείρηση σταθερή αν κάποιος λείψει.',
+      'en': 'Group life and health plans help a business keep good people. Cover for key people and partners keeps the business steady if someone is missing.'},
+     [{'el': 'Ομαδική ασφάλεια ζωής και υγείας', 'en': 'Group life and health cover'},
+      {'el': 'Προστασία βασικών στελεχών και συνεταίρων', 'en': 'Cover for key people and partners'},
+      {'el': 'Λύσεις για αυτοεργοδοτούμενους', 'en': 'Options for the self-employed'}],
      {'el': 'Τι θα γινόταν στην επιχείρηση αν έλειπε ένα βασικό πρόσωπο;', 'en': 'What would happen to the business if a key person were missing?'}),
-    ({'el': 'Επανεξέταση συμβολαίων και ανάλυση αναγκών', 'en': 'Policy reviews and needs analysis'},
-     {'el': 'Φέρνετε τα συμβόλαια που ήδη έχετε και τα βλέπουμε μαζί: τι καλύπτουν, πού υπάρχουν κενά ή επικαλύψεις.', 'en': 'Bring the policies you already have and we look at them together: what they cover, where the gaps or overlaps are.'},
+    ('review', 'review',
+     {'el': 'Επανεξέταση συμβολαίων', 'en': 'Policy reviews and needs analysis'},
+     {'el': 'Τι καλύπτουν πραγματικά όσα ήδη έχετε.', 'en': 'What your existing policies really cover.'},
+     {'el': 'Φέρνετε τα συμβόλαια που ήδη έχετε και τα βλέπουμε μαζί, με απλά λόγια: τι καλύπτουν, πού υπάρχουν κενά ή επικαλύψεις, και αν ταιριάζουν ακόμα στη ζωή σας.',
+      'en': 'Bring the policies you already have and we go through them together, in plain words: what they cover, where the gaps or overlaps are, and whether they still fit your life.'},
+     [{'el': 'Εικόνα όλων των καλύψεων σε μία σελίδα', 'en': 'All your cover on one page'},
+      {'el': 'Κενά και επικαλύψεις', 'en': 'Gaps and overlaps'},
+      {'el': 'Έλεγχος δικαιούχων και ποσών', 'en': 'A check of beneficiaries and sums'}],
      {'el': 'Πότε ξανακοιτάξατε τελευταία φορά τις καλύψεις σας;', 'en': 'When did you last look at your cover?'}),
 ]
 STEPS = [
-    ({'el': 'Μια πρώτη συζήτηση', 'en': 'A first conversation'}, {'el': 'Τηλεφωνικά, με βιντεοκλήση ή από κοντά. Ακούω τι θέλετε να προστατεύσετε και τι έχετε ήδη.', 'en': 'By phone, video call or in person. I listen to what you want to protect and what you already have.'}),
-    ({'el': 'Ανάλυση των αναγκών', 'en': 'Looking at your needs'}, {'el': 'Βλέπουμε μαζί οικογένεια, εισόδημα, δάνεια και στόχους, και πού βρίσκονται τα κενά.', 'en': 'Together we look at family, income, loans and goals, and where the gaps are.'}),
-    ({'el': 'Πρόταση με απλά λόγια', 'en': 'A proposal in plain words'}, {'el': 'Τι καλύπτει, τι δεν καλύπτει και πόσο κοστίζει. Χωρίς πίεση για απόφαση την ίδια μέρα.', 'en': 'What it covers, what it does not and what it costs. No pressure to decide on the day.'}),
-    ({'el': 'Δίπλα σας μετά', 'en': 'With you afterwards'}, {'el': 'Επανεξέταση όταν αλλάζει η ζωή σας, και βοήθεια όταν χρειαστεί να κάνετε απαίτηση.', 'en': 'A review as your life changes, and help when you need to make a claim.'}),
+    ('step-talk', {'el': 'Μια πρώτη συζήτηση', 'en': 'A first conversation'},
+     {'el': 'Τηλεφωνικά, με βιντεοκλήση ή από κοντά. Ακούω τι θέλετε να προστατεύσετε και τι έχετε ήδη.', 'en': 'By phone, video call or in person. I listen to what you want to protect and what you already have.'}),
+    ('step-needs', {'el': 'Ανάλυση αναγκών', 'en': 'Looking at your needs'},
+     {'el': 'Βλέπουμε μαζί οικογένεια, εισόδημα, δάνεια και στόχους, και πού βρίσκονται τα κενά.', 'en': 'Together we look at family, income, loans and goals, and where the gaps are.'}),
+    ('step-proposal', {'el': 'Πρόταση με απλά λόγια', 'en': 'A proposal in plain words'},
+     {'el': 'Τι καλύπτει, τι δεν καλύπτει και πόσο κοστίζει. Χωρίς πίεση για απόφαση την ίδια μέρα.', 'en': 'What it covers, what it does not and what it costs. No pressure to decide on the day.'}),
+    ('step-after', {'el': 'Δίπλα σας και μετά', 'en': 'With you afterwards'},
+     {'el': 'Επανεξέταση όταν αλλάζει η ζωή σας, και βοήθεια όταν χρειαστεί να κάνετε απαίτηση.', 'en': 'A review as your life changes, and help when you need to make a claim.'}),
+]
+VALUES = [
+    ('clear', {'el': 'Καθαρές εξηγήσεις', 'en': 'Clear explanations'},
+     {'el': 'Τι καλύπτεται, τι όχι και τι κοστίζει, χωρίς ψιλά γράμματα και χωρίς ορολογία.', 'en': 'What is covered, what is not and what it costs, without small print or jargon.'}),
+    ('calm', {'el': 'Χωρίς πίεση', 'en': 'No pressure'},
+     {'el': 'Αποφασίζετε όταν είστε έτοιμοι. Η πρώτη συζήτηση δεν σας δεσμεύει σε τίποτα.', 'en': 'You decide when you are ready. The first conversation commits you to nothing.'}),
+    ('with', {'el': 'Δίπλα σας και μετά', 'en': 'There afterwards'},
+     {'el': 'Στις αλλαγές της ζωής σας και όταν χρειαστεί μια αποζημίωση.', 'en': 'As your life changes, and when you need to claim.'}),
+    ('cy', {'el': 'Σε όλη την Κύπρο', 'en': 'Across Cyprus'},
+     {'el': 'Από κοντά στη Λευκωσία ή με βιντεοκλήση, στα Ελληνικά ή στα Αγγλικά.', 'en': 'In person in Nicosia or by video call, in Greek or English.'}),
+]
+GUIDES = [
+    ('life-cover', 'guide-life', {'el': 'Πόση ασφάλεια ζωής χρειάζεστε;', 'en': 'How much life insurance do you need?'},
+     {'el': 'Ένας απλός τρόπος να υπολογίσετε το σωστό ποσό για την οικογένειά σας.', 'en': 'A simple way to work out the right amount for your family.'},
+     {'el': '''<p>Ένας πρακτικός τρόπος να το υπολογίσετε: προσθέστε τα δάνεια που θα έμεναν, το εισόδημα που θα χρειαζόταν η οικογένεια για όσα χρόνια την αφορά, και μεγάλους στόχους όπως οι σπουδές των παιδιών. Από αυτό αφαιρέστε καλύψεις και αποταμιεύσεις που ήδη έχετε.</p>
+<p>Η ασφάλεια που ζητά η τράπεζα για το στεγαστικό καλύπτει το δάνειο, όχι το εισόδημα της οικογένειας. Αν φορολογείστε στην Κύπρο, τα ασφάλιστρα ζωής εκπίπτουν από το φορολογητέο εισόδημα έως το 7% του κεφαλαίου ασφάλισης, μέσα στο συνολικό όριο του ενός πέμπτου του εισοδήματος για τις σχετικές εκπτώσεις.</p>''',
+      'en': '''<p>A practical way to work it out: add the loans that would remain, the income your family would need for as many years as it matters, and big goals such as your children’s studies. Then subtract the cover and savings you already have.</p>
+<p>The cover a bank asks for with a mortgage pays off the loan; it does not replace your family’s income. If you pay tax in Cyprus, life premiums are deductible from taxable income up to 7% of the sum insured, within the overall limit of one fifth of income for the related deductions.</p>'''}),
+    ('gesy', 'guide-health', {'el': 'ΓεΣΥ και ιδιωτικό σχέδιο υγείας', 'en': 'GESY and a private health plan'},
+     {'el': 'Τι καλύπτει το ΓεΣΥ και πότε αξίζει ένα ιδιωτικό σχέδιο.', 'en': 'What GESY covers, and when a private plan is worth it.'},
+     {'el': '''<p>Το ΓεΣΥ καλύπτει προσωπικό γιατρό, ειδικούς, εξετάσεις, φάρμακα και νοσηλεία σε παρόχους που συμμετέχουν. Ένα ιδιωτικό σχέδιο δεν το αντικαθιστά· το συμπληρώνει όταν θέλετε θεραπεία εκτός ΓεΣΥ, κάλυψη στο εξωτερικό, ιδιωτικό δωμάτιο ή ευελιξία στον χρόνο της θεραπείας.</p>
+<p>Πριν επιλέξετε σχέδιο, ελέγξτε το ετήσιο όριο, την απαλλαγή, τις περιόδους αναμονής, τι ισχύει για παθήσεις που έχετε ήδη και σε ποιες χώρες ισχύει η κάλυψη.</p>''',
+      'en': '''<p>GESY covers a personal doctor, specialists, tests, medicines and hospital care with participating providers. A private plan does not replace it; it complements it when you want treatment outside GESY, cover abroad, a private room or flexibility over when you are treated.</p>
+<p>Before you choose a plan, check the annual limit, the excess, waiting periods, what applies to conditions you already have, and which countries are covered.</p>'''}),
+    ('review', 'guide-review', {'el': 'Πότε να επανεξετάσετε τα συμβόλαιά σας', 'en': 'When to review your policies'},
+     {'el': 'Οι στιγμές της ζωής που αλλάζουν τις ανάγκες σας.', 'en': 'The moments in life that change what you need.'},
+     {'el': '''<p>Ένα συμβόλαιο που ταίριαζε πριν από πέντε χρόνια μπορεί σήμερα να καλύπτει λίγα ή να επικαλύπτεται με άλλο. Αξίζει μια επανεξέταση όταν παντρεύεστε, αποκτάτε παιδί, παίρνετε ή εξοφλείτε δάνειο, αλλάζετε δουλειά ή εισόδημα, και τουλάχιστον μία φορά τον χρόνο.</p>
+<p>Φέρτε τα συμβόλαια που έχετε και τα βλέπουμε μαζί: τι καλύπτουν, ποιοι είναι οι δικαιούχοι και τι λείπει.</p>''',
+      'en': '''<p>A policy that fitted five years ago may cover too little today, or overlap with another. A review is worth it when you marry, have a child, take out or pay off a loan, change job or income, and at least once a year.</p>
+<p>Bring the policies you have and we look at them together: what they cover, who the beneficiaries are and what is missing.</p>'''}),
 ]
 
+def sol_cards(lang, items=SOLUTIONS):
+    return '<ul class="cards">' + ''.join(
+        f'<li class="card"><a href="{url("solutions", lang, sid)}"><figure>{photo(img, "")}</figure>'
+        f'<h3>{L(t, lang)}</h3><p>{L(s, lang)}</p><span class="card__more">{L(T["more"], lang)}{ICON["arrow"]}</span></a></li>'
+        for sid, img, t, s, *_ in items) + '</ul>'
+
+def values_grid(lang):
+    return '<ul class="values">' + ''.join(f'<li><span class="values__icon">{ICON[i]}</span><h3>{L(t, lang)}</h3><p>{L(d, lang)}</p></li>' for i, t, d in VALUES) + '</ul>'
+
+def steps_grid(lang):
+    return '<ol class="stepcards">' + ''.join(
+        f'<li><figure>{photo(img, "")}</figure><div><h3>{L(t, lang)}</h3><p>{L(d, lang)}</p></div></li>' for img, t, d in STEPS) + '</ol>'
+
 def page_home(lang):
-    title = {'el': 'Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος στη Λευκωσία', 'en': 'Giannis Farazis, Insurance Advisor in Nicosia, Cyprus'}[lang]
-    desc = {'el': 'Ασφάλεια ζωής, υγείας, σύνταξη, αποταμίευση και σπουδές παιδιών. Προσωπική καθοδήγηση σε όλη την Κύπρο, στα Ελληνικά και Αγγλικά. +357 97 840941.',
-            'en': 'Life and health cover, retirement, savings and children’s education. Personal guidance across Cyprus, in Greek and English. +357 97 840941.'}[lang]
-    sol = ''.join(f'<li><h3>{L(t, lang)}</h3><p>{L(d, lang)}</p></li>' for t, d, _ in SOLUTIONS)
-    steps = ''.join(f'<li><h3>{L(t, lang)}</h3><p>{L(d, lang)}</p></li>' for t, d in STEPS)
+    el = lang == 'el'
+    title = 'Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος στη Λευκωσία' if el else 'Giannis Farazis, Insurance Advisor in Nicosia, Cyprus'
+    desc = ('Ασφάλεια ζωής, υγείας, σύνταξη, αποταμίευση και σπουδές παιδιών. Προσωπική καθοδήγηση σε όλη την Κύπρο, στα Ελληνικά και Αγγλικά. +357 97 840941.' if el
+            else 'Life and health cover, retirement, savings and children’s education. Personal guidance across Cyprus, in Greek and English. +357 97 840941.')
+    guides = '<ul class="cards cards--3">' + ''.join(
+        f'<li class="card"><a href="{url("guides", lang, gid)}"><figure>{photo(img, "")}</figure><h3>{L(t, lang)}</h3><p>{L(s, lang)}</p><span class="card__more">{L(T["more"], lang)}{ICON["arrow"]}</span></a></li>'
+        for gid, img, t, s, _ in GUIDES) + '</ul>'
     return head(lang, 'home', title, desc) + f'''
 <section class="hero on-dark"><div class="wrap">
-<div>
+<div class="hero__text">
+<p class="hero__role">{L(T['role'], lang)}</p>
 <h1>{L(T['name'], lang)}</h1>
-<p class="role">{L(T['role'], lang)}</p>
-<p class="where">{L(T['where'], lang)}</p>
-<p class="motto">{L(T['motto'], lang)}</p>
-<p class="triad">{L(T['triad'], lang)}</p>
-{actions(lang, True)}
+<p class="hero__lead">{'Προστασία, αποταμίευση και ηρεμία για εσάς και την οικογένειά σας, με καθαρές εξηγήσεις και χωρίς πίεση.' if el else 'Protection, savings and peace of mind for you and your family, with clear explanations and no pressure.'}</p>
+<p class="hero__motto">{L(T['motto'], lang)}</p>
+{actions(lang)}
+<ul class="hero__facts"><li>{'Από το 2024' if el else 'Since 2024'}</li><li>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</li><li>{'Ελληνικά & Αγγλικά' if el else 'Greek & English'}</li></ul>
 </div>
-<figure class="portrait">{LINES}<picture><source srcset="/assets/img/giannis-farazis-portrait.webp" type="image/webp"><img src="/assets/img/giannis-farazis-portrait.jpg" width="480" height="600" alt="{'Ο Γιάννης Φαραζής' if lang == 'el' else 'Giannis Farazis'}" fetchpriority="high"></picture></figure>
+<figure class="portrait">{LINES}{portrait('Ο Γιάννης Φαραζής' if el else 'Giannis Farazis', eager=True)}</figure>
 </div></section>
 
 <section class="section"><div class="wrap">
-<div class="section-head"><hr class="rule">
-<h2>{'Τι μπορούμε να δούμε μαζί' if lang == 'el' else 'What we can look at together'}</h2>
-<p class="lead">{'Ασφάλιση με βάση τις δικές σας ανάγκες: τι θέλετε να προστατεύσετε, για πόσο, και με ποιο κόστος.' if lang == 'el' else 'Insurance built around your own needs: what you want to protect, for how long, and at what cost.'}</p></div>
-<ul class="solutions">{sol}</ul>
-<p style="margin-top:2rem"><a href="{url('solutions', lang)}">{'Δείτε αναλυτικά τις λύσεις' if lang == 'el' else 'See the solutions in detail'}</a></p>
+<div class="section-head"><hr class="rule"><h2>{'Τι μπορούμε να δούμε μαζί' if el else 'What we can look at together'}</h2>
+<p class="lead">{'Ασφάλιση με βάση τις δικές σας ανάγκες: τι θέλετε να προστατεύσετε, για πόσο, και με ποιο κόστος.' if el else 'Insurance built around your own needs: what you want to protect, for how long, and at what cost.'}</p></div>
+{sol_cards(lang)}
 </div></section>
 
 <section class="section tint"><div class="wrap">
-<div class="section-head"><hr class="rule"><h2>{'Πώς δουλεύω' if lang == 'el' else 'How I work'}</h2></div>
-<ol class="steps">{steps}</ol>
+<div class="section-head"><hr class="rule"><h2>{'Γιατί να συνεργαστούμε' if el else 'Why work with me'}</h2></div>
+{values_grid(lang)}
 </div></section>
 
-<section class="section"><div class="wrap split">
-<picture><source srcset="/assets/img/giannis-farazis-portrait.webp" type="image/webp"><img src="/assets/img/giannis-farazis-portrait.jpg" width="480" height="600" alt="" loading="lazy"></picture>
+<section class="section"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Πώς δουλεύω' if el else 'How I work'}</h2>
+<p class="lead">{'Τέσσερα βήματα, από την πρώτη κουβέντα μέχρι τη στιγμή που θα χρειαστείτε την κάλυψη.' if el else 'Four steps, from the first conversation to the moment you need your cover.'}</p></div>
+{steps_grid(lang)}
+</div></section>
+
+<section class="section tint"><div class="wrap split">
+<figure class="split__photo">{portrait('')}</figure>
 <div><hr class="rule">
-<h2>{'Λίγα λόγια για μένα' if lang == 'el' else 'A few words about me'}</h2>
-<p>{'Είμαι Ασφαλιστικός Σύμβουλος από το 2024, με βάση τη Λευκωσία, και εξυπηρετώ πελάτες σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά. Πιστεύω ότι η ασφάλιση δεν είναι απλώς ένα προϊόν· είναι ένα εργαλείο για να σχεδιάσει κανείς με ηρεμία το μέλλον του.' if lang == 'el' else 'I have been an Insurance Advisor since 2024. I am based in Nicosia and work with clients across Cyprus, in Greek and English. I believe insurance is not just a product; it is a way to plan your future calmly.'}</p>
-<p>{'Για μένα κάθε πελάτης είναι ξεχωριστός. Ξεκινάμε από τις δικές σας ανάγκες και προχωράμε μόνο όταν όλα είναι ξεκάθαρα.' if lang == 'el' else 'Every client is different. We start from your needs and only go ahead once everything is clear.'}</p>
-<p><a href="{url('about', lang)}">{'Περισσότερα για μένα' if lang == 'el' else 'More about me'}</a></p>
+<h2>{'Λίγα λόγια για μένα' if el else 'A few words about me'}</h2>
+<p>{'Είμαι Ασφαλιστικός Σύμβουλος από το 2024, με βάση τη Λευκωσία, και εξυπηρετώ πελάτες σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά. Πιστεύω ότι η ασφάλιση δεν είναι απλώς ένα προϊόν· είναι ένα εργαλείο για να σχεδιάσει κανείς με ηρεμία το μέλλον του.' if el else 'I have been an Insurance Advisor since 2024. I am based in Nicosia and work with clients across Cyprus, in Greek and English. I believe insurance is not just a product; it is a way to plan your future calmly.'}</p>
+<p>{'Για μένα κάθε πελάτης είναι ξεχωριστός. Ξεκινάμε από τις δικές σας ανάγκες και προχωράμε μόνο όταν όλα είναι ξεκάθαρα.' if el else 'Every client is different. We start from your needs and only go ahead once everything is clear.'}</p>
+<p><a class="btn btn-ghost" href="{url('about', lang)}">{'Περισσότερα για μένα' if el else 'More about me'}</a></p>
 </div></div></section>
 
-<section class="section tint"><div class="wrap">
-<h2>{'Ας μιλήσουμε' if lang == 'el' else 'Let’s talk'}</h2>
-<p class="lead">{'Μια πρώτη συζήτηση, χωρίς δέσμευση. Καλέστε, στείλτε μήνυμα στο WhatsApp ή αφήστε τα στοιχεία σας και θα σας καλέσω.' if lang == 'el' else 'A first conversation, with no commitment. Call, send a WhatsApp message, or leave your details and I will call you back.'}</p>
-{actions(lang)}
-<p style="margin-top:1rem"><a href="{url('contact', lang)}">{'Φόρμα επικοινωνίας' if lang == 'el' else 'Contact form'}</a></p>
+<section class="section"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Χρήσιμοι οδηγοί' if el else 'Helpful guides'}</h2>
+<p class="lead">{'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά.' if el else 'Short answers to the questions I hear most often.'}</p></div>
+{guides}
 </div></section>
-''' + foot(lang)
-
-def page_head(title, lead): return f'<section class="page-head"><div class="wrap"><h1>{title}</h1><p>{lead}</p></div></section>'
+''' + cta_band(lang) + foot(lang)
 
 def page_about(lang):
-    title = {'el': 'Σχετικά με τον Γιάννη Φαραζή, Ασφαλιστικό Σύμβουλο', 'en': 'About Giannis Farazis, Insurance Advisor'}[lang]
-    desc = {'el': 'Ασφαλιστικός Σύμβουλος από το 2024, με βάση τη Λευκωσία, για πελάτες σε όλη την Κύπρο, στα Ελληνικά και Αγγλικά.', 'en': 'Insurance Advisor since 2024, based in Nicosia, working with clients across Cyprus in Greek and English.'}[lang]
+    el = lang == 'el'
+    title = 'Σχετικά με τον Γιάννη Φαραζή, Ασφαλιστικό Σύμβουλο' if el else 'About Giannis Farazis, Insurance Advisor'
+    desc = 'Ασφαλιστικός Σύμβουλος από το 2024, με βάση τη Λευκωσία, για πελάτες σε όλη την Κύπρο, στα Ελληνικά και Αγγλικά.' if el else 'Insurance Advisor since 2024, based in Nicosia, working with clients across Cyprus in Greek and English.'
     facts = [
-        ({'el': 'Ιδιότητα', 'en': 'Role'}, L(T['role'], lang)),
-        ({'el': 'Στις ασφάλειες από', 'en': 'In insurance since'}, '2024'),
-        ({'el': 'Βάση', 'en': 'Based in'}, {'el': 'Λευκωσία', 'en': 'Nicosia'}),
-        ({'el': 'Εξυπηρέτηση', 'en': 'Clients'}, {'el': 'Σε όλη την Κύπρο', 'en': 'Across Cyprus'}),
-        ({'el': 'Γλώσσες', 'en': 'Languages'}, {'el': 'Ελληνικά και Αγγλικά', 'en': 'Greek and English'}),
-        ({'el': 'Τηλέφωνο', 'en': 'Phone'}, f'<a href="tel:{TEL}">{PHONE}</a>'),
+        ('Ιδιότητα' if el else 'Role', L(T['role'], lang)),
+        ('Στις ασφάλειες από' if el else 'In insurance since', '2024'),
+        ('Βάση' if el else 'Based in', 'Λευκωσία' if el else 'Nicosia'),
+        ('Εξυπηρέτηση' if el else 'Clients', 'Σε όλη την Κύπρο' if el else 'Across Cyprus'),
+        ('Γλώσσες' if el else 'Languages', 'Ελληνικά και Αγγλικά' if el else 'Greek and English'),
+        ('Τηλέφωνο' if el else 'Phone', f'<a href="tel:{TEL}">{PHONE}</a>'),
         ('LinkedIn', f'<a href="{LINKEDIN}" rel="noopener">Giannis Farazis</a>'),
     ]
-    fl = ''.join(f'<li><span>{L(a, lang)}</span><span>{L(b, lang)}</span></li>' for a, b in facts)
-    body = {'el': '''<p>Ονομάζομαι Γιάννης Φαραζής και είμαι Ασφαλιστικός Σύμβουλος από το 2024. Δουλεύω με βάση τη Λευκωσία και εξυπηρετώ οικογένειες, εργαζόμενους, αυτοαπασχολούμενους και επιχειρήσεις σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά.</p>
+    fl = ''.join(f'<li><span>{a}</span><span>{b}</span></li>' for a, b in facts)
+    body = ('''<p class="lead">Ονομάζομαι Γιάννης Φαραζής και είμαι Ασφαλιστικός Σύμβουλος από το 2024.</p>
+<p>Δουλεύω με βάση τη Λευκωσία και εξυπηρετώ οικογένειες, εργαζόμενους, αυτοαπασχολούμενους και επιχειρήσεις σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά.</p>
 <p>Ασχολούμαι με την προστασία της οικογένειας και του εισοδήματος, την ιατροφαρμακευτική κάλυψη, τη σύνταξη, την αποταμίευση και τις σπουδές των παιδιών. Στόχος μου είναι κάθε πελάτης να έχει λύσεις που καλύπτουν πραγματικές ανάγκες και να καταλαβαίνει ακριβώς τι υπογράφει.</p>
 <p>Πιστεύω ότι η ασφάλιση είναι ένα εργαλείο οικονομικού σχεδιασμού και όχι ένα απλό προϊόν. Δουλεύω με διαφάνεια και υπευθυνότητα, και μένω δίπλα στους πελάτες μου και μετά την υπογραφή: στις αλλαγές της ζωής τους και όταν χρειαστεί μια αποζημίωση.</p>
-<p>Το μότο μου είναι «Μαζί σου, κάθε στιγμή». Μαζί μπορούμε να χτίσουμε ένα ασφαλές και σταθερό αύριο.</p>''',
-            'en': '''<p>My name is Giannis Farazis and I have been an Insurance Advisor since 2024. I am based in Nicosia and work with families, employees, the self-employed and businesses across Cyprus, in Greek and English.</p>
+<blockquote class="quote">Μαζί σου, κάθε στιγμή.<span>Μαζί μπορούμε να χτίσουμε ένα ασφαλές και σταθερό αύριο.</span></blockquote>''' if el else '''<p class="lead">My name is Giannis Farazis and I have been an Insurance Advisor since 2024.</p>
+<p>I am based in Nicosia and work with families, employees, the self-employed and businesses across Cyprus, in Greek and English.</p>
 <p>I help with protecting your family and income, health cover, retirement, savings and your children’s education. My aim is for every client to have cover that meets real needs, and to understand exactly what they are signing.</p>
 <p>I see insurance as a tool for financial planning, not just a product. I work openly and responsibly, and I stay with my clients after they sign: as their lives change, and when they need to make a claim.</p>
-<p>My motto is “With you, every moment”. Together we can build a safe and steady future.</p>'''}[lang]
-    return head(lang, 'about', title, desc) + page_head(L(T['name'], lang), L(T['where'], lang)) + f'''
-<section class="section"><div class="wrap split">
-<picture><source srcset="/assets/img/giannis-farazis-portrait.webp" type="image/webp"><img src="/assets/img/giannis-farazis-portrait.jpg" width="480" height="600" alt="{'Ο Γιάννης Φαραζής' if lang == 'el' else 'Giannis Farazis'}"></picture>
-<div class="prose">{body}<ul class="facts">{fl}</ul>{actions(lang)}</div>
-</div></section>''' + foot(lang)
+<blockquote class="quote">With you, every moment.<span>Together we can build a safe and steady future.</span></blockquote>''')
+    return head(lang, 'about', title, desc) + f'''
+<section class="about-hero on-dark"><div class="wrap">
+<div><p class="hero__role">{L(T['role'], lang)}</p><h1>{L(T['name'], lang)}</h1><p class="hero__lead">{L(T['where'], lang)}</p>{actions(lang)}</div>
+<figure class="portrait portrait--sm">{LINES}{portrait('Ο Γιάννης Φαραζής' if el else 'Giannis Farazis', eager=True)}</figure>
+</div></section>
+<section class="section"><div class="wrap about-body">
+<div class="prose">{body}</div>
+<aside><h2 class="aside-title">{'Με μια ματιά' if el else 'At a glance'}</h2><ul class="facts">{fl}</ul></aside>
+</div></section>
+<section class="section tint"><div class="wrap"><div class="section-head"><hr class="rule"><h2>{'Πώς θέλω να δουλεύουμε' if el else 'How I like to work'}</h2></div>{values_grid(lang)}</div></section>
+''' + cta_band(lang) + foot(lang)
 
 def page_solutions(lang):
-    title = {'el': 'Ασφαλιστικές λύσεις: ζωή, υγεία, σύνταξη, αποταμίευση', 'en': 'Insurance solutions: life, health, retirement, savings'}[lang]
-    desc = {'el': 'Ασφάλεια ζωής, ιατροφαρμακευτική, ατύχημα, σύνταξη, αποταμίευση, σπουδές, προστασία δανείου, ομαδικά σχέδια και επανεξέταση συμβολαίων.', 'en': 'Life, health and accident cover, retirement, savings, education, loan protection, group plans and policy reviews in Cyprus.'}[lang]
-    items = ''.join(f'<li><h3>{L(t, lang)}</h3><p>{L(d, lang)}</p><p class="ask"><strong>{"Η ερώτηση που ξεκινάμε:" if lang == "el" else "Where we start:"}</strong> {L(q, lang)}</p></li>' for t, d, q in SOLUTIONS)
-    note = {'el': 'Κάθε πρόταση βασίζεται στους όρους του συγκεκριμένου συμβολαίου. Οι καλύψεις έχουν όρια, εξαιρέσεις και, όπου ισχύει, περιόδους αναμονής, που τα βλέπουμε μαζί πριν υπογράψετε. Οι αποδόσεις των επενδυτικών προγραμμάτων δεν είναι εγγυημένες, και η φορολογική έκπτωση εξαρτάται από την προσωπική σας περίπτωση.',
-            'en': 'Every proposal is based on the terms of the specific policy. Cover has limits, exclusions and, where they apply, waiting periods, which we go through together before you sign. Returns on investment-linked plans are not guaranteed, and tax relief depends on your own circumstances.'}[lang]
-    return head(lang, 'solutions', title, desc) + page_head(L(T['nav']['solutions'], lang), {'el': 'Εννέα ανάγκες που βλέπουμε μαζί. Ξεκινάμε πάντα από μια απλή ερώτηση.', 'en': 'Nine needs we look at together. We always start with one simple question.'}[lang]) + f'''
-<section class="section"><div class="wrap"><ul class="solutions">{items}</ul>
-<p class="note" style="margin-top:2rem">{note}</p>{actions(lang)}</div></section>''' + foot(lang)
+    el = lang == 'el'
+    title = 'Ασφαλιστικές λύσεις: ζωή, υγεία, σύνταξη, αποταμίευση' if el else 'Insurance solutions: life, health, retirement, savings'
+    desc = ('Ασφάλεια ζωής, ιατροφαρμακευτική, ατύχημα, σύνταξη, αποταμίευση, σπουδές, προστασία δανείου, ομαδικά σχέδια και επανεξέταση συμβολαίων.' if el
+            else 'Life, health and accident cover, retirement, savings, education, loan protection, group plans and policy reviews in Cyprus.')
+    jump = '<nav class="jump" aria-label="' + ('Οι λύσεις' if el else 'Solutions') + '">' + ''.join(f'<a href="#{sid}">{L(t, lang)}</a>' for sid, _, t, *_ in SOLUTIONS) + '</nav>'
+    rows = ''
+    for i, (sid, img, t, s, lng, inc, q) in enumerate(SOLUTIONS):
+        rows += f'''<article class="sol{' is-reverse' if i % 2 else ''}" id="{sid}">
+<figure>{photo(img, '')}</figure>
+<div><h2>{L(t, lang)}</h2><p class="sol__short">{L(s, lang)}</p><p>{L(lng, lang)}</p>
+<h3>{'Μπορεί να περιλαμβάνει' if el else 'It can include'}</h3>
+<ul class="ticks">{''.join(f'<li>{ICON["check"]}{L(x, lang)}</li>' for x in inc)}</ul>
+<p class="ask"><span>{'Η ερώτηση που ξεκινάμε' if el else 'Where we start'}</span>{L(q, lang)}</p>
+</div></article>'''
+    note = ('Κάθε πρόταση βασίζεται στους όρους του συγκεκριμένου συμβολαίου. Οι καλύψεις έχουν όρια, εξαιρέσεις και, όπου ισχύει, περιόδους αναμονής, που τα βλέπουμε μαζί πριν υπογράψετε. Οι αποδόσεις των επενδυτικών προγραμμάτων δεν είναι εγγυημένες, και η φορολογική έκπτωση εξαρτάται από την προσωπική σας περίπτωση.' if el
+            else 'Every proposal is based on the terms of the specific policy. Cover has limits, exclusions and, where they apply, waiting periods, which we go through together before you sign. Returns on investment-linked plans are not guaranteed, and tax relief depends on your own circumstances.')
+    return head(lang, 'solutions', title, desc) + page_head(L(T['nav']['solutions'], lang),
+        'Εννέα ανάγκες που βλέπουμε μαζί. Ξεκινάμε πάντα από μια απλή ερώτηση.' if el else 'Nine needs we look at together. We always start with one simple question.', 'life', '') + f'''
+<section class="section section--tight"><div class="wrap">{jump}{rows}<p class="note">{note}</p></div></section>''' + cta_band(lang) + foot(lang)
 
 def page_how(lang):
-    title = {'el': 'Πώς δουλεύω: από την πρώτη συζήτηση στην αποζημίωση', 'en': 'How I work: from the first conversation to a claim'}[lang]
-    desc = {'el': 'Πρώτη συζήτηση, ανάλυση αναγκών, πρόταση με απλά λόγια και υποστήριξη μετά την υπογραφή. Τι να έχετε έτοιμο πριν μιλήσουμε.', 'en': 'A first conversation, a look at your needs, a proposal in plain words, and support after you sign. What to have ready before we talk.'}[lang]
-    steps = ''.join(f'<li><h3>{L(t, lang)}</h3><p>{L(d, lang)}</p></li>' for t, d in STEPS)
-    prep = {'el': ['Τι θέλετε να προστατεύσετε περισσότερο: οικογένεια, εισόδημα, υγεία, σπίτι ή σύνταξη.', 'Αν υπάρχει δάνειο ή άλλη μεγάλη υποχρέωση, και για πόσα χρόνια.', 'Τα συμβόλαια που ήδη έχετε: τουλάχιστον το είδος, την εταιρεία και το ασφάλιστρο.', 'Ένα κατά προσέγγιση μηνιαίο εισόδημα και τα βασικά έξοδα του σπιτιού.'],
-            'en': ['What you most want to protect: family, income, health, home or retirement.', 'Whether there is a loan or other big commitment, and for how many years.', 'The policies you already have: at least the type, the insurer and the premium.', 'A rough monthly income and the household’s main costs.']}[lang]
-    return head(lang, 'how', title, desc) + page_head(L(T['nav']['how'], lang), {'el': 'Τέσσερα βήματα, χωρίς βιασύνη και χωρίς ψιλά γράμματα.', 'en': 'Four steps, with no rush and no small print.'}[lang]) + f'''
-<section class="section"><div class="wrap"><ol class="steps">{steps}</ol></div></section>
-<section class="section tint"><div class="wrap prose"><hr class="rule"><h2>{'Πριν μιλήσουμε' if lang == 'el' else 'Before we talk'}</h2>
-<p>{'Δεν χρειάζεται να έχετε τα πάντα έτοιμα. Αν όμως σκεφτείτε από πριν τα παρακάτω, η συζήτηση θα είναι πιο σύντομη και πιο χρήσιμη.' if lang == 'el' else 'You do not need everything ready. But if you think about these beforehand, the conversation will be shorter and more useful.'}</p>
-<ul>{''.join(f'<li>{x}</li>' for x in prep)}</ul>
-<p class="note">{'Μη στέλνετε ιατρικά στοιχεία ή αριθμούς λογαριασμών μέσω της φόρμας. Αν χρειαστεί, τα συζητάμε με ασφαλή τρόπο.' if lang == 'el' else 'Please do not send medical details or account numbers through the form. If needed, we discuss them securely.'}</p>
-{actions(lang)}</div></section>''' + foot(lang)
+    el = lang == 'el'
+    title = 'Πώς δουλεύω: από την πρώτη συζήτηση στην αποζημίωση' if el else 'How I work: from the first conversation to a claim'
+    desc = 'Πρώτη συζήτηση, ανάλυση αναγκών, πρόταση με απλά λόγια και υποστήριξη μετά την υπογραφή. Τι να έχετε έτοιμο πριν μιλήσουμε.' if el else 'A first conversation, a look at your needs, a proposal in plain words, and support after you sign. What to have ready before we talk.'
+    prep = (['Τι θέλετε να προστατεύσετε περισσότερο: οικογένεια, εισόδημα, υγεία, σπίτι ή σύνταξη.', 'Αν υπάρχει δάνειο ή άλλη μεγάλη υποχρέωση, και για πόσα χρόνια.', 'Τα συμβόλαια που ήδη έχετε: τουλάχιστον το είδος, την εταιρεία και το ασφάλιστρο.', 'Ένα κατά προσέγγιση μηνιαίο εισόδημα και τα βασικά έξοδα του σπιτιού.'] if el
+            else ['What you most want to protect: family, income, health, home or retirement.', 'Whether there is a loan or other big commitment, and for how many years.', 'The policies you already have: at least the type, the insurer and the premium.', 'A rough monthly income and the household’s main costs.'])
+    rows = ''.join(f'''<article class="sol{' is-reverse' if i % 2 else ''}"><figure>{photo(img, '')}</figure>
+<div><p class="sol__step">{('Βήμα ' if el else 'Step ')}{i + 1}</p><h2>{L(t, lang)}</h2><p>{L(d, lang)}</p></div></article>''' for i, (img, t, d) in enumerate(STEPS))
+    return head(lang, 'how', title, desc) + page_head(L(T['nav']['how'], lang), 'Τέσσερα βήματα, χωρίς βιασύνη και χωρίς ψιλά γράμματα.' if el else 'Four steps, with no rush and no small print.', 'step-talk', '') + f'''
+<section class="section section--tight"><div class="wrap">{rows}</div></section>
+<section class="section tint"><div class="wrap split split--wide">
+<figure class="split__img">{photo('about-work', '')}</figure>
+<div><hr class="rule"><h2>{'Πριν μιλήσουμε' if el else 'Before we talk'}</h2>
+<p>{'Δεν χρειάζεται να έχετε τα πάντα έτοιμα. Αν όμως σκεφτείτε από πριν τα παρακάτω, η συζήτηση θα είναι πιο σύντομη και πιο χρήσιμη.' if el else 'You do not need everything ready. But if you think about these beforehand, the conversation will be shorter and more useful.'}</p>
+<ul class="ticks">{''.join(f'<li>{ICON["check"]}{x}</li>' for x in prep)}</ul>
+<p class="note">{'Μη στέλνετε ιατρικά στοιχεία ή αριθμούς λογαριασμών μέσω της φόρμας. Αν χρειαστεί, τα συζητάμε με ασφαλή τρόπο.' if el else 'Please do not send medical details or account numbers through the form. If needed, we discuss them securely.'}</p>
+</div></div></section>''' + cta_band(lang) + foot(lang)
 
 def page_guides(lang):
-    title = {'el': 'Χρήσιμοι οδηγοί ασφάλισης για την Κύπρο', 'en': 'Helpful insurance guides for Cyprus'}[lang]
-    desc = {'el': 'Πόση ασφάλεια ζωής χρειάζεστε, ΓεΣΥ και ιδιωτικό σχέδιο υγείας, και πότε να επανεξετάσετε τα συμβόλαιά σας.', 'en': 'How much life cover you need, GESY and private health plans, and when to review your policies.'}[lang]
-    g = {'el': [
-        ('Πόση ασφάλεια ζωής χρειάζεστε;', '''<p>Ένας πρακτικός τρόπος να το υπολογίσετε: προσθέστε τα δάνεια που θα έμεναν, το εισόδημα που θα χρειαζόταν η οικογένεια για όσα χρόνια την αφορά, και μεγάλους στόχους όπως οι σπουδές των παιδιών. Από αυτό αφαιρέστε καλύψεις και αποταμιεύσεις που ήδη έχετε.</p>
-<p>Η ασφάλεια που ζητά η τράπεζα για το στεγαστικό καλύπτει το δάνειο, όχι το εισόδημα της οικογένειας. Αν φορολογείστε στην Κύπρο, τα ασφάλιστρα ζωής εκπίπτουν από το φορολογητέο εισόδημα έως το 7% του κεφαλαίου ασφάλισης, μέσα στο συνολικό όριο του ενός πέμπτου του εισοδήματος για τις σχετικές εκπτώσεις.</p>'''),
-        ('ΓεΣΥ και ιδιωτικό σχέδιο υγείας', '''<p>Το ΓεΣΥ καλύπτει προσωπικό γιατρό, ειδικούς, εξετάσεις, φάρμακα και νοσηλεία σε παρόχους που συμμετέχουν. Ένα ιδιωτικό σχέδιο δεν το αντικαθιστά· το συμπληρώνει όταν θέλετε θεραπεία εκτός ΓεΣΥ, κάλυψη στο εξωτερικό, ιδιωτικό δωμάτιο ή ευελιξία στον χρόνο της θεραπείας.</p>
-<p>Πριν επιλέξετε σχέδιο, ελέγξτε το ετήσιο όριο, την απαλλαγή, τις περιόδους αναμονής, τι ισχύει για παθήσεις που έχετε ήδη και σε ποιες χώρες ισχύει η κάλυψη.</p>'''),
-        ('Πότε να επανεξετάσετε τα συμβόλαιά σας', '''<p>Ένα συμβόλαιο που ταίριαζε πριν από πέντε χρόνια μπορεί σήμερα να καλύπτει λίγα ή να επικαλύπτεται με άλλο. Αξίζει μια επανεξέταση όταν παντρεύεστε, αποκτάτε παιδί, παίρνετε ή εξοφλείτε δάνειο, αλλάζετε δουλειά ή εισόδημα, και τουλάχιστον μία φορά τον χρόνο.</p>
-<p>Φέρτε τα συμβόλαια που έχετε και τα βλέπουμε μαζί: τι καλύπτουν, ποιοι είναι οι δικαιούχοι και τι λείπει.</p>'''),
-    ], 'en': [
-        ('How much life insurance do you need?', '''<p>A practical way to work it out: add the loans that would remain, the income your family would need for as many years as it matters, and big goals such as your children’s studies. Then subtract the cover and savings you already have.</p>
-<p>The cover a bank asks for with a mortgage pays off the loan; it does not replace your family’s income. If you pay tax in Cyprus, life premiums are deductible from taxable income up to 7% of the sum insured, within the overall limit of one fifth of income for the related deductions.</p>'''),
-        ('GESY and a private health plan', '''<p>GESY covers a personal doctor, specialists, tests, medicines and hospital care with participating providers. A private plan does not replace it; it complements it when you want treatment outside GESY, cover abroad, a private room or flexibility over when you are treated.</p>
-<p>Before you choose a plan, check the annual limit, the excess, waiting periods, what applies to conditions you already have, and which countries are covered.</p>'''),
-        ('When to review your policies', '''<p>A policy that fitted five years ago may cover too little today, or overlap with another. A review is worth it when you marry, have a child, take out or pay off a loan, change job or income, and at least once a year.</p>
-<p>Bring the policies you have and we look at them together: what they cover, who the beneficiaries are and what is missing.</p>'''),
-    ]}[lang]
-    body = ''.join(f'<article class="guide"><h2>{t}</h2>{b}</article>' for t, b in g)
-    more = {'el': f'<p>Για περισσότερους οδηγούς και δωρεάν υπολογιστές, δείτε το <a href="{AVRASTRO}/guides/" rel="noopener">AVRASTRO</a>, την ενημερωτική πλατφόρμα που δημιούργησα.</p>',
-            'en': f'<p>For more guides and free calculators, see <a href="{AVRASTRO}/en/guides/" rel="noopener">AVRASTRO</a>, the information platform I created.</p>'}[lang]
-    src = {'el': 'Πηγή για τη φορολογική έκπτωση: PwC Worldwide Tax Summaries – Cyprus (Οκτώβριος 2026). Οι οδηγοί είναι γενική ενημέρωση και όχι εξατομικευμένη συμβουλή.',
-           'en': 'Source for tax relief: PwC Worldwide Tax Summaries – Cyprus (October 2026). The guides are general information, not personal advice.'}[lang]
-    return head(lang, 'guides', title, desc) + page_head(L(T['nav']['guides'], lang), {'el': 'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά.', 'en': 'Short answers to the questions I hear most often.'}[lang]) + f'''
-<section class="section"><div class="wrap prose">{body}<p class="note">{src}</p>{more}{actions(lang)}</div></section>''' + foot(lang)
+    el = lang == 'el'
+    title = 'Χρήσιμοι οδηγοί ασφάλισης για την Κύπρο' if el else 'Helpful insurance guides for Cyprus'
+    desc = 'Πόση ασφάλεια ζωής χρειάζεστε, ΓεΣΥ και ιδιωτικό σχέδιο υγείας, και πότε να επανεξετάσετε τα συμβόλαιά σας.' if el else 'How much life cover you need, GESY and private health plans, and when to review your policies.'
+    body = ''.join(f'''<article class="guide" id="{gid}"><figure>{photo(img, '')}</figure><div class="prose"><h2>{L(t, lang)}</h2><p class="sol__short">{L(s, lang)}</p>{L(b, lang)}</div></article>''' for gid, img, t, s, b in GUIDES)
+    more = (f'<p>Για περισσότερους οδηγούς και δωρεάν υπολογιστές, δείτε το <a href="{AVRASTRO}/guides/" rel="noopener">AVRASTRO</a>, την ενημερωτική πλατφόρμα που δημιούργησα.</p>' if el
+            else f'<p>For more guides and free calculators, see <a href="{AVRASTRO}/en/guides/" rel="noopener">AVRASTRO</a>, the information platform I created.</p>')
+    src = ('Πηγή για τη φορολογική έκπτωση: PwC Worldwide Tax Summaries – Cyprus (Οκτώβριος 2026). Οι οδηγοί είναι γενική ενημέρωση και όχι εξατομικευμένη συμβουλή.' if el
+           else 'Source for tax relief: PwC Worldwide Tax Summaries – Cyprus (October 2026). The guides are general information, not personal advice.')
+    return head(lang, 'guides', title, desc) + page_head(L(T['nav']['guides'], lang), 'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά.' if el else 'Short answers to the questions I hear most often.', 'guide-life', '') + f'''
+<section class="section section--tight"><div class="wrap">{body}<div class="prose"><p class="note">{src}</p>{more}</div></div></section>''' + cta_band(lang) + foot(lang)
 
 def page_contact(lang):
     title = {'el': 'Επικοινωνία: Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος', 'en': 'Contact Giannis Farazis, Insurance Advisor'}[lang]
@@ -325,7 +469,7 @@ def page_contact(lang):
 <dt>{'Διεύθυνση' if el else 'Address'}</dt><dd>{'Λεωφόρος Στροβόλου 124Γ, 5ος όροφος, Λευκωσία' if el else '124C Strovolou Avenue, 5th floor, Nicosia'}</dd>
 <dt>LinkedIn</dt><dd><a href="{LINKEDIN}" rel="noopener">Giannis Farazis</a></dd>
 </dl>
-{actions(lang, True)}
+{actions(lang)}
 </div>
 <div>
 <h2>{'Αφήστε τα στοιχεία σας' if el else 'Leave your details'}</h2>
