@@ -8,7 +8,7 @@ APPROVED = {'35797840941', '35722124867'}
 problems = []
 for dp, _, files in os.walk(OUT):
     for f in files:
-        if not f.endswith('.html'): continue
+        if not f.endswith('.html') or f.startswith('google'): continue  # skip Search Console ownership file
         p = os.path.join(dp, f); rel = os.path.relpath(p, OUT); t = open(p, encoding='utf-8').read()
         redirect = 'http-equiv="refresh"' in t
         for u in re.findall(r'(?:href|src|srcset)="(/[^"#?]*)', t):
