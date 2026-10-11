@@ -15,7 +15,8 @@ from datetime import date
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'site')
 BASE = 'https://farazisgiannis.com'
-UPDATED = '2026-10-10b'
+UPDATED = '2026-10-10b'   # privacy page "last updated"
+ASSET_V = '2026-10-11'    # cache key of site.css / site.js, and the sitemap date (videos added 11 Oct 2026)
 PHONE = '+357 97 840941'; TEL = '+35797840941'
 OFFICE = '+357 22 124867'; OFFICE_TEL = '+35722124867'
 WHATSAPP = 'https://wa.me/35797840941'
@@ -78,6 +79,18 @@ def photo(key, alt='', cls='', eager=False):
     return (f'<img class="{cls}" src="/assets/img/photos/{key}.webp" width="900" height="600" alt="{esc(alt)}"'
             + ('' if eager else ' loading="lazy"') + ' decoding="async">')
 
+def film(name, lang, cls=''):
+    """A short silent loop made from CC0 photos (tools/make_videos.py, assets/video/SOURCES.md). The first frame shows
+    until site.js starts it: only while it is on screen, never for visitors who ask for less motion or to save data.
+    Decorative, so hidden from screen readers; a small button pauses and resumes it."""
+    v = f'/assets/video/{name}'
+    pause, play = ('Παύση βίντεο', 'Αναπαραγωγή βίντεο') if lang == 'el' else ('Pause video', 'Play video')
+    return (f'<div class="film {cls}"><video class="film__video" muted loop playsinline preload="none" poster="{v}.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture>'
+            f'<source src="{v}.webm" type="video/webm"><source src="{v}.mp4" type="video/mp4"></video>'
+            f'<button class="film__toggle" type="button" hidden data-pause="{pause}" data-play="{play}" aria-label="{pause}">'
+            '<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>'
+            '<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button></div>')
+
 def portrait(alt='', cls='', eager=False):
     return (f'<picture><source srcset="/assets/img/giannis-farazis-portrait.webp" type="image/webp"><img class="{cls}" src="/assets/img/giannis-farazis-portrait.jpg" '
             f'width="480" height="600" alt="{esc(alt)}"' + (' fetchpriority="high"' if eager else ' loading="lazy"') + '></picture>')
@@ -119,7 +132,7 @@ def head(lang, page, title, desc, extra_ld=None):
 <link rel="icon" href="/assets/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/GFSDidot-Regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v={UPDATED}">
+<link rel="stylesheet" href="/assets/css/site.css?v={ASSET_V}">
 <script type="application/ld+json">{json.dumps(ld if len(ld) > 1 else ld[0], ensure_ascii=False)}</script>
 </head>
 <body>
@@ -147,7 +160,7 @@ def foot(lang):
 <span>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</span></div>
 </div><div class="wrap foot-legal">© {date.today().year} {L(T['name'], lang)}</div></footer>
 <div class="callbar"><a href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)}</a><a href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a></div>
-<script src="/assets/js/site.js?v={UPDATED}" defer></script>
+<script src="/assets/js/site.js?v={ASSET_V}" defer></script>
 </body></html>
 '''
 
@@ -157,9 +170,10 @@ def actions(lang, extra=''):
 <a class="btn btn-ghost" href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a>{extra}
 </div>'''
 
-def page_head(title, lead, img=None, alt=''):
-    media = f'<figure class="page-head__media">{photo(img, alt, eager=True)}</figure>' if img else ''
-    return f'<section class="page-head{" has-media" if img else ""}"><div class="wrap"><div class="page-head__text"><h1>{title}</h1><p>{lead}</p></div>{media}</div></section>'
+def page_head(title, lead, img=None, alt='', movie=None, lang='el'):
+    media = (f'<figure class="page-head__media">{film(movie, lang)}</figure>' if movie
+             else f'<figure class="page-head__media">{photo(img, alt, eager=True)}</figure>' if img else '')
+    return f'<section class="page-head{" has-media" if (img or movie) else ""}"><div class="wrap"><div class="page-head__text"><h1>{title}</h1><p>{lead}</p></div>{media}</div></section>'
 
 def cta_band(lang):
     el = lang == 'el'
@@ -336,6 +350,15 @@ def page_home(lang):
 {sol_cards(lang)}
 </div></section>
 
+<section class="film-band on-dark"><div class="wrap">
+<div class="film-band__text">
+<h2 class="film-band__motto">{L(T['motto'], lang)}</h2>
+<p class="film-band__triad">{L(T['triad'], lang)}</p>
+<p>{'Σε κάθε στάδιο της ζωής: όταν μεγαλώνει η οικογένεια, όταν χρειάζεστε φροντίδα, όταν τα παιδιά σπουδάζουν και όταν έρθει η ώρα της σύνταξης.' if el else 'At every stage of life: as your family grows, when you need care, while your children study, and when it is time to retire.'}</p>
+</div>
+{film('film-home', lang, 'film--band')}
+</div></section>
+
 <section class="section tint"><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Γιατί να συνεργαστούμε' if el else 'Why work with me'}</h2></div>
 {values_grid(lang)}
@@ -416,7 +439,7 @@ def page_solutions(lang):
     note = ('Κάθε πρόταση βασίζεται στους όρους του συγκεκριμένου συμβολαίου. Οι καλύψεις έχουν όρια, εξαιρέσεις και, όπου ισχύει, περιόδους αναμονής, που τα βλέπουμε μαζί πριν υπογράψετε. Οι αποδόσεις των επενδυτικών προγραμμάτων δεν είναι εγγυημένες, και η φορολογική έκπτωση εξαρτάται από την προσωπική σας περίπτωση.' if el
             else 'Every proposal is based on the terms of the specific policy. Cover has limits, exclusions and, where they apply, waiting periods, which we go through together before you sign. Returns on investment-linked plans are not guaranteed, and tax relief depends on your own circumstances.')
     return head(lang, 'solutions', title, desc) + page_head(L(T['nav']['solutions'], lang),
-        'Εννέα ανάγκες που βλέπουμε μαζί. Ξεκινάμε πάντα από μια απλή ερώτηση.' if el else 'Nine needs we look at together. We always start with one simple question.', 'life', '') + f'''
+        'Εννέα ανάγκες που βλέπουμε μαζί. Ξεκινάμε πάντα από μια απλή ερώτηση.' if el else 'Nine needs we look at together. We always start with one simple question.', 'life', '', 'film-solutions', lang) + f'''
 <section class="section section--tight"><div class="wrap">{jump}{rows}<p class="note">{note}</p></div></section>''' + cta_band(lang) + foot(lang)
 
 def page_how(lang):
@@ -427,7 +450,7 @@ def page_how(lang):
             else ['What you most want to protect: family, income, health, home or retirement.', 'Whether there is a loan or other big commitment, and for how many years.', 'The policies you already have: at least the type, the insurer and the premium.', 'A rough monthly income and the household’s main costs.'])
     rows = ''.join(f'''<article class="sol{' is-reverse' if i % 2 else ''}"><figure>{photo(img, '')}</figure>
 <div><p class="sol__step">{('Βήμα ' if el else 'Step ')}{i + 1}</p><h2>{L(t, lang)}</h2><p>{L(d, lang)}</p></div></article>''' for i, (img, t, d) in enumerate(STEPS))
-    return head(lang, 'how', title, desc) + page_head(L(T['nav']['how'], lang), 'Τέσσερα βήματα, χωρίς βιασύνη και χωρίς ψιλά γράμματα.' if el else 'Four steps, with no rush and no small print.', 'step-talk', '') + f'''
+    return head(lang, 'how', title, desc) + page_head(L(T['nav']['how'], lang), 'Τέσσερα βήματα, χωρίς βιασύνη και χωρίς ψιλά γράμματα.' if el else 'Four steps, with no rush and no small print.', 'step-talk', '', 'film-how', lang) + f'''
 <section class="section section--tight"><div class="wrap">{rows}</div></section>
 <section class="section tint"><div class="wrap split split--wide">
 <figure class="split__img">{photo('about-work', '')}</figure>
@@ -446,7 +469,7 @@ def page_guides(lang):
             else f'<p>For more guides and free calculators, see <a href="{AVRASTRO}/en/guides/" rel="noopener">AVRASTRO</a>, the information platform I created.</p>')
     src = ('Πηγή για τη φορολογική έκπτωση: PwC Worldwide Tax Summaries – Cyprus (Οκτώβριος 2026). Οι οδηγοί είναι γενική ενημέρωση και όχι εξατομικευμένη συμβουλή.' if el
            else 'Source for tax relief: PwC Worldwide Tax Summaries – Cyprus (October 2026). The guides are general information, not personal advice.')
-    return head(lang, 'guides', title, desc) + page_head(L(T['nav']['guides'], lang), 'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά.' if el else 'Short answers to the questions I hear most often.', 'guide-life', '') + f'''
+    return head(lang, 'guides', title, desc) + page_head(L(T['nav']['guides'], lang), 'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά.' if el else 'Short answers to the questions I hear most often.', 'guide-life', '', 'film-guides', lang) + f'''
 <section class="section section--tight"><div class="wrap">{body}<div class="prose"><p class="note">{src}</p>{more}</div></div></section>''' + cta_band(lang) + foot(lang)
 
 def page_contact(lang):
@@ -534,7 +557,7 @@ PREFIX = os.environ.get('SITE_PREFIX', '').rstrip('/')
 
 def write(rel, text):
     if PREFIX and rel.endswith('.html'):
-        for a in ('href="/', 'src="/', 'srcset="/', 'url=/'):
+        for a in ('href="/', 'src="/', 'srcset="/', 'poster="/', 'url=/'):
             text = text.replace(a, a[:-1] + PREFIX + '/')
         text = text.replace('<meta charset="utf-8">', '<meta charset="utf-8"><meta name="robots" content="noindex">', 1)
     p = os.path.join(OUT, rel); os.makedirs(os.path.dirname(p), exist_ok=True)
@@ -560,7 +583,7 @@ def main():
     write('robots.txt', 'User-agent: *\nDisallow: /\n' if PREFIX else f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
     for pid, lang, u in urls:
-        sm.append(f'<url><loc>{BASE}{u}</loc><lastmod>{UPDATED}</lastmod>'
+        sm.append(f'<url><loc>{BASE}{u}</loc><lastmod>{ASSET_V}</lastmod>'
                   f'<xhtml:link rel="alternate" hreflang="el" href="{BASE}{url(pid, "el")}"/><xhtml:link rel="alternate" hreflang="en" href="{BASE}{url(pid, "en")}"/></url>')
     sm.append('</urlset>')
     write('sitemap.xml', '\n'.join(sm) + '\n')

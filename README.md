@@ -11,3 +11,8 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
   Design.com: A @ → 185.199.108–111.153, CNAME www → veroltd.github.io (TXT _dmarc kept). `site-prefix.txt` is empty;
   putting a path in it (e.g. `/farazisgiannis-site`) builds a non-indexed preview under that path instead.
 - Fonts: GFS Didot and Commissioner (SIL Open Font License, files in `assets/fonts`). Portrait: the owner's own photo.
+- Videos (11 Oct 2026): four short silent loops in `assets/video` (home page band, and the headers of Solutions, How I
+  work and Guides), made by `tools/make_videos.py` from CC0 photos (`assets/video/SOURCES.md`). `assets/js/site.js`
+  plays them only while on screen, never with "reduce motion" or Save-Data, and each has a pause button. To remake
+  them: download the originals with vero-os `tools/website/fetch_originals.py`, then
+  `python3 tools/make_videos.py <folder>` (Pillow + ffmpeg).

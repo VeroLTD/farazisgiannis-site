@@ -265,3 +265,23 @@ p { margin: 0 0 1em; max-width: 68ch; }
   .callbar a svg { width: 18px; height: 18px; }
   .callbar a + a { border-left: 1px solid #ffffff22; color: var(--brass); }
 }
+
+/* ---------- short videos (11 Oct 2026): silent loops made from CC0 photos, see assets/video/SOURCES.md ---------- */
+.film { position: relative; overflow: hidden; background: var(--midnight-2); isolation: isolate; }
+.film__video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.film__toggle { position: absolute; right: 12px; bottom: 12px; z-index: 2; width: 40px; height: 40px; display: grid; place-items: center; padding: 0;
+  border: 1px solid #ffffff59; border-radius: 999px; background: rgba(15, 34, 64, .55); color: #fff; cursor: pointer; opacity: .8; transition: opacity .2s; }
+.film__toggle:hover, .film__toggle:focus-visible { opacity: 1; }
+.film__toggle svg { width: 18px; height: 18px; }
+.film .i-play, .film.is-paused .i-pause { display: none; }
+.film.is-paused .i-play { display: block; }
+.page-head__media .film { border-radius: var(--arch); aspect-ratio: 3 / 2; max-height: 340px; }
+/* home: the motto beside a film of the stages of life */
+.film-band { background: var(--midnight); color: #c3cfdf; padding-block: clamp(3.5rem, 8vw, 6rem); }
+.film-band .wrap { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.25fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.film-band__motto { font-family: var(--display); font-weight: 400; color: #fff; font-size: clamp(2.2rem, 4.4vw, 3.5rem); line-height: 1.1; margin: 0 0 .9rem; }
+.film-band__triad { color: var(--brass); font-size: 1.05rem; letter-spacing: .04em; margin: 0 0 1.4rem; }
+.film-band p:last-child { max-width: 44ch; margin: 0; }
+.film--band { aspect-ratio: 16 / 10; border-radius: clamp(90px, 16vw, 220px) clamp(90px, 16vw, 220px) var(--r) var(--r); box-shadow: 0 30px 60px -30px #000c; }
+.film--band::after { content: ""; position: absolute; inset: 10px; z-index: 1; border: 1px solid rgba(201, 163, 95, .45); border-radius: inherit; pointer-events: none; }
+@media (max-width: 860px) { .film-band .wrap { grid-template-columns: 1fr; } .film--band { border-radius: 120px 120px var(--r) var(--r); } }

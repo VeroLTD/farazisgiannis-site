@@ -43,3 +43,27 @@
       .then(function () { submit.disabled = false; submit.textContent = label; });
   });
 })();
+
+// Short silent videos (11 Oct 2026): they play only while on screen, never for visitors who ask for less motion or to
+// save data (then the first frame stays), and a button pauses or resumes each one. Nothing is loaded before that.
+(function () {
+  var films = [].slice.call(document.querySelectorAll('.film'));
+  if (!films.length || !('IntersectionObserver' in window)) return;
+  var still = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+  var save = navigator.connection && navigator.connection.saveData;
+  if (still.matches || save) return;
+  films.forEach(function (f) {
+    var v = f.querySelector('video'), b = f.querySelector('.film__toggle'), paused = false, visible = false;
+    if (!v || !b) return;
+    function run() { if (visible && !paused && !still.matches) { v.preload = 'auto'; var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); }
+    b.hidden = false;
+    b.addEventListener('click', function () {
+      paused = !paused;
+      f.classList.toggle('is-paused', paused);
+      b.setAttribute('aria-label', paused ? b.getAttribute('data-play') : b.getAttribute('data-pause'));
+      run();
+    });
+    new IntersectionObserver(function (entries) { entries.forEach(function (e) { visible = e.isIntersecting; run(); }); }, { threshold: 0.2 }).observe(f);
+  });
+  if (still.addEventListener) still.addEventListener('change', function () { films.forEach(function (f) { var v = f.querySelector('video'); if (v && still.matches) v.pause(); }); });
+})();
