@@ -16,7 +16,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'site')
 BASE = 'https://farazisgiannis.com'
 UPDATED = '2026-10-10b'   # privacy page "last updated"
-ASSET_V = '2026-10-11'    # cache key of site.css / site.js, and the sitemap date (videos added 11 Oct 2026)
+ASSET_V = '2026-10-11b'   # cache key of site.css / site.js, and the sitemap date (narrated films added 11 Oct 2026)
 PHONE = '+357 97 840941'; TEL = '+35797840941'
 OFFICE = '+357 22 124867'; OFFICE_TEL = '+35722124867'
 WHATSAPP = 'https://wa.me/35797840941'
@@ -90,6 +90,37 @@ def film(name, lang, cls=''):
             f'<button class="film__toggle" type="button" hidden data-pause="{pause}" data-play="{play}" aria-label="{pause}">'
             '<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>'
             '<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button></div>')
+
+# Narrated explainer films (11 Oct 2026), made in the AVRASTRO repository (tools/video) and copied here by
+# tools/add_explainers.py: assets/video/explainers/explainers.json → {key: {lang: {video, poster, vtt, title, duration}}}
+_EXP = os.path.join(ROOT, 'assets/video/explainers/explainers.json')
+EXPLAINERS = json.load(open(_EXP, encoding='utf8')) if os.path.exists(_EXP) else {}
+FILM_OF = {'life': 'topic-life', 'health': 'topic-health', 'accident': 'topic-income', 'retirement': 'topic-retirement',
+           'savings': 'topic-savings', 'education': 'topic-education'}
+
+def explainer(key, lang, cls=''):
+    """A narrated film with its poster, captions (off until the visitor turns them on) and a large play button; it
+    plays only when the visitor presses play. Empty when the film is not in the site yet."""
+    e = EXPLAINERS.get(key, {}).get(lang)
+    if not e:
+        return ''
+    v = '/assets/video/explainers/'
+    el = lang == 'el'
+    secs = int(round(e.get('duration', 0)))
+    length = f'{secs // 60}:{secs % 60:02d}' if secs else ''
+    play = ('Αναπαραγωγή βίντεο: ' if el else 'Play the video: ') + e['title']
+    ld = {'@context': 'https://schema.org', '@type': 'VideoObject', 'name': e['title'], 'description': e.get('description') or e['title'],
+          'thumbnailUrl': BASE + v + e['poster'], 'contentUrl': BASE + v + e['video'], 'uploadDate': e.get('date', ASSET_V[:10]),
+          'duration': f'PT{secs // 60}M{secs % 60}S', 'inLanguage': lang}
+    cc = f'<track kind="captions" src="{v}{e["vtt"]}" srclang="{lang}" label="{"Ελληνικά" if el else "English"}">' if e.get('vtt') else ''
+    cap = f'<span class="explainer__title">{esc(e["title"])}</span>' + (f'<span>{length}</span>' if length else '') + (f'<span>{"Με υπότιτλους" if el else "Captions available"}</span>' if cc else '')
+    return (f'<figure class="explainer {cls}"><div class="explainer__frame">'
+            f'<video class="explainer__video" controls preload="none" playsinline width="1920" height="1080" poster="{v}{e["poster"]}" aria-label="{esc(e["title"])}">'
+            f'<source src="{v}{e["video"]}" type="video/mp4">{cc}</video>'
+            f'<button class="explainer__play" type="button" hidden aria-label="{esc(play)}"><span class="explainer__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>'
+            f'<span aria-hidden="true">{"Δείτε το βίντεο" if el else "Watch"}' + (f' <b>{length}</b>' if length else '') + '</span></button></div>'
+            f'<figcaption>{cap}</figcaption>'
+            '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False).replace('</', '<\\/') + '</script></figure>')
 
 def portrait(alt='', cls='', eager=False):
     return (f'<picture><source srcset="/assets/img/giannis-farazis-portrait.webp" type="image/webp"><img class="{cls}" src="/assets/img/giannis-farazis-portrait.jpg" '
@@ -331,6 +362,10 @@ def page_home(lang):
     guides = '<ul class="cards cards--3">' + ''.join(
         f'<li class="card"><a href="{url("guides", lang, gid)}"><figure>{photo(img, "")}</figure><h3>{L(t, lang)}</h3><p>{L(s, lang)}</p><span class="card__more">{L(T["more"], lang)}{ICON["arrow"]}</span></a></li>'
         for gid, img, t, s, _ in GUIDES) + '</ul>'
+    # "A few words about me": the short narrated introduction when it is on the site, otherwise the portrait
+    meet = explainer('meet-giannis', lang)
+    about_film_cls = ' split--film' if meet else ''
+    about_media = f'<div class="split__film">{meet}</div>' if meet else f'<figure class="split__photo">{portrait("")}</figure>'
     return head(lang, 'home', title, desc) + f'''
 <section class="hero on-dark"><div class="wrap">
 <div class="hero__text">
@@ -370,8 +405,8 @@ def page_home(lang):
 {steps_grid(lang)}
 </div></section>
 
-<section class="section tint"><div class="wrap split">
-<figure class="split__photo">{portrait('')}</figure>
+<section class="section tint"><div class="wrap split{about_film_cls}">
+{about_media}
 <div><hr class="rule">
 <h2>{'Λίγα λόγια για μένα' if el else 'A few words about me'}</h2>
 <p>{'Είμαι Ασφαλιστικός Σύμβουλος από το 2024, με βάση τη Λευκωσία, και εξυπηρετώ πελάτες σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά. Πιστεύω ότι η ασφάλιση δεν είναι απλώς ένα προϊόν· είναι ένα εργαλείο για να σχεδιάσει κανείς με ηρεμία το μέλλον του.' if el else 'I have been an Insurance Advisor since 2024. I am based in Nicosia and work with clients across Cyprus, in Greek and English. I believe insurance is not just a product; it is a way to plan your future calmly.'}</p>
@@ -400,6 +435,9 @@ def page_about(lang):
         ('LinkedIn', f'<a href="{LINKEDIN}" rel="noopener">Giannis Farazis</a>'),
     ]
     fl = ''.join(f'<li><span>{a}</span><span>{b}</span></li>' for a, b in facts)
+    meet = explainer('meet-giannis', lang, 'explainer--wide')
+    meet_band = (f'<section class="section section--film"><div class="wrap"><div class="section-head"><hr class="rule"><h2>{"Μια σύντομη γνωριμία" if el else "A short introduction"}</h2></div>{meet}</div></section>'
+                 if meet else '')
     body = ('''<p class="lead">Ονομάζομαι Γιάννης Φαραζής και είμαι Ασφαλιστικός Σύμβουλος από το 2024.</p>
 <p>Δουλεύω με βάση τη Λευκωσία και εξυπηρετώ οικογένειες, εργαζόμενους, αυτοαπασχολούμενους και επιχειρήσεις σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά.</p>
 <p>Ασχολούμαι με την προστασία της οικογένειας και του εισοδήματος, την ιατροφαρμακευτική κάλυψη, τη σύνταξη, την αποταμίευση και τις σπουδές των παιδιών. Στόχος μου είναι κάθε πελάτης να έχει λύσεις που καλύπτουν πραγματικές ανάγκες και να καταλαβαίνει ακριβώς τι υπογράφει.</p>
@@ -418,6 +456,7 @@ def page_about(lang):
 <div class="prose">{body}</div>
 <aside><h2 class="aside-title">{'Με μια ματιά' if el else 'At a glance'}</h2><ul class="facts">{fl}</ul></aside>
 </div></section>
+{meet_band}
 <section class="section tint"><div class="wrap"><div class="section-head"><hr class="rule"><h2>{'Πώς θέλω να δουλεύουμε' if el else 'How I like to work'}</h2></div>{values_grid(lang)}</div></section>
 ''' + cta_band(lang) + foot(lang)
 
@@ -429,8 +468,10 @@ def page_solutions(lang):
     jump = '<nav class="jump" aria-label="' + ('Οι λύσεις' if el else 'Solutions') + '">' + ''.join(f'<a href="#{sid}">{L(t, lang)}</a>' for sid, _, t, *_ in SOLUTIONS) + '</nav>'
     rows = ''
     for i, (sid, img, t, s, lng, inc, q) in enumerate(SOLUTIONS):
-        rows += f'''<article class="sol{' is-reverse' if i % 2 else ''}" id="{sid}">
-<figure>{photo(img, '')}</figure>
+        fm = explainer(FILM_OF.get(sid, ''), lang)   # the subject's narrated film in place of its photo, when there is one
+        media = fm or f'<figure>{photo(img, "")}</figure>'
+        rows += f'''<article class="sol{' is-reverse' if i % 2 else ''}{' has-film' if fm else ''}" id="{sid}">
+{media}
 <div><h2>{L(t, lang)}</h2><p class="sol__short">{L(s, lang)}</p><p>{L(lng, lang)}</p>
 <h3>{'Μπορεί να περιλαμβάνει' if el else 'It can include'}</h3>
 <ul class="ticks">{''.join(f'<li>{ICON["check"]}{L(x, lang)}</li>' for x in inc)}</ul>

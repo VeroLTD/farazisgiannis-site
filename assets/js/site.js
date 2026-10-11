@@ -67,3 +67,23 @@
   });
   if (still.addEventListener) still.addEventListener('change', function () { films.forEach(function (f) { var v = f.querySelector('video'); if (v && still.matches) v.pause(); }); });
 })();
+
+// Narrated explainer films (11 Oct 2026): poster and a large play button until the visitor starts one, then the player's
+// own controls; one film plays at a time. Without this script the films still play with their own controls.
+(function () {
+  var all = [].slice.call(document.querySelectorAll('.explainer'));
+  all.forEach(function (f) {
+    var v = f.querySelector('video'), b = f.querySelector('.explainer__play');
+    if (!v || !b) return;
+    var started = false;
+    function start() { started = true; v.controls = true; var p = v.play(); if (p && p.catch) p.catch(function () { b.hidden = false; }); v.focus({ preventScroll: true }); }
+    b.hidden = false; v.controls = false;
+    b.addEventListener('click', start);
+    v.addEventListener('click', function () { if (!started) start(); });
+    v.addEventListener('play', function () {
+      b.hidden = true;
+      all.forEach(function (o) { var ov = o.querySelector('video'); if (ov && ov !== v && !ov.paused) ov.pause(); });
+    });
+    v.addEventListener('ended', function () { b.hidden = false; });
+  });
+})();

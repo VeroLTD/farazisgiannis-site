@@ -1,0 +1,128 @@
+{
+ "meet-giannis": {
+  "el": {
+   "video": "avrastro-film-meet-giannis-el-3eca4b6c30.mp4",
+   "poster": "avrastro-film-meet-giannis-el-3eca4b6c30.jpg",
+   "vtt": "avrastro-film-meet-giannis-el-3eca4b6c30.vtt",
+   "title": "Γιάννης Φαραζής",
+   "description": "Ο Γιάννης Φαραζής είναι Ασφαλιστικός Σύμβουλος με βάση τη Λευκωσία. Από το 2024 εξυπηρετεί οικογένειες και επαγγελματίες σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά. Ασφάλεια ζωής και υγείας, σύνταξη, σπουδές παιδιών και αποταμίευση, με καθαρές εξηγήσεις και χωρίς πίεση.",
+   "duration": 49
+  },
+  "en": {
+   "video": "avrastro-film-meet-giannis-en-3bfd477dc0.mp4",
+   "poster": "avrastro-film-meet-giannis-en-3bfd477dc0.jpg",
+   "vtt": "avrastro-film-meet-giannis-en-3bfd477dc0.vtt",
+   "title": "Giannis Farazis",
+   "description": "Giannis Farazis is an Insurance Advisor based in Nicosia. Since 2024 he has served families and professionals across Cyprus, in Greek and English. Life and health cover, retirement, children’s studies and savings, with clear explanations and no pressure.",
+   "duration": 46.7
+  }
+ },
+ "topic-education": {
+  "el": {
+   "video": "avrastro-film-topic-education-el-59d80f188b.mp4",
+   "poster": "avrastro-film-topic-education-el-59d80f188b.jpg",
+   "vtt": "avrastro-film-topic-education-el-59d80f188b.vtt",
+   "title": "Σπουδές παιδιών",
+   "description": "Οι σπουδές είναι από τα μεγαλύτερα έξοδα μιας οικογένειας, και έχουν γνωστή ημερομηνία. Υπολογίστε το ετήσιο κόστος, πολλαπλασιάστε με τα χρόνια σπουδών, προσθέστε τον πληθωρισμό, αφαιρέστε όσα έχετε ήδη, και μοιράστε το υπόλοιπο στους μήνες που απομένουν.",
+   "duration": 53.5
+  },
+  "en": {
+   "video": "avrastro-film-topic-education-en-007e2cc684.mp4",
+   "poster": "avrastro-film-topic-education-en-007e2cc684.jpg",
+   "vtt": "avrastro-film-topic-education-en-007e2cc684.vtt",
+   "title": "Saving for a child’s studies",
+   "description": "University is one of a family’s biggest costs, and it comes on a known date. Take the yearly cost, multiply by the years of study, add inflation, take away what you already have, and spread the rest over the months that remain.",
+   "duration": 46.6
+  }
+ },
+ "topic-health": {
+  "el": {
+   "video": "avrastro-film-topic-health-el-c25d6ea00b.mp4",
+   "poster": "avrastro-film-topic-health-el-c25d6ea00b.jpg",
+   "vtt": "avrastro-film-topic-health-el-c25d6ea00b.vtt",
+   "title": "Υγεία: ΓεΣΥ και ιδιωτικό σχέδιο",
+   "description": "Έχετε ΓεΣΥ. Χρειάζεστε και ιδιωτική ασφάλιση υγείας; Το ΓεΣΥ καλύπτει ένα ευρύ φάσμα υπηρεσιών: προσωπικό ιατρό, ειδικούς, εξετάσεις, φάρμακα και νοσηλεία. Ένα ιδιωτικό σχέδιο δεν το αντικαθιστά· το συμπληρώνει.",
+   "duration": 54.2
+  },
+  "en": {
+   "video": "avrastro-film-topic-health-en-7596d544aa.mp4",
+   "poster": "avrastro-film-topic-health-en-7596d544aa.jpg",
+   "vtt": "avrastro-film-topic-health-en-7596d544aa.vtt",
+   "title": "Health: GESY and private cover",
+   "description": "You have GESY. Do you also need private health insurance? GESY covers a wide range of services: a personal doctor, specialists, tests, medicines and hospital care. A private plan does not replace it; it adds to it.",
+   "duration": 54.5
+  }
+ },
+ "topic-income": {
+  "el": {
+   "video": "avrastro-film-topic-income-el-7816e858b4.mp4",
+   "poster": "avrastro-film-topic-income-el-7816e858b4.jpg",
+   "vtt": "avrastro-film-topic-income-el-7816e858b4.vtt",
+   "title": "Προστασία εισοδήματος",
+   "description": "Αν μια ασθένεια σας κρατούσε μήνες μακριά από τη δουλειά, πόσα θα έλειπαν κάθε μήνα; Οι δόσεις, το ενοίκιο και τα έξοδα της οικογένειας δεν περιμένουν.",
+   "duration": 49
+  },
+  "en": {
+   "video": "avrastro-film-topic-income-en-7ca8d8223c.mp4",
+   "poster": "avrastro-film-topic-income-en-7ca8d8223c.jpg",
+   "vtt": "avrastro-film-topic-income-en-7ca8d8223c.vtt",
+   "title": "Income protection",
+   "description": "If an illness kept you away from work for months, how much would be missing each month? Loan repayments, rent and family costs do not wait.",
+   "duration": 46.7
+  }
+ },
+ "topic-life": {
+  "el": {
+   "video": "avrastro-film-topic-life-el-34eaea1fdb.mp4",
+   "poster": "avrastro-film-topic-life-el-34eaea1fdb.jpg",
+   "vtt": "avrastro-film-topic-life-el-34eaea1fdb.vtt",
+   "title": "Ασφάλεια ζωής",
+   "description": "Αν αύριο έλειπε το εισόδημά σας, πώς θα συνέχιζε η οικογένειά σας; Η ασφάλεια ζωής πληρώνει ένα ποσό στους δικαιούχους που ορίζετε, ώστε να μη χρειαστεί να πουλήσουν το σπίτι, να διακόψουν σπουδές ή να φορτωθούν χρέη.",
+   "duration": 69.6
+  },
+  "en": {
+   "video": "avrastro-film-topic-life-en-60c095de04.mp4",
+   "poster": "avrastro-film-topic-life-en-60c095de04.jpg",
+   "vtt": "avrastro-film-topic-life-en-60c095de04.vtt",
+   "title": "Life insurance",
+   "description": "If your income stopped tomorrow, how would your family carry on? Life insurance pays a sum to the beneficiaries you choose, so they do not have to sell the home, stop studying or take on debt.",
+   "duration": 63.7
+  }
+ },
+ "topic-retirement": {
+  "el": {
+   "video": "avrastro-film-topic-retirement-el-6d018d318d.mp4",
+   "poster": "avrastro-film-topic-retirement-el-6d018d318d.jpg",
+   "vtt": "avrastro-film-topic-retirement-el-6d018d318d.vtt",
+   "title": "Σύνταξη",
+   "description": "Θα έχετε αρκετό εισόδημα όταν σταματήσετε να εργάζεστε; Στην Κύπρο, το εισόδημα στη σύνταξη έρχεται συνήθως από τρεις πηγές: τις Κοινωνικές Ασφαλίσεις, ένα ταμείο προνοίας αν υπάρχει, και τη δική σας αποταμίευση.",
+   "duration": 54.4
+  },
+  "en": {
+   "video": "avrastro-film-topic-retirement-en-8c25ee61a9.mp4",
+   "poster": "avrastro-film-topic-retirement-en-8c25ee61a9.jpg",
+   "vtt": "avrastro-film-topic-retirement-en-8c25ee61a9.vtt",
+   "title": "Retirement",
+   "description": "Will you have enough income when you stop working? In Cyprus, retirement income usually comes from three sources: Social Insurance, a provident fund if you have one, and your own savings.",
+   "duration": 50
+  }
+ },
+ "topic-savings": {
+  "el": {
+   "video": "avrastro-film-topic-savings-el-8b7b4fd813.mp4",
+   "poster": "avrastro-film-topic-savings-el-8b7b4fd813.jpg",
+   "vtt": "avrastro-film-topic-savings-el-8b7b4fd813.vtt",
+   "title": "Ταμείο έκτακτης ανάγκης",
+   "description": "Μια βλάβη, ένα ιατρικό έξοδο, ένας μήνας χωρίς εισόδημα. Είστε έτοιμοι; Το ταμείο έκτακτης ανάγκης είναι το πρώτο προστατευτικό στρώμα, πριν από κάθε άλλο στόχο, ώστε ένα απρόοπτο να μη γίνει χρέος.",
+   "duration": 45
+  },
+  "en": {
+   "video": "avrastro-film-topic-savings-en-78d052ac02.mp4",
+   "poster": "avrastro-film-topic-savings-en-78d052ac02.jpg",
+   "vtt": "avrastro-film-topic-savings-en-78d052ac02.vtt",
+   "title": "Emergency fund",
+   "description": "A breakdown, a medical bill, a month without income. Are you ready? An emergency fund is the first layer of protection, before any other goal, so that something unexpected does not turn into debt.",
+   "duration": 43.7
+  }
+ }
+}

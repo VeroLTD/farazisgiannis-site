@@ -28,3 +28,12 @@ Openverse id with vero-os `tools/website/fetch_originals.py`, which accepts CC0 
 Films: `film-home` (home page, beside the motto), `film-solutions`, `film-how`, `film-guides` (headers of those pages).
 Each comes as `.webm` (VP9) and `.mp4` (H.264) plus `.jpg` (first frame). The site plays them only while on screen, never
 for visitors who ask for less motion or to save data, and each has a pause button (`assets/js/site.js`).
+
+## Narrated explainer films (11 Oct 2026) — assets/video/explainers/
+
+Made in the AVRASTRO repository (VeroLTD/vero-os, `tools/video`) and copied here by `tools/add_explainers.py`:
+"Giannis Farazis" (home page and About) and six subject films (Solutions: life, health, accident → income protection,
+retirement, savings, education), in Greek and English, with captions (WebVTT). They play only when the visitor presses
+play. Sources: AVRASTRO's own graphics, screens with demo data and music; narration by an ElevenLabs voice (the owner's
+account; third person, never speaking as Giannis); moving footage from Pixabay under the Pixabay Content License — the
+full list with creators is in vero-os `docs/website/VIDEO_CREDITS.md`.
