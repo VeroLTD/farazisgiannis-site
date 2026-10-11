@@ -17,6 +17,24 @@
    "duration": 46.7
   }
  },
+ "topic-business": {
+  "el": {
+   "video": "avrastro-film-topic-business-el-298030b4f9.mp4",
+   "poster": "avrastro-film-topic-business-el-298030b4f9.jpg",
+   "vtt": "avrastro-film-topic-business-el-298030b4f9.vtt",
+   "title": "Προστασία της επιχείρησης",
+   "description": "Αν αύριο έλειπε ο άνθρωπος που φέρνει τους πελάτες, πόσο θα άντεχε η επιχείρησή σας; Μια επιχείρηση στηρίζεται σε ανθρώπους. Συχνά, ένας ή δύο από αυτούς φέρνουν το μεγαλύτερο μέρος των εσόδων.",
+   "duration": 73.1
+  },
+  "en": {
+   "video": "avrastro-film-topic-business-en-5f3c479960.mp4",
+   "poster": "avrastro-film-topic-business-en-5f3c479960.jpg",
+   "vtt": "avrastro-film-topic-business-en-5f3c479960.vtt",
+   "title": "Protecting your business",
+   "description": "If the person who brings in your clients were gone tomorrow, how long would your business hold up? A business depends on people. Often, one or two of them bring in most of the revenue.",
+   "duration": 65.9
+  }
+ },
  "topic-education": {
   "el": {
    "video": "avrastro-film-topic-education-el-59d80f188b.mp4",
@@ -33,6 +51,42 @@
    "title": "Saving for a child’s studies",
    "description": "University is one of a family’s biggest costs, and it comes on a known date. Take the yearly cost, multiply by the years of study, add inflation, take away what you already have, and spread the rest over the months that remain.",
    "duration": 46.6
+  }
+ },
+ "topic-expats": {
+  "el": {
+   "video": "avrastro-film-topic-expats-el-7ac4fd2266.mp4",
+   "poster": "avrastro-film-topic-expats-el-7ac4fd2266.jpg",
+   "vtt": "avrastro-film-topic-expats-el-7ac4fd2266.vtt",
+   "title": "Για ξένους κατοίκους της Κύπρου",
+   "description": "Μετακομίσατε στην Κύπρο για δουλειά, για σύνταξη ή με την οικογένειά σας; Το σύστημα μπορεί να διαφέρει πολύ από αυτό που ξέρετε. Δικαίωμα στο ΓεΣΥ έχουν, μεταξύ άλλων, όσοι εργάζονται στην Κύπρο, οι κάτοικοι με άδεια μόνιμης διαμονής, τα εξαρτώμενα μέλη τους, και πολίτες της ΕΕ με εγγεγραμμένο έντυπο S1. Αν δεν δικαιούστε ΓεΣΥ, χρειάζεστε ιδιωτική ασφάλιση υγείας για όλα.",
+   "duration": 83.8
+  },
+  "en": {
+   "video": "avrastro-film-topic-expats-en-a3b58cb396.mp4",
+   "poster": "avrastro-film-topic-expats-en-a3b58cb396.jpg",
+   "vtt": "avrastro-film-topic-expats-en-a3b58cb396.vtt",
+   "title": "Insurance in Cyprus for expats",
+   "description": "Have you moved to Cyprus to work, to retire or with your family? The system may be quite different from what you know. Those entitled to GESY include people working in Cyprus, residents with permanent residence, their dependants, and EU citizens with a registered S1 form. If you are not entitled to GESY, you need private health insurance for everything.",
+   "duration": 76
+  }
+ },
+ "topic-group": {
+  "el": {
+   "video": "avrastro-film-topic-group-el-6e7c195ae5.mp4",
+   "poster": "avrastro-film-topic-group-el-6e7c195ae5.jpg",
+   "vtt": "avrastro-film-topic-group-el-6e7c195ae5.vtt",
+   "title": "Ομαδικά σχέδια για εταιρείες",
+   "description": "Πώς κρατάτε τους καλούς ανθρώπους στην ομάδα σας; Συχνά, με παροχές που πραγματικά εκτιμούν. Τα ομαδικά σχέδια έχουν τρεις βασικές μορφές: ομαδικό ιατροφαρμακευτικό σχέδιο, ομαδική ασφάλεια ζωής και ατυχημάτων, και ταμείο προνοίας.",
+   "duration": 74
+  },
+  "en": {
+   "video": "avrastro-film-topic-group-en-1d619c63f2.mp4",
+   "poster": "avrastro-film-topic-group-en-1d619c63f2.jpg",
+   "vtt": "avrastro-film-topic-group-en-1d619c63f2.vtt",
+   "title": "Group plans for companies",
+   "description": "How do you keep good people on your team? Often, with benefits they truly value. Group plans come in three main forms: a group health plan, group life and accident cover, and a provident fund.",
+   "duration": 68.6
   }
  },
  "topic-health": {

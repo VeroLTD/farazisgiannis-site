@@ -96,7 +96,8 @@ def film(name, lang, cls=''):
 _EXP = os.path.join(ROOT, 'assets/video/explainers/explainers.json')
 EXPLAINERS = json.load(open(_EXP, encoding='utf8')) if os.path.exists(_EXP) else {}
 FILM_OF = {'life': 'topic-life', 'health': 'topic-health', 'accident': 'topic-income', 'retirement': 'topic-retirement',
-           'savings': 'topic-savings', 'education': 'topic-education'}
+           'savings': 'topic-savings', 'education': 'topic-education', 'business': 'topic-business', 'group': 'topic-group',
+           'expats': 'topic-expats'}
 
 def explainer(key, lang, cls=''):
     """A narrated film with its poster, captions (off until the visitor turns them on) and a large play button; it
@@ -282,14 +283,32 @@ SOLUTIONS = [
       {'el': 'Επανεξέταση όταν αλλάζει το δάνειο', 'en': 'A review when the loan changes'}],
      {'el': 'Καλύπτει η τωρινή σας ασφάλεια ολόκληρο το υπόλοιπο του δανείου;', 'en': 'Does your current cover match the full balance of the loan?'}),
     ('business', 'business',
-     {'el': 'Επιχειρήσεις και ομαδικά σχέδια', 'en': 'Business and group insurance'},
-     {'el': 'Για το προσωπικό και για τους ανθρώπους που κρατούν την επιχείρηση.', 'en': 'For your staff, and for the people who keep the business going.'},
-     {'el': 'Ομαδικά σχέδια ζωής και υγείας βοηθούν μια επιχείρηση να κρατήσει καλούς ανθρώπους. Η προστασία βασικών στελεχών και συνεταίρων κρατά την επιχείρηση σταθερή αν κάποιος λείψει.',
-      'en': 'Group life and health plans help a business keep good people. Cover for key people and partners keeps the business steady if someone is missing.'},
-     [{'el': 'Ομαδική ασφάλεια ζωής και υγείας', 'en': 'Group life and health cover'},
-      {'el': 'Προστασία βασικών στελεχών και συνεταίρων', 'en': 'Cover for key people and partners'},
+     {'el': 'Προστασία επιχείρησης', 'en': 'Business protection'},
+     {'el': 'Για τους ανθρώπους που κρατούν την επιχείρηση όρθια.', 'en': 'For the people who keep the business going.'},
+     {'el': 'Σε πολλές επιχειρήσεις ένας ή δύο άνθρωποι φέρνουν το μεγαλύτερο μέρος των εσόδων. Η ασφάλεια βασικού στελέχους βοηθά να καλυφθούν τα χαμένα έσοδα και το κόστος αντικατάστασης αν λείψει ένα πρόσωπο-κλειδί. Η προστασία συνεταίρων, μαζί με γραπτή συμφωνία, επιτρέπει σε όσους μένουν να αγοράσουν το μερίδιο χωρίς να πουληθεί η επιχείρηση.',
+      'en': 'In many businesses one or two people bring in most of the revenue. Key person insurance helps cover lost revenue and the cost of replacing someone critical. Partner protection, with a written agreement, lets the remaining partners buy the share without selling the business.'},
+     [{'el': 'Ασφάλεια βασικού στελέχους', 'en': 'Key person insurance'},
+      {'el': 'Προστασία συνεταίρων και μετόχων', 'en': 'Partner and shareholder protection'},
       {'el': 'Λύσεις για αυτοεργοδοτούμενους', 'en': 'Options for the self-employed'}],
      {'el': 'Τι θα γινόταν στην επιχείρηση αν έλειπε ένα βασικό πρόσωπο;', 'en': 'What would happen to the business if a key person were missing?'}),
+    ('group', 'business',
+     {'el': 'Ομαδικά σχέδια για εταιρείες', 'en': 'Group plans for companies'},
+     {'el': 'Παροχές που βοηθούν να κρατήσετε καλούς ανθρώπους.', 'en': 'Benefits that help you keep good people.'},
+     {'el': 'Ομαδικό σχέδιο υγείας που συμπληρώνει το ΓεΣΥ, ομαδική ασφάλεια ζωής και ατυχημάτων με ενιαίους όρους για όλους, και ταμείο προνοίας με εισφορές εργοδότη και εργαζομένου. Τα σχεδιάζουμε με βάση το μέγεθος, τις ηλικίες και τον προϋπολογισμό της ομάδας σας.',
+      'en': 'A group health plan that complements GESY, group life and accident cover with one set of terms for everyone, and a provident fund with employer and employee contributions. We shape them around the size, ages and budget of your team.'},
+     [{'el': 'Ομαδικό ιατροφαρμακευτικό σχέδιο', 'en': 'Group health plan'},
+      {'el': 'Ομαδική ασφάλεια ζωής και ατυχημάτων', 'en': 'Group life and accident cover'},
+      {'el': 'Ταμείο προνοίας ή ομαδικό συνταξιοδοτικό σχέδιο', 'en': 'Provident fund or group pension'}],
+     {'el': 'Πόσα άτομα θέλετε να καλύψετε, και τι μπορεί να διαθέσει η επιχείρηση ανά εργαζόμενο;', 'en': 'How many people do you want to cover, and what can the business spend per employee?'}),
+    ('expats', 'health',
+     {'el': 'Για ξένους κατοίκους', 'en': 'For expats in Cyprus'},
+     {'el': 'Υγεία, άδεια διαμονής, δάνειο και σύνταξη, και στα Αγγλικά.', 'en': 'Health, residence permits, mortgages and pensions, in English.'},
+     {'el': 'Αν μετακομίσατε στην Κύπρο, το σύστημα μπορεί να διαφέρει από αυτό που ξέρετε. Βλέπουμε μαζί αν δικαιούστε ΓεΣΥ, την ιδιωτική ασφάλεια υγείας που ζητά συχνά η άδεια διαμονής, την ασφάλεια ζωής για το στεγαστικό δάνειο και τη σύνταξή σας.',
+      'en': 'If you have moved to Cyprus, the system may be quite different from what you know. We look together at whether you are entitled to GESY, the private health cover residence permits often ask for, life cover for your mortgage, and your pension.'},
+     [{'el': 'Ιδιωτική ασφάλεια υγείας για την άδεια διαμονής', 'en': 'Private health cover for your residence permit'},
+      {'el': 'Ασφάλεια ζωής για στεγαστικό δάνειο', 'en': 'Life cover for your mortgage'},
+      {'el': 'Σχεδιασμός σύνταξης', 'en': 'Retirement planning'}],
+     {'el': 'Ποια άδεια διαμονής έχετε ή ζητάτε, και τι ακριβώς απαιτεί;', 'en': 'Which residence permit do you hold or need, and what exactly does it require?'}),
     ('review', 'review',
      {'el': 'Επανεξέταση συμβολαίων', 'en': 'Policy reviews and needs analysis'},
      {'el': 'Τι καλύπτουν πραγματικά όσα ήδη έχετε.', 'en': 'What your existing policies really cover.'},
@@ -382,7 +401,7 @@ def page_home(lang):
 <section class="section"><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Τι μπορούμε να δούμε μαζί' if el else 'What we can look at together'}</h2>
 <p class="lead">{'Ασφάλιση με βάση τις δικές σας ανάγκες: τι θέλετε να προστατεύσετε, για πόσο, και με ποιο κόστος.' if el else 'Insurance built around your own needs: what you want to protect, for how long, and at what cost.'}</p></div>
-{sol_cards(lang)}
+{sol_cards(lang, [x for x in SOLUTIONS if x[0] not in ('group', 'expats')])}
 </div></section>
 
 <section class="film-band on-dark"><div class="wrap">
@@ -463,8 +482,8 @@ def page_about(lang):
 def page_solutions(lang):
     el = lang == 'el'
     title = 'Ασφαλιστικές λύσεις: ζωή, υγεία, σύνταξη, αποταμίευση' if el else 'Insurance solutions: life, health, retirement, savings'
-    desc = ('Ασφάλεια ζωής, ιατροφαρμακευτική, ατύχημα, σύνταξη, αποταμίευση, σπουδές, προστασία δανείου, ομαδικά σχέδια και επανεξέταση συμβολαίων.' if el
-            else 'Life, health and accident cover, retirement, savings, education, loan protection, group plans and policy reviews in Cyprus.')
+    desc = ('Ασφάλεια ζωής, υγείας και ατυχήματος, σύνταξη, αποταμίευση, σπουδές, δάνειο, προστασία επιχείρησης, ομαδικά σχέδια, ξένοι κάτοικοι, επανεξέταση.' if el
+            else 'Life, health and accident cover, retirement, savings, education, loans, business protection, group plans, expats and policy reviews in Cyprus.')
     jump = '<nav class="jump" aria-label="' + ('Οι λύσεις' if el else 'Solutions') + '">' + ''.join(f'<a href="#{sid}">{L(t, lang)}</a>' for sid, _, t, *_ in SOLUTIONS) + '</nav>'
     rows = ''
     for i, (sid, img, t, s, lng, inc, q) in enumerate(SOLUTIONS):
@@ -480,7 +499,7 @@ def page_solutions(lang):
     note = ('Κάθε πρόταση βασίζεται στους όρους του συγκεκριμένου συμβολαίου. Οι καλύψεις έχουν όρια, εξαιρέσεις και, όπου ισχύει, περιόδους αναμονής, που τα βλέπουμε μαζί πριν υπογράψετε. Οι αποδόσεις των επενδυτικών προγραμμάτων δεν είναι εγγυημένες, και η φορολογική έκπτωση εξαρτάται από την προσωπική σας περίπτωση.' if el
             else 'Every proposal is based on the terms of the specific policy. Cover has limits, exclusions and, where they apply, waiting periods, which we go through together before you sign. Returns on investment-linked plans are not guaranteed, and tax relief depends on your own circumstances.')
     return head(lang, 'solutions', title, desc) + page_head(L(T['nav']['solutions'], lang),
-        'Εννέα ανάγκες που βλέπουμε μαζί. Ξεκινάμε πάντα από μια απλή ερώτηση.' if el else 'Nine needs we look at together. We always start with one simple question.', 'life', '', 'film-solutions', lang) + f'''
+        'Έντεκα ανάγκες που βλέπουμε μαζί. Ξεκινάμε πάντα από μια απλή ερώτηση.' if el else 'Eleven needs we look at together. We always start with one simple question.', 'life', '', 'film-solutions', lang) + f'''
 <section class="section section--tight"><div class="wrap">{jump}{rows}<p class="note">{note}</p></div></section>''' + cta_band(lang) + foot(lang)
 
 def page_how(lang):
