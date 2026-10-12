@@ -10,7 +10,7 @@ import json, os, shutil, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEST = os.path.join(ROOT, 'assets/video/explainers')
 KEYS = ['meet-giannis', 'topic-life', 'topic-health', 'topic-income', 'topic-retirement', 'topic-savings', 'topic-education',
-        'topic-business', 'topic-group', 'topic-expats']
+        'topic-business', 'topic-group', 'topic-expats', 'topic-loan', 'topic-review']
 
 
 def main(src):

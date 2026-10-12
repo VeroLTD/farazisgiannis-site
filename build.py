@@ -97,7 +97,7 @@ _EXP = os.path.join(ROOT, 'assets/video/explainers/explainers.json')
 EXPLAINERS = json.load(open(_EXP, encoding='utf8')) if os.path.exists(_EXP) else {}
 FILM_OF = {'life': 'topic-life', 'health': 'topic-health', 'accident': 'topic-income', 'retirement': 'topic-retirement',
            'savings': 'topic-savings', 'education': 'topic-education', 'business': 'topic-business', 'group': 'topic-group',
-           'expats': 'topic-expats'}
+           'expats': 'topic-expats', 'loan': 'topic-loan', 'review': 'topic-review'}
 
 def explainer(key, lang, cls=''):
     """A narrated film with its poster, captions (off until the visitor turns them on) and a large play button; it
