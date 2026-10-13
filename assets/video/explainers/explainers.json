@@ -143,6 +143,24 @@
    "duration": 63.7
   }
  },
+ "topic-loan": {
+  "el": {
+   "video": "avrastro-film-topic-loan-el-0ff7a44632.mp4",
+   "poster": "avrastro-film-topic-loan-el-0ff7a44632.jpg",
+   "vtt": "avrastro-film-topic-loan-el-0ff7a44632.vtt",
+   "title": "Προστασία δανείου",
+   "description": "Το σπίτι σας έχει δάνειο για είκοσι ή τριάντα χρόνια. Αν αύριο έλειπε το εισόδημά σας, ποιος θα πλήρωνε τη δόση; Για ένα στεγαστικό, η τράπεζα ζητά συνήθως ασφάλεια ζωής εκχωρημένη υπέρ της, και ασφάλεια του σπιτιού για φωτιά και σεισμό. Μπορείτε να τις αγοράσετε και από ασφαλιστική της επιλογής σας, εφόσον οι καλύψεις είναι αντίστοιχες.",
+   "duration": 89.4
+  },
+  "en": {
+   "video": "avrastro-film-topic-loan-en-6c1f561502.mp4",
+   "poster": "avrastro-film-topic-loan-en-6c1f561502.jpg",
+   "vtt": "avrastro-film-topic-loan-en-6c1f561502.vtt",
+   "title": "Loan protection",
+   "description": "Your home has a loan for twenty or thirty years. If your income stopped tomorrow, who would pay the instalment? For a mortgage, the bank usually asks for life cover assigned to it, and home insurance against fire and earthquake. You can buy them from an insurer you choose, as long as the cover is equivalent.",
+   "duration": 82.7
+  }
+ },
  "topic-retirement": {
   "el": {
    "video": "avrastro-film-topic-retirement-el-6d018d318d.mp4",
@@ -159,6 +177,24 @@
    "title": "Retirement",
    "description": "Will you have enough income when you stop working? In Cyprus, retirement income usually comes from three sources: Social Insurance, a provident fund if you have one, and your own savings.",
    "duration": 50
+  }
+ },
+ "topic-review": {
+  "el": {
+   "video": "avrastro-film-topic-review-el-5854633f22.mp4",
+   "poster": "avrastro-film-topic-review-el-5854633f22.jpg",
+   "vtt": "avrastro-film-topic-review-el-5854633f22.vtt",
+   "title": "Επανεξέταση συμβολαίων",
+   "description": "Πότε κοιτάξατε τελευταία φορά τα συμβόλαιά σας; Η ζωή αλλάζει: γάμος, ένα παιδί, ένα νέο δάνειο, μια νέα δουλειά. Τα συμβόλαια όμως μένουν συχνά ίδια για χρόνια, και ό,τι ταίριαζε πριν από πέντε χρόνια μπορεί σήμερα να καλύπτει λίγα.",
+   "duration": 78.7
+  },
+  "en": {
+   "video": "avrastro-film-topic-review-en-da7c2f7bec.mp4",
+   "poster": "avrastro-film-topic-review-en-da7c2f7bec.jpg",
+   "vtt": "avrastro-film-topic-review-en-da7c2f7bec.vtt",
+   "title": "Reviewing your policies",
+   "description": "When did you last look at your policies? Life changes: a marriage, a child, a new loan, a new job. Policies, though, often stay the same for years, and what fitted five years ago may cover too little today.",
+   "duration": 74.1
   }
  },
  "topic-savings": {
