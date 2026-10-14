@@ -421,3 +421,8 @@ p { margin: 0 0 1em; max-width: 68ch; }
 .dl b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.3rem; color: var(--midnight); line-height: 1.2; margin-bottom: .25rem; }
 .dl small { display: block; color: var(--muted); font-size: .95rem; }
 .dl .dl__meta { margin-top: .4rem; font-size: .82rem; color: var(--lapel); font-weight: 560; }
+
+/* client stories (ideas track 5): shown only when stories with written consent exist */
+.story { padding: 1.5rem 0; border-top: 1px solid var(--line); }
+.story:first-child { border-top: 0; padding-top: 0; }
+.story h3 { font-family: var(--text); font-size: 1rem; font-weight: 600; color: var(--ink); margin: 1rem 0 .3rem; }

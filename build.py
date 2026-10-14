@@ -7,7 +7,11 @@ insurance work only; career since 2024; Nicosia, all of Cyprus; Greek and Englis
 contact form is e-mailed by the owner's own server (app.avrastro.com/v1/enquiry) and not stored; no analytics, no
 cookies. Design v2 (owner feedback 10 Oct 22:25): full logo in the header (no name text beside it), a photo for every
 topic (CC0 photos from the AVRASTRO library, assets/img/photos/CREDITS.md), richer layout in AVRASTRO's quality.
-Run: python3 build.py  (no dependencies)
+Ideas track (14 Oct 2026, preview branch): «Πάρτε με τηλέφωνο» call-back form (8; assets/js/callback.js → avrastro.com
+contact endpoint), first meeting page (10), city pages (4), staff talks for employers (12), digital card /card/ with vCard
+and QR code (42; tools/qr.py), free checklist PDFs (7; tools/checklists.py + tools/make_pdfs.py), client stories frame
+(5; STORIES, empty: the page is built only with stories whose written consent is on file).
+Run: python3 build.py  (no dependencies; the PDFs are pre-built, fontTools/Playwright only for tools/make_pdfs.py)
 """
 import html, json, os, shutil
 from datetime import date
@@ -49,6 +53,7 @@ SLUGS = {
     'first': {'el': 'proti-synantisi', 'en': 'first-meeting'},
     'employers': {'el': 'enimerosi-prosopikou', 'en': 'staff-talks'},
     'card': {'el': 'card', 'en': 'card'},
+    'stories': {'el': 'istories', 'en': 'stories'},
     'privacy': {'el': 'aporrito', 'en': 'privacy'},
 }
 NAV = ['about', 'solutions', 'how', 'guides', 'contact']
@@ -63,6 +68,7 @@ T = {
         'first': {'el': 'Πρώτη συνάντηση: τι να φέρω', 'en': 'Your first meeting: what to bring'},
         'employers': {'el': 'Ενημέρωση για το προσωπικό σας', 'en': 'A talk for your staff'},
         'card': {'el': 'Ψηφιακή κάρτα', 'en': 'Digital business card'},
+        'stories': {'el': 'Ιστορίες πελατών', 'en': 'Client stories'},
     },
     'call': {'el': 'Καλέστε', 'en': 'Call'},
     'menu': {'el': 'Μενού', 'en': 'Menu'},
@@ -952,6 +958,31 @@ def page_card(lang):
 </div>
 </div></section>''' + foot(lang)
 
+# Client stories (ideas track 5, 14 Oct 2026). EMPTY on purpose: nothing is invented. A story is shown only when it is
+# added here with the client's written consent on file. While the list has no such story, the page /istories/ is NOT
+# built, not linked and not in the sitemap. Fields (all el/en; ru through i18n/ru.json):
+#   {'id': 'family-mortgage', 'consent_on_file': 'yes', 'consent_date': 'YYYY-MM-DD',
+#    'title': {'el': …, 'en': …}, 'situation': {…}, 'what_we_did': {…}, 'outcome': {…}}
+# Anonymous: no names, no ages that identify, no insurer names, no amounts unless the client agreed in writing.
+STORIES = []
+
+def stories_published():
+    return [x for x in STORIES if str(x.get('consent_on_file', '')).lower() == 'yes' and x.get('consent_date')]
+
+def page_stories(lang):
+    el = lang == 'el'
+    title = 'Ιστορίες πελατών' if el else 'Client stories'
+    desc = ('Ανώνυμες, αληθινές περιπτώσεις, δημοσιευμένες με τη γραπτή συγκατάθεση των πελατών.' if el
+            else 'Anonymous, real cases, published with the clients’ written consent.')
+    items = ''.join(f'''<article class="story" id="{esc(x['id'])}"><h2>{esc(L(x['title'], lang))}</h2>
+<h3>{'Η κατάσταση' if el else 'The situation'}</h3><p>{esc(L(x['situation'], lang))}</p>
+<h3>{'Τι κάναμε' if el else 'What we did'}</h3><p>{esc(L(x['what_we_did'], lang))}</p>
+<h3>{'Το αποτέλεσμα' if el else 'The outcome'}</h3><p>{esc(L(x['outcome'], lang))}</p></article>''' for x in stories_published())
+    note = ('Κάθε ιστορία δημοσιεύεται ανώνυμα και μόνο με γραπτή συγκατάθεση του πελάτη. Κάθε περίπτωση είναι διαφορετική· οι ιστορίες δεν αποτελούν υπόσχεση αποτελέσματος.' if el
+            else 'Every story is published anonymously and only with the client’s written consent. Every case is different; the stories do not promise any result.')
+    return head(lang, 'stories', title, desc) + page_head(title, desc) + f'''
+<section class="section"><div class="wrap prose stories">{items}<p class="note">{note}</p></div></section>''' + cta_band(lang) + foot(lang)
+
 def page_privacy(lang):
     el = lang == 'el'
     title = 'Πολιτική απορρήτου' if el else 'Privacy policy'
@@ -997,6 +1028,7 @@ def page_404():
 
 PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'first': page_first, 'employers': page_employers, 'card': page_card, 'privacy': page_privacy,
          **{'city-' + c[0]: make_city_page(c[0]) for c in CITIES}}
+if stories_published(): PAGES['stories'] = page_stories   # ideas track 5: only with real, consented stories
 # addresses of the earlier Design.com site, kept working
 LEGACY = {'home': '/', 'contact-us': '/epikoinonia/', 'programs': '/lyseis/', 'about': '/sxetika/', 'vero': '/'}
 
