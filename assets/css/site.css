@@ -374,3 +374,11 @@ p { margin: 0 0 1em; max-width: 68ch; }
 .meet-facts--plain li { padding-top: 1.3rem; }
 .city-links a[aria-current="page"] { background: var(--midnight); border-color: var(--midnight); color: #fff; }
 .section p > svg { width: 16px; height: 16px; vertical-align: -3px; margin-left: .3rem; color: var(--lapel); }
+
+/* «Ενημέρωση για το προσωπικό σας» (ideas track 12) */
+.cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 600px) { .cards--2 { grid-template-columns: 1fr; } }
+.card--static > div { display: flex; flex-direction: column; height: 100%; background: #fff; border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow); padding-bottom: .4rem; }
+.callback-side .ticks { margin-bottom: 1.2rem; }
+.card--static h3 { margin: 1.2rem 1.4rem .35rem; font-size: 1.35rem; }
+.card--static p { margin: 0 1.4rem 1rem; color: var(--muted); font-size: 1rem; }

@@ -47,6 +47,7 @@ SLUGS = {
     'contact': {'el': 'epikoinonia', 'en': 'contact'},
     'booking': {'el': 'rantevou', 'en': 'book'},
     'first': {'el': 'proti-synantisi', 'en': 'first-meeting'},
+    'employers': {'el': 'enimerosi-prosopikou', 'en': 'staff-talks'},
     'privacy': {'el': 'aporrito', 'en': 'privacy'},
 }
 NAV = ['about', 'solutions', 'how', 'guides', 'contact']
@@ -59,6 +60,7 @@ T = {
         'contact': {'el': 'Επικοινωνία', 'en': 'Contact'}, 'privacy': {'el': 'Απόρρητο', 'en': 'Privacy'},
         'booking': {'el': 'Κλείστε ραντεβού', 'en': 'Book an appointment'},
         'first': {'el': 'Πρώτη συνάντηση: τι να φέρω', 'en': 'Your first meeting: what to bring'},
+        'employers': {'el': 'Ενημέρωση για το προσωπικό σας', 'en': 'A talk for your staff'},
     },
     'call': {'el': 'Καλέστε', 'en': 'Call'},
     'menu': {'el': 'Μενού', 'en': 'Menu'},
@@ -214,7 +216,7 @@ def foot(lang):
 <footer class="site-foot"><div class="wrap">
 <div class="foot-brand"><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="200" height="115" loading="lazy">
 <p>{L(T['foot'], lang)}</p></div>
-<div class="foot-col"><h2>{'Σελίδες' if el else 'Pages'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in NAV + ['privacy'])}</div>
+<div class="foot-col"><h2>{'Σελίδες' if el else 'Pages'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in NAV + ['first', 'employers', 'privacy'])}</div>
 <div class="foot-col"><h2>{'Επικοινωνία' if el else 'Contact'}</h2>
 <a href="tel:{TEL}">{PHONE}</a><a href="{WHATSAPP}" rel="noopener">WhatsApp</a><a href="{LINKEDIN}" rel="noopener">LinkedIn</a>
 <span>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</span></div>
@@ -531,6 +533,7 @@ def page_solutions(lang):
 <h3>{'Μπορεί να περιλαμβάνει' if el else 'It can include'}</h3>
 <ul class="ticks">{''.join(f'<li>{ICON["check"]}{L(x, lang)}</li>' for x in inc)}</ul>
 <p class="ask"><span>{'Η ερώτηση που ξεκινάμε' if el else 'Where we start'}</span>{L(q, lang)}</p>
+{(f'<p><a href="{url("employers", lang)}">{L(T["nav"]["employers"], lang)}</a>{ICON["arrow"]}</p>') if sid == 'group' else ''}
 </div></article>'''
     note = ('Κάθε πρόταση βασίζεται στους όρους του συγκεκριμένου συμβολαίου. Οι καλύψεις έχουν όρια, εξαιρέσεις και, όπου ισχύει, περιόδους αναμονής, που τα βλέπουμε μαζί πριν υπογράψετε. Οι αποδόσεις των επενδυτικών προγραμμάτων δεν είναι εγγυημένες, και η φορολογική έκπτωση εξαρτάται από την προσωπική σας περίπτωση.' if el
             else 'Every proposal is based on the terms of the specific policy. Cover has limits, exclusions and, where they apply, waiting periods, which we go through together before you sign. Returns on investment-linked plans are not guaranteed, and tax relief depends on your own circumstances.')
@@ -846,6 +849,40 @@ def make_city_page(cid):
 </div></section>''' + cta_band(lang) + foot(lang)
     return page
 
+def page_employers(lang):
+    """Ideas track 12 (14 Oct 2026): «Ενημέρωση για το προσωπικό σας» — a free talk for a company's staff on GESY,
+    pensions, provident funds and group LIFE / HEALTH plans. No general insurance. The call-back form (topic business)
+    is how an employer asks for it."""
+    el = lang == 'el'
+    title = 'Ενημέρωση για το προσωπικό σας: ΓεΣΥ, σύνταξη, ταμείο προνοίας' if el else 'A talk for your staff: GESY, pensions, provident funds'
+    desc = ('Δωρεάν ενημέρωση για τους εργαζόμενους της επιχείρησής σας: ΓεΣΥ, σύνταξη, ταμεία προνοίας και ομαδικά σχέδια ζωής και υγείας, με απλά λόγια.' if el
+            else 'A free talk for your employees: GESY, pensions, provident funds and group life and health plans, in plain words.')
+    themes = ([('guide-health', 'ΓεΣΥ: τι καλύπτει και τι όχι', 'Προσωπικός γιατρός, ειδικοί, εξετάσεις και νοσηλεία, και πού ένα ιδιωτικό ή ομαδικό σχέδιο υγείας το συμπληρώνει.'),
+               ('retirement', 'Η σύνταξη των Κοινωνικών Ασφαλίσεων', 'Πώς υπολογίζεται σε γενικές γραμμές, γιατί σπάνια φτάνει, και τι σημαίνει να ξεκινήσει κανείς νωρίς.'),
+               ('savings', 'Ταμείο προνοίας', 'Πώς λειτουργούν οι εισφορές εργοδότη και εργαζομένου, και τι να κοιτάζει κανείς στην ετήσια κατάσταση.'),
+               ('about-work', 'Ομαδικά σχέδια ζωής και υγείας', 'Τι μπορεί να περιλαμβάνει ένα ομαδικό σχέδιο και πώς συνδυάζεται με όσα έχει ήδη κάθε εργαζόμενος.')] if el else
+              [('guide-health', 'GESY: what it covers and what it does not', 'Personal doctor, specialists, tests and hospital care, and where a private or group health plan complements it.'),
+               ('retirement', 'The Social Insurance pension', 'How it is worked out in broad terms, why it rarely covers everything, and what starting early means.'),
+               ('savings', 'Provident funds', 'How employer and employee contributions work, and what to look at in the yearly statement.'),
+               ('about-work', 'Group life and health plans', 'What a group plan can include and how it fits with what each employee already has.')])
+    how = (['Διάρκεια περίπου 30 έως 45 λεπτά, με χρόνο για ερωτήσεις.', 'Στον χώρο σας, κατόπιν συνεννόησης, ή με βιντεοκλήση για ομάδες σε διαφορετικά σημεία.', 'Στα Ελληνικά ή στα Αγγλικά.', 'Χωρίς κόστος για την επιχείρηση και χωρίς υποχρέωση για κανέναν.', 'Γενική ενημέρωση, όχι πώληση. Όποιος εργαζόμενος θέλει, μιλάμε ξεχωριστά αργότερα.'] if el else
+           ['About 30 to 45 minutes, with time for questions.', 'At your premises, by arrangement, or by video call for teams in different places.', 'In Greek or English.', 'No cost to the business and no obligation for anyone.', 'General information, not a sales pitch. Any employee who wants to can talk to me separately later.'])
+    ul = lambda xs: '<ul class="ticks">' + ''.join(f'<li>{ICON["check"]}{x}</li>' for x in xs) + '</ul>'
+    cards = '<ul class="cards cards--2">' + ''.join(f'<li class="card card--static"><div><figure>{photo(img, "")}</figure><h3>{t}</h3><p>{d}</p></div></li>' for img, t, d in themes) + '</ul>'
+    note = ('Η ενημέρωση είναι γενική και δεν αποτελεί εξατομικευμένη συμβουλή.' if el
+            else 'The talk is general information and is not personal advice.')
+    return head(lang, 'employers', title, desc) + page_head(L(T['nav']['employers'], lang),
+        'Μια δωρεάν ενημέρωση για τους εργαζόμενους της επιχείρησής σας, με απλά λόγια.' if el else 'A free talk for the people who work for you, in plain words.', 'about-work', '') + f'''
+<section class="section"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Τι καλύπτει η ενημέρωση' if el else 'What the talk covers'}</h2>
+<p class="lead">{'Θέματα που αφορούν κάθε εργαζόμενο, χωρίς ορολογία.' if el else 'Subjects that matter to every employee, without jargon.'}</p></div>
+{cards}
+</div></section>
+<section class="section tint"><div class="wrap callback-wrap">
+<div class="callback-side"><hr class="rule"><h2>{'Πώς γίνεται' if el else 'How it works'}</h2>{ul(how)}<p class="note">{note}</p></div>
+{callback_form(lang, topic='business', title='Ζητήστε μια ενημέρωση' if el else 'Ask for a talk', lead='Αφήστε όνομα και τηλέφωνο και σας καλώ για να κανονίσουμε μέρα, χώρο και διάρκεια.' if el else 'Leave your name and phone number and I will call you to agree a day, a place and the length.')}
+</div></section>''' + cta_band(lang) + callback_script() + foot(lang)
+
 def page_privacy(lang):
     el = lang == 'el'
     title = 'Πολιτική απορρήτου' if el else 'Privacy policy'
@@ -889,7 +926,7 @@ def page_404():
     return (head('el', 'home', 'Η σελίδα δεν βρέθηκε | Giannis Farazis', 'Η σελίδα δεν βρέθηκε.').replace('<link rel="canonical"', '<meta name="robots" content="noindex"><link rel="canonical"')
             + page_head('Η σελίδα δεν βρέθηκε', 'Page not found') + f'<section class="section"><div class="wrap"><p><a href="/">Αρχική</a> · <a href="/en/">Home</a></p>{actions("el")}</div></section>' + foot('el'))
 
-PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'first': page_first, 'privacy': page_privacy,
+PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'first': page_first, 'employers': page_employers, 'privacy': page_privacy,
          **{'city-' + c[0]: make_city_page(c[0]) for c in CITIES}}
 # addresses of the earlier Design.com site, kept working
 LEGACY = {'home': '/', 'contact-us': '/epikoinonia/', 'programs': '/lyseis/', 'about': '/sxetika/', 'vero': '/'}
