@@ -31,7 +31,7 @@ ENQUIRY = 'https://app.avrastro.com/v1/enquiry'
 BOOKING_API = os.environ.get('BOOKING_API', AVRASTRO + '/wp-json/vero/v1')
 # the owner's preview (/preview/, branch preview): a visible banner, pages waiting for approval, placeholders shown
 PREVIEW = os.environ.get('PREVIEW') == '1'
-OWN_REG = ''
+OWN_REG = '7854'   # owner 14 Oct 2026
 # Russian edition (owner 14 Oct 2026: a Russian-speaking colleague in the office). Pages are rendered from the English
 # ones and every text segment is mapped through i18n/ru.json (python3 tools/ru_segments.py --missing lists what is
 # left). Built in the preview; on the real site only once the colleague has checked the texts (RU_LIVE = True).
@@ -215,7 +215,7 @@ def head(lang, page, title, desc, extra_ld=None):
 def reg_line(lang):
     # law 38(I)/2016 art. 359(6): an intermediary states its capacity and registration number
     if OWN_REG:
-        return (' · Ασφαλιστικός Σύμβουλος κλάδου ζωής, Αρ. Μητρώου ΥΕΑΕ ' if lang == 'el' else ' · Life insurance advisor, ICCS Reg. No. ') + esc(OWN_REG)
+        return ' · <span>' + (('Ασφαλιστικός Σύμβουλος κλάδου ζωής, Αρ. Μητρώου ΥΕΑΕ ' if lang == 'el' else 'Life insurance advisor, ICCS Reg. No. ') + esc(OWN_REG)) + '</span>'
     return (' · [Αρ. Μητρώου ΥΕΑΕ — συμπληρώνεται πριν από τη δημοσίευση]' if lang == 'el' else ' · [ICCS Reg. No. — filled in before publication]') if PREVIEW else ''
 
 def foot(lang):
@@ -316,11 +316,12 @@ SOLUTIONS = [
     ('loan', 'loan',
      {'el': 'Προστασία δανείου', 'en': 'Loan protection'},
      {'el': 'Το σπίτι μένει στην οικογένεια, όχι το χρέος.', 'en': 'Your family keeps the home, not the debt.'},
-     {'el': 'Για ένα στεγαστικό δάνειο η τράπεζα ζητά συνήθως ασφάλεια ζωής. Βλέπουμε μαζί αν η κάλυψη ταιριάζει με το υπόλοιπο και τη διάρκεια του δανείου, και αν χρειάζεται κάτι επιπλέον για το εισόδημα της οικογένειας.',
-      'en': 'For a mortgage the bank usually asks for life cover. We check together whether the cover matches the balance and term of the loan, and whether your family’s income needs something more.'},
+     {'el': 'Για ένα στεγαστικό δάνειο η τράπεζα ζητά συνήθως ασφάλεια ζωής. Βλέπουμε μαζί αν η κάλυψη ταιριάζει με το υπόλοιπο και τη διάρκεια του δανείου, και αν χρειάζεται κάτι επιπλέον για το εισόδημα της οικογένειας. Η τράπεζα ζητά επίσης ασφάλεια του σπιτιού για πυρκαγιά και σεισμό· καλό είναι το ασφαλισμένο ποσό να ελέγχεται σε κάθε ετήσια ανανέωση και μετά από κάθε ανακαίνιση ή επέκταση, ώστε να αντιστοιχεί στο σημερινό κόστος ανοικοδόμησης για τα τετραγωνικά του σπιτιού (όχι στην εμπορική του αξία) και το σπίτι να μην είναι υπασφαλισμένο σε μια ζημιά.',
+      'en': 'For a mortgage the bank usually asks for life cover. We check together whether the cover matches the balance and term of the loan, and whether your family’s income needs something more. The bank also asks for home cover against fire and earthquake; it is wise to check the sum insured at every yearly renewal and after any renovation or extension, so that it matches today’s cost of rebuilding the home for its square metres (not its market value) and the home is not under-insured if something happens.'},
      [{'el': 'Κεφάλαιο ίσο με το υπόλοιπο του δανείου', 'en': 'Cover that matches the loan balance'},
       {'el': 'Εκχώρηση στην τράπεζα', 'en': 'Assignment to the bank'},
-      {'el': 'Επανεξέταση όταν αλλάζει το δάνειο', 'en': 'A review when the loan changes'}],
+      {'el': 'Επανεξέταση όταν αλλάζει το δάνειο', 'en': 'A review when the loan changes'},
+      {'el': 'Έλεγχος κάθε χρόνο ότι το ποσό ασφάλισης του σπιτιού καλύπτει την ανοικοδόμηση', 'en': 'A yearly check that the home’s sum insured covers rebuilding'}],
      {'el': 'Καλύπτει η τωρινή σας ασφάλεια ολόκληρο το υπόλοιπο του δανείου;', 'en': 'Does your current cover match the full balance of the loan?'}),
     ('business', 'business',
      {'el': 'Προστασία επιχείρησης', 'en': 'Business protection'},
