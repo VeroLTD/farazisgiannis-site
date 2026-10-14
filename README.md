@@ -16,3 +16,16 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
   plays them only while on screen, never with "reduce motion" or Save-Data, and each has a pause button. To remake
   them: download the originals with vero-os `tools/website/fetch_originals.py`, then
   `python3 tools/make_videos.py <folder>` (Pillow + ffmpeg).
+- Photos (owner's rule of 14 Oct 2026: every photo matches its topic and appears on ONE page only, also not in another
+  crop or inside a film/poster): `tools/photos/manifest.json` (made by `tools/photos/write_manifest.py`) lists every
+  slot; `tools/photos/make_variants.py` makes AVIF/WebP 480/960/1440 + `photos.json` + `CREDITS.md`;
+  `tools/photos/audit.py` compares fingerprints (also against the film photos and posters); `check.py` fails if a slot
+  is used on two pages or if general-insurance wording appears. Missing photos (the five city headers, a closer
+  personal-accident photo) are downloaded on GitHub by the workflow «Site photos» (`.github/workflows/photos.yml`,
+  runs on pushes to `preview` that touch the manifest; optional secret `PIXABAY_API_KEY`, otherwise Openverse CC0/PD);
+  review `tools/photos/fetched/sheet.jpg`.
+- Social-preview cards: one per page and language, typography only (`tools/make_og.py` → `assets/img/og/`).
+- Russian text uses Cyrillic-only subsets of Inter and Lora (renamed FG Display Cyr), OFL, `assets/fonts/OFL-*.txt`.
+- 14 Oct 2026 features: needs check in the booking form (answers go with the request note), Questions and answers page
+  (schema.org FAQPage), Changes in your life page (per-event checklists, each printable), print views on every page,
+  breadcrumbs (BreadcrumbList).

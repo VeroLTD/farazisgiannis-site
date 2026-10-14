@@ -1,0 +1,60 @@
+# Site photos — downloads the photographs the site still needs (tools/photos/manifest.json, slots with "fetch") on
+# GitHub's machines, which have internet access (the build sandbox does not). It never deploys anything and never
+# touches main: it commits the downloaded originals (tools/photos/fetched/) and the served AVIF/WebP files
+# (assets/img/photos/) back to the branch it ran on, normally `preview`; build.py uses them from there.
+# Licences: Pixabay Content License (only if the repository secret PIXABAY_API_KEY exists; optional) and CC0 / Public
+# Domain from Openverse (no key needed). Look at tools/photos/fetched/sheet.jpg before the preview is approved.
+name: Site photos
+on:
+  push:
+    branches: [preview]
+    paths:
+      - tools/photos/manifest.json
+      - tools/photos/fetch.py
+      - .github/workflows/photos.yml
+  workflow_dispatch:
+    inputs:
+      slots:
+        description: 'Only these slots (comma-separated), empty = every slot still missing'
+        required: false
+        default: ''
+      refetch:
+        description: 'Download these slots again (comma-separated)'
+        required: false
+        default: ''
+permissions:
+  contents: write
+concurrency:
+  group: site-photos-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  photos:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Pillow with AVIF
+        run: python3 -m pip install --quiet --break-system-packages "pillow>=11.3"
+      - name: Find and download
+        env:
+          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          PHOTO_SLOTS: ${{ inputs.slots }}
+          PHOTO_REFETCH: ${{ inputs.refetch }}
+        run: python3 tools/photos/fetch.py
+      - name: Make the served sizes and check that no photo repeats
+        run: |
+          python3 tools/photos/make_variants.py
+          python3 tools/photos/audit.py
+      - name: Build and check the site with the new photos
+        run: |
+          SITE_PREFIX=/preview PREVIEW=1 python3 build.py
+          SITE_PREFIX=/preview python3 check.py
+      - name: Save to the branch
+        run: |
+          git config user.name "site-photos-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add tools/photos/fetched assets/img/photos
+          if git diff --cached --quiet; then echo "::notice::no new photos"; exit 0; fi
+          git commit -q -m "Photos: downloaded by the «Site photos» workflow (review tools/photos/fetched/sheet.jpg) [skip ci]"
+          git push -q origin "HEAD:${GITHUB_REF_NAME}"

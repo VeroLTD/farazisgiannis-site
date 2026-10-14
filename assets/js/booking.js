@@ -165,12 +165,40 @@
     box.hidden = false; box.focus();
   }
 
+  // «Έλεγχος αναγκών» (14 Oct 2026): the optional answers go with the request, at the top of the note (in English on the
+  // Russian page, which the advisor reads). Up to three priorities. Nothing is stored in the browser.
+  var needs = $('[data-needs]'), needsPrev = $('[data-needs-preview]');
+  function needsText() {
+    if (!needs) return '';
+    var lines = [];
+    [].forEach.call(needs.querySelectorAll('[data-q]'), function (q) {
+      var picked = [].filter.call(q.querySelectorAll('input'), function (i) { return i.checked; }).map(function (i) {
+        return RU || !el ? i.getAttribute('data-en') : i.nextElementSibling.textContent;
+      });
+      if (picked.length) lines.push((RU || !el ? q.getAttribute('data-q-en') : q.querySelector('legend').textContent.replace(/ \(.*\)$/, '')) + ': ' + picked.join(', '));
+    });
+    return lines.length ? (RU || !el ? 'Needs check' : 'Έλεγχος αναγκών') + '\n' + lines.join('\n') : '';
+  }
+  if (needs) {
+    needs.addEventListener('change', function (e) {
+      var goals = needs.querySelectorAll('[data-q="goals"] input');
+      var n = [].filter.call(goals, function (i) { return i.checked; }).length;
+      [].forEach.call(goals, function (i) { i.disabled = !i.checked && n >= 3; });
+      var t = needsText();
+      needsPrev.hidden = !t; needsPrev.querySelector('[data-needs-text]').textContent = t;
+    });
+    var openNeeds = function () { needs.open = true; needs.querySelector('summary').focus(); };
+    [].forEach.call(document.querySelectorAll('[data-open-needs]'), function (a) { a.addEventListener('click', function (e) { e.preventDefault(); openNeeds(); needs.scrollIntoView({ block: 'start', behavior: 'smooth' }); }); });
+    if (location.hash === '#needs') needs.open = true;
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var f = form.elements;
+    var nt = needsText(), own = f.note.value.trim();
     var data = {
       name: f.name.value.trim(), email: f.email.value.trim(), phone: f.phone.value.trim(), topic: f.topic.value, mode: f.mode.value,
-      note: f.note.value.trim(), date: state.date, time: state.time, privacy: f.privacy.checked, vc_hp_x: f.vc_hp_x.value,
+      note: (nt && own ? nt + '\n\n' + own : nt || own).slice(0, 1500), date: state.date, time: state.time, privacy: f.privacy.checked, vc_hp_x: f.vc_hp_x.value,
     };
     if (data.name.length < 2 || !data.email || !data.date || !data.time || !data.privacy) return show('err', txt.missing);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) return show('err', txt.email);
@@ -180,7 +208,7 @@
       .then(function () { submit.disabled = false; submit.textContent = label; });
   });
   $('[data-again]').addEventListener('click', function () {
-    form.reset(); state.date = ''; state.time = ''; state.all = false; $('[data-done]').hidden = true; form.hidden = false; token().catch(function () {}); loadDays();
+    form.reset(); if (needsPrev) needsPrev.hidden = true; [].forEach.call(form.querySelectorAll('[data-q] input'), function (i) { i.disabled = false; }); state.date = ''; state.time = ''; state.all = false; $('[data-done]').hidden = true; form.hidden = false; token().catch(function () {}); loadDays();
   });
 
   // what the advisor offers (topics, ways to meet, links to the booking system's privacy notice and terms)

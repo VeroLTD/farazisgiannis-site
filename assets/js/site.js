@@ -98,5 +98,25 @@
   });
 })();
 
-// digital business card: the «Print» link (no inline scripts)
-(function () { [].forEach.call(document.querySelectorAll('[data-print]'), function (b) { b.addEventListener('click', function () { window.print(); }); }); })();
+// «Print» buttons (no inline scripts). Print views (14 Oct 2026): every answer opens for printing, and «Print» on one life
+// event prints that event only; everything goes back as it was afterwards.
+(function () {
+  [].forEach.call(document.querySelectorAll('[data-print]'), function (b) { b.addEventListener('click', function () { window.print(); }); });
+  [].forEach.call(document.querySelectorAll('[data-print-one]'), function (b) {
+    b.addEventListener('click', function () {
+      var t = document.getElementById(b.getAttribute('data-print-one'));
+      if (!t) return window.print();
+      document.body.classList.add('print-one'); t.classList.add('is-printing');
+      window.print();
+    });
+  });
+  var closed = [];
+  window.addEventListener('beforeprint', function () {
+    closed = [].filter.call(document.querySelectorAll('details.qa:not([open])'), function (d) { d.open = true; return true; });
+  });
+  window.addEventListener('afterprint', function () {
+    closed.forEach(function (d) { d.open = false; }); closed = [];
+    document.body.classList.remove('print-one');
+    [].forEach.call(document.querySelectorAll('.is-printing'), function (e) { e.classList.remove('is-printing'); });
+  });
+})();

@@ -1,0 +1,520 @@
+{
+ "note": "Every photograph on farazisgiannis.com, one slot = one place on one page (the same page in el/en/ru). Made by tools/photos/write_manifest.py; variants by tools/photos/make_variants.py; checked by tools/photos/audit.py.",
+ "widths": [
+  480,
+  960,
+  1440
+ ],
+ "reserved": {
+  "avrastro-film-meet-giannis-el-3eca4b6c30.jpg": "0001911363090909",
+  "avrastro-film-meet-giannis-en-3bfd477dc0.jpg": "000191d3c3090909",
+  "avrastro-film-topic-business-el-298030b4f9.jpg": "c0c40443b13124cc",
+  "avrastro-film-topic-business-en-5f3c479960.jpg": "c0c400433151648c",
+  "avrastro-film-topic-education-el-59d80f188b.jpg": "1313544653130180",
+  "avrastro-film-topic-education-en-007e2cc684.jpg": "1313544653130180",
+  "avrastro-film-topic-expats-el-7ac4fd2266.jpg": "0000000001288800",
+  "avrastro-film-topic-expats-en-a3b58cb396.jpg": "0000000009080810",
+  "avrastro-film-topic-group-el-6e7c195ae5.jpg": "010141420369e182",
+  "avrastro-film-topic-group-en-1d619c63f2.jpg": "010141421371a182",
+  "avrastro-film-topic-health-el-c25d6ea00b.jpg": "4246c28080c2c201",
+  "avrastro-film-topic-health-en-7596d544aa.jpg": "4246c28080c2c201",
+  "avrastro-film-topic-income-el-7816e858b4.jpg": "0c0606849b7fe627",
+  "avrastro-film-topic-income-en-7ca8d8223c.jpg": "0c0606a4dbd7e627",
+  "avrastro-film-topic-life-el-34eaea1fdb.jpg": "40034544141c048e",
+  "avrastro-film-topic-life-en-60c095de04.jpg": "400345443434048e",
+  "avrastro-film-topic-loan-el-0ff7a44632.jpg": "0000000009880810",
+  "avrastro-film-topic-loan-en-6c1f561502.jpg": "0000000001080810",
+  "avrastro-film-topic-retirement-el-6d018d318d.jpg": "010141424664bbfc",
+  "avrastro-film-topic-retirement-en-8c25ee61a9.jpg": "010141426664dbfc",
+  "avrastro-film-topic-review-el-5854633f22.jpg": "2060c08060602101",
+  "avrastro-film-topic-review-en-da7c2f7bec.jpg": "2040c08060606101",
+  "avrastro-film-topic-savings-el-8b7b4fd813.jpg": "030b000189414001",
+  "avrastro-film-topic-savings-en-78d052ac02.jpg": "030b000119410001",
+  "film-guides-01.jpg": "e74747c7b7377363",
+  "film-guides-02.jpg": "83174747373773e1",
+  "film-guides-03.jpg": "1292322a3a337399",
+  "film-guides-04.jpg": "b253739bdb733b1b",
+  "film-guides-05.jpg": "3253629b9b7b7b1b",
+  "film-home-01.jpg": "8d8cccccdccecbf1",
+  "film-home-02.jpg": "0d1c2eacaccccbd9",
+  "film-home-03.jpg": "1f3a3e2e2c64589c",
+  "film-home-04.jpg": "0e1e333362eb9181",
+  "film-home-05.jpg": "0e0f33b363cb8181",
+  "film-home-06.jpg": "c5cd6969f9ea6ce0",
+  "film-home-07.jpg": "c4c56d69f9aa6ae2",
+  "film-home-08.jpg": "260bd5350d362286",
+  "film-home-09.jpg": "0e0b9d2d5d662286",
+  "film-how-01.jpg": "4fafa7870f8fafce",
+  "film-how-02.jpg": "46872b0b0f8fc909",
+  "film-how-03.jpg": "0696291928e8c809",
+  "film-how-04.jpg": "9f4b4049e9e1c960",
+  "film-how-05.jpg": "9f4b4049e9e1c960",
+  "film-how-06.jpg": "c753b9f0743627e3",
+  "film-how-07.jpg": "efa7a385478fafe7",
+  "film-solutions-01.jpg": "7871b3b79a9a3e3f",
+  "film-solutions-02.jpg": "9beba1292e26a71b",
+  "film-solutions-03.jpg": "5b6be9292e26a3db",
+  "film-solutions-04.jpg": "31a5a5878f1b3303",
+  "film-solutions-05.jpg": "21a525878f393103",
+  "film-solutions-06.jpg": "2bbebd3963676361",
+  "film-solutions-07.jpg": "7971b3b7bab23f6f",
+  "film-src-a-trial.webp": "476399f0349ea733",
+  "film-src-art-education.webp": "9292322a3a333399",
+  "film-src-art-whole-life.webp": "7871b3b69a923e1f",
+  "film-src-c-guides.webp": "c74747c7b7376363",
+  "film-src-c4-family.webp": "8b8cccc8dccada79",
+  "film-src-c4-retirement.webp": "2c024d158d361686",
+  "film-src-contact-hero.webp": "df47474246a4871f",
+  "film-src-q-health.webp": "5b6b6b2d272743a7",
+  "film-src-q-priorities.webp": "07972b1b29e9c819",
+  "film-src-r-education.webp": "cde9696bf9e96470",
+  "film-src-r-family.webp": "1e3e2e2c2c79d90f",
+  "film-src-r-health.webp": "0c0c3666f68282a9",
+  "film-src-t-checkup.webp": "b25363dbdb7b3b1b",
+  "film-src-t-mortgage.webp": "31a1a5878f1b3303",
+  "film-src-t-retirement.webp": "7b3eb939676763eb",
+  "film-src-t-score.webp": "cf81616d7169747c"
+ },
+ "slots": {
+  "sol-life": {
+   "page": "home",
+   "use": "card: Life insurance",
+   "src": "sol-life.webp",
+   "alt": {
+    "el": "Πατέρας κρατά απαλά το χεράκι του μωρού του",
+    "en": "A father gently holding his baby’s hand",
+    "ru": "Отец бережно держит ручку своего малыша"
+   },
+   "credit": {
+    "title": "Free father holding baby's hand",
+    "creator": null,
+    "page": "https://www.rawpixel.com/image/5904571/photo-image-public-domain-hands-kid",
+    "openverse_id": "855aa0e8-805e-4d3e-9ab4-0a4471491955",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "sol-health": {
+   "page": "home",
+   "use": "card: Health and medical cover",
+   "src": "sol-health.webp",
+   "alt": {
+    "el": "Γιατροί σε διάδρομο νοσοκομείου",
+    "en": "Doctors in a hospital corridor",
+    "ru": "Врачи в коридоре больницы"
+   },
+   "credit": {
+    "title": "Doctors Hospital",
+    "creator": "Oles kanebckuu",
+    "page": "https://stocksnap.io/photo/doctors-hospital-5YUFL6LC0E",
+    "openverse_id": "373a2ccd-73e0-4e8c-bd07-b0d611b7ac6e",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "sol-accident": {
+   "page": "home",
+   "use": "card: Personal accident",
+   "src": "sol-accident.webp",
+   "alt": {
+    "el": "Χαμογελαστό παιδί παίζει έξω με μια μπάλα",
+    "en": "A smiling child playing outdoors with a ball",
+    "ru": "Улыбающийся ребёнок играет с мячом на улице"
+   },
+   "credit": {
+    "title": "Happy Kid",
+    "creator": "Lukáš Rychvalský",
+    "page": "https://stocksnap.io/photo/happy-kid-X2XRVZYTZ1",
+    "openverse_id": "ff76a7e5-2460-4ffd-9d4d-7c98b77970f5",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   },
+   "fetch": {
+    "replace": true,
+    "queries": [
+     "physiotherapy knee injury",
+     "physiotherapist patient rehabilitation",
+     "man arm sling injury"
+    ],
+    "alt": {
+     "el": "Φυσικοθεραπεία μετά από τραυματισμό",
+     "en": "Physiotherapy after an injury",
+     "ru": "Физиотерапия после травмы"
+    }
+   }
+  },
+  "sol-retirement": {
+   "page": "home",
+   "use": "card: Retirement",
+   "src": "sol-retirement.webp",
+   "alt": {
+    "el": "Ζευγάρι μεγαλύτερης ηλικίας χαμογελά μπροστά σε ένα tablet",
+    "en": "An older couple smiling over a tablet at home",
+    "ru": "Пожилая пара с улыбкой смотрит на планшет дома"
+   },
+   "credit": {
+    "title": "Happy Couple",
+    "creator": "Senior Living",
+    "page": "https://stocksnap.io/photo/happy-couple-L54KROOB9E",
+    "openverse_id": "ce8fe730-75ea-4484-a000-b462df2f8f6f",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "sol-savings": {
+   "page": "home",
+   "use": "card: Savings",
+   "src": "sol-savings.webp",
+   "alt": {
+    "el": "Ροζ κουμπαράς με κέρματα",
+    "en": "A pink piggy bank with coins",
+    "ru": "Розовая копилка с монетами"
+   },
+   "credit": {
+    "title": "Free coins image",
+    "creator": null,
+    "page": "https://www.rawpixel.com/image/5906370/photo-image-public-domain-money-free",
+    "openverse_id": "1c7124d3-d250-44bb-82ab-3a582d8f3e79",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "sol-education": {
+   "page": "home",
+   "use": "card: Children and education",
+   "src": "sol-education.webp",
+   "alt": {
+    "el": "Παιδί ζωγραφίζει με μολύβια σε ένα τετράδιο",
+    "en": "A child drawing with pencils in a notebook",
+    "ru": "Ребёнок рисует карандашами в блокноте"
+   },
+   "credit": {
+    "title": "Free child drawing pencil notepad",
+    "creator": null,
+    "page": "https://www.rawpixel.com/image/5926180/photo-image-public-domain-kid-person",
+    "openverse_id": "66c6c193-b950-491b-9201-4a1dfea08cea",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "sol-loan": {
+   "page": "home",
+   "use": "card: Loan protection",
+   "src": "sol-loan.webp",
+   "alt": {
+    "el": "Κλειδί στην κλειδαριά της εξώπορτας ενός σπιτιού",
+    "en": "A key in the lock of a front door",
+    "ru": "Ключ в замке входной двери"
+   },
+   "credit": {
+    "title": "Keys Door",
+    "creator": "WDnet Studio",
+    "page": "https://stocksnap.io/photo/keys-door-Z1TKDI29FZ",
+    "openverse_id": "deb7b5c9-590d-41e2-9b6c-7c7196d45f7d",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "sol-business": {
+   "page": "home",
+   "use": "card: Business protection",
+   "src": "sol-business.webp",
+   "alt": {
+    "el": "Αρτοποιός βγάζει φρέσκο ψωμί από τον φούρνο",
+    "en": "A baker taking fresh bread out of the oven",
+    "ru": "Пекарь достаёт из печи свежий хлеб"
+   },
+   "credit": {
+    "title": "Free fresh artisan bread oven",
+    "creator": null,
+    "page": "https://www.rawpixel.com/image/5904163/photo-image-public-domain-person-food",
+    "openverse_id": "581ff4cc-97c6-405f-a791-564d32f6f7d5",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "sol-review": {
+   "page": "home",
+   "use": "card: Policy reviews",
+   "src": "sol-review.webp",
+   "alt": {
+    "el": "Χέρι υπογράφει έγγραφα σε έναν φάκελο",
+    "en": "A hand signing documents in a binder",
+    "ru": "Рука подписывает документы в папке"
+   },
+   "credit": {
+    "title": "Signing contract",
+    "creator": null,
+    "page": "https://www.rawpixel.com/image/5917619/signing-contract-free-public-domain-cc0-photo",
+    "openverse_id": "f91e65b5-bca7-49c5-9f2c-0541565a4be4",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "how-talk": {
+   "page": "how",
+   "use": "step 1: a first conversation",
+   "src": "how-talk.webp",
+   "alt": {
+    "el": "Γυναίκα με το κινητό και έναν καφέ μπροστά στον υπολογιστή της",
+    "en": "A woman with her phone and a cup of coffee at her laptop",
+    "ru": "Женщина с телефоном и чашкой кофе за ноутбуком"
+   },
+   "credit": {
+    "title": "Girl Woman",
+    "creator": "Wilfred Iven",
+    "page": "https://stocksnap.io/photo/girl-woman-70JMTNDBJI",
+    "openverse_id": "55d9dbde-12f6-4497-a73e-1deb306b6f09",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "how-needs": {
+   "page": "how",
+   "use": "step 2: looking at your needs",
+   "src": "how-needs.webp",
+   "alt": {
+    "el": "Χέρι σημειώνει αριθμούς δίπλα σε μια αριθμομηχανή",
+    "en": "A hand noting figures beside a calculator",
+    "ru": "Рука записывает цифры рядом с калькулятором"
+   },
+   "credit": {
+    "title": "Accountant. Free public domain CC0",
+    "creator": null,
+    "page": "https://www.rawpixel.com/image/5913662/accountant-free-public-domain-cc0-photo",
+    "openverse_id": "9fc07d00-e550-4448-bfc5-98438a83dfd2",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "how-proposal": {
+   "page": "how",
+   "use": "step 3: a proposal in plain words",
+   "src": "how-proposal.webp",
+   "alt": {
+    "el": "Μια γραπτή πρόταση σε πινακίδα με κλιπ, πάνω σε γραφείο",
+    "en": "A written proposal on a clipboard on a desk",
+    "ru": "Письменное предложение на планшете с зажимом на столе"
+   },
+   "credit": {
+    "title": "Office Work",
+    "creator": "Châu Thông Phan",
+    "page": "https://stocksnap.io/photo/office-work-UP9J4EZYNJ",
+    "openverse_id": "b3be6880-561e-4926-bc94-de401f44d115",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "how-after": {
+   "page": "how",
+   "use": "step 4: with you afterwards",
+   "src": "how-after.webp",
+   "alt": {
+    "el": "Χειραψία",
+    "en": "A handshake",
+    "ru": "Рукопожатие"
+   },
+   "credit": {
+    "title": "Work Business",
+    "creator": "Matt Moloney",
+    "page": "https://stocksnap.io/photo/work-business-WQ2JMRIIQB",
+    "openverse_id": "934f04e8-0913-4155-8e31-b0869d08e266",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "how-prepare": {
+   "page": "how",
+   "use": "Before we talk",
+   "src": "how-prepare.webp",
+   "alt": {
+    "el": "Υπολογιστής με ένα υπολογιστικό φύλλο και μια αριθμομηχανή",
+    "en": "A laptop with a spreadsheet, and a calculator",
+    "ru": "Ноутбук с таблицей и калькулятор"
+   },
+   "credit": {
+    "title": "Accounting Finance",
+    "creator": "Wilfred Iven",
+    "page": "https://stocksnap.io/photo/accounting-finance-JONMP7TPGK",
+    "openverse_id": "9b7ef946-1e8c-4654-bd90-ee183d6056a3",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "guide-life": {
+   "page": "guides",
+   "use": "guide: how much life cover",
+   "src": "guide-life.webp",
+   "alt": {
+    "el": "Πατέρας αγκαλιάζει τον χαμογελαστό γιο του",
+    "en": "A father hugging his smiling son",
+    "ru": "Отец обнимает улыбающегося сына"
+   },
+   "credit": {
+    "title": "Father Son",
+    "creator": "Family Moments",
+    "page": "https://stocksnap.io/photo/father-son-HBKFP7NCLL",
+    "openverse_id": "bfbc01c8-4783-4354-a83a-62e8e47ce31d",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "guide-gesy": {
+   "page": "guides",
+   "use": "guide: GESY and a private plan",
+   "src": "guide-gesy.webp",
+   "alt": {
+    "el": "Γιατρός συζητά με μια ασθενή",
+    "en": "A doctor talking with a patient",
+    "ru": "Врач беседует с пациенткой"
+   },
+   "credit": {
+    "title": "Doctor Patient",
+    "creator": "Direct Media",
+    "page": "https://stocksnap.io/photo/doctor-patient-2CKENQVERF",
+    "openverse_id": "009250f6-639d-4100-aa1b-c536809e8869",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "guide-review": {
+   "page": "guides",
+   "use": "guide: when to review",
+   "src": "guide-review.webp",
+   "alt": {
+    "el": "Χέρι γράφει σε ένα ημερολόγιο",
+    "en": "A hand writing in a planner",
+    "ru": "Рука делает запись в ежедневнике"
+   },
+   "credit": {
+    "title": "Writing Hand",
+    "creator": "Kristin Hardwick",
+    "page": "https://stocksnap.io/photo/writing-hand-2FRRD2PUVA",
+    "openverse_id": "0fd12f2a-5497-4577-ba8f-e8b0a5d32407",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "first-meeting": {
+   "page": "first",
+   "use": "page header",
+   "src": "first-meeting.webp",
+   "alt": {
+    "el": "Τρία άτομα συζητούν μπροστά σε έναν υπολογιστή",
+    "en": "Three people talking over a laptop",
+    "ru": "Трое людей беседуют у ноутбука"
+   },
+   "credit": {
+    "title": "Business People",
+    "creator": "Direct Media",
+    "page": "https://stocksnap.io/photo/business-people-DUXISHKTT3",
+    "openverse_id": "e2b49788-c79b-4d17-be4f-7b3307803f9b",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "staff-talks": {
+   "page": "employers",
+   "use": "page header",
+   "src": "staff-talks.webp",
+   "alt": {
+    "el": "Γυναίκα με tablet σε γραφείο, με συναδέλφους πίσω της",
+    "en": "A woman with a tablet in an office, colleagues behind her",
+    "ru": "Женщина с планшетом в офисе, за ней коллеги"
+   },
+   "credit": {
+    "title": "Business Woman",
+    "creator": "Direct Media",
+    "page": "https://stocksnap.io/photo/business-woman-S81ZPXJZUU",
+    "openverse_id": "47630adb-c428-49bb-ac22-3be84632bd21",
+    "license": "CC0 1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+   }
+  },
+  "city-nicosia": {
+   "page": "city-nicosia",
+   "use": "page header",
+   "fetch": {
+    "queries": [
+     "Nicosia Cyprus",
+     "Lefkosia",
+     "Nicosia old town",
+     "Nicosia Venetian walls"
+    ]
+   },
+   "alt": {
+    "el": "Άποψη της Λευκωσίας",
+    "en": "A view of Nicosia",
+    "ru": "Вид Никосии"
+   }
+  },
+  "city-limassol": {
+   "page": "city-limassol",
+   "use": "page header",
+   "fetch": {
+    "queries": [
+     "Limassol Cyprus",
+     "Limassol marina",
+     "Limassol seafront",
+     "Limassol old port"
+    ]
+   },
+   "alt": {
+    "el": "Άποψη της Λεμεσού",
+    "en": "A view of Limassol",
+    "ru": "Вид Лимасола"
+   }
+  },
+  "city-larnaca": {
+   "page": "city-larnaca",
+   "use": "page header",
+   "fetch": {
+    "queries": [
+     "Larnaca Cyprus",
+     "Larnaca Finikoudes",
+     "Larnaca seafront",
+     "Saint Lazarus church Larnaca"
+    ]
+   },
+   "alt": {
+    "el": "Άποψη της Λάρνακας",
+    "en": "A view of Larnaca",
+    "ru": "Вид Ларнаки"
+   }
+  },
+  "city-paphos": {
+   "page": "city-paphos",
+   "use": "page header",
+   "fetch": {
+    "queries": [
+     "Paphos harbour",
+     "Paphos Cyprus",
+     "Paphos castle",
+     "Pafos"
+    ]
+   },
+   "alt": {
+    "el": "Άποψη της Πάφου",
+    "en": "A view of Paphos",
+    "ru": "Вид Пафоса"
+   }
+  },
+  "city-famagusta": {
+   "page": "city-famagusta",
+   "use": "page header",
+   "fetch": {
+    "queries": [
+     "Ayia Napa Cyprus",
+     "Protaras Cyprus",
+     "Cape Greco Cyprus",
+     "Paralimni Cyprus"
+    ]
+   },
+   "alt": {
+    "el": "Άποψη της ελεύθερης επαρχίας Αμμοχώστου",
+    "en": "A view of the free Famagusta district",
+    "ru": "Вид свободной части района Фамагусты"
+   }
+  }
+ }
+}
