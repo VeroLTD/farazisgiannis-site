@@ -562,6 +562,26 @@ def page_how(lang):
 <p class="note">{'Μη στέλνετε ιατρικά στοιχεία ή αριθμούς λογαριασμών μέσω της φόρμας. Αν χρειαστεί, τα συζητάμε με ασφαλή τρόπο.' if el else 'Please do not send medical details or account numbers through the form. If needed, we discuss them securely.'}</p>
 </div></div></section>''' + cta_band(lang) + foot(lang)
 
+# free checklists (ideas track 7): texts in tools/checklists.py, A4 PDFs made by tools/make_pdfs.py into assets/pdf/
+import sys as _sys
+_sys.path.insert(0, os.path.join(ROOT, 'tools'))
+from checklists import CHECKLISTS, pdf_name
+
+def checklists_section(lang):
+    el = lang == 'el'
+    pl = 'ru' if RENDER['ru'] else lang   # the Russian page links the Russian PDFs
+    items = ''
+    for cid, stem, title, desc, *_ in CHECKLISTS:
+        f = pdf_name(stem, pl)
+        size = os.path.getsize(os.path.join(ROOT, 'assets', 'pdf', f)) if os.path.exists(os.path.join(ROOT, 'assets', 'pdf', f)) else 0
+        items += (f'<li><a class="dl" href="/assets/pdf/{f}" download><span class="dl__ico">{ICON["clear"]}</span><span><b>{esc(title["en" if lang == "en" else "el"])}</b>'
+                  f'<small>{esc(desc["en" if lang == "en" else "el"])}</small><small class="dl__meta">PDF · A4 · {max(1, round(size / 1024))} KB</small></span></a></li>')
+    return f'''<section class="section tint" id="checklists"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Δωρεάν λίστες ελέγχου' if el else 'Free checklists'}</h2>
+<p class="lead">{'Τέσσερις σελίδες για εκτύπωση ή για το κινητό, με απλά λόγια. Χωρίς εγγραφή και χωρίς e-mail.' if el else 'Four pages to print or keep on your phone, in plain words. No sign-up and no e-mail.'}</p></div>
+<ul class="dls">{items}</ul>
+</div></section>'''
+
 def page_guides(lang):
     el = lang == 'el'
     title = 'Χρήσιμοι οδηγοί ασφάλισης για την Κύπρο' if el else 'Helpful insurance guides for Cyprus'
@@ -572,7 +592,7 @@ def page_guides(lang):
     src = ('Πηγή για τη φορολογική έκπτωση: PwC Worldwide Tax Summaries – Cyprus (Οκτώβριος 2026). Οι οδηγοί είναι γενική ενημέρωση και όχι εξατομικευμένη συμβουλή.' if el
            else 'Source for tax relief: PwC Worldwide Tax Summaries – Cyprus (October 2026). The guides are general information, not personal advice.')
     return head(lang, 'guides', title, desc) + page_head(L(T['nav']['guides'], lang), 'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά.' if el else 'Short answers to the questions I hear most often.', 'guide-life', '', 'film-guides', lang) + f'''
-<section class="section section--tight"><div class="wrap">{body}<div class="prose"><p class="note">{src}</p>{more}</div></div></section>''' + cta_band(lang) + foot(lang)
+<section class="section section--tight"><div class="wrap">{body}<div class="prose"><p class="note">{src}</p>{more}</div></div></section>''' + checklists_section(lang) + cta_band(lang) + foot(lang)
 
 def page_contact(lang):
     title = {'el': 'Επικοινωνία: Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος', 'en': 'Contact Giannis Farazis, Insurance Advisor'}[lang]
@@ -992,7 +1012,7 @@ def write(rel, text):
     with open(p, 'w', encoding='utf-8') as f: f.write(text)
 
 import re as _re
-RU_RULES = [(_re.compile(r'^© (\d{4}) Giannis Farazis'), r'© \1 Яннис Фаразис'), (_re.compile(r'^Last updated: (.+)$'), r'Последнее обновление: \1')]
+RU_RULES = [(_re.compile(r'^© (\d{4}) Giannis Farazis'), r'© \1 Яннис Фаразис'), (_re.compile(r'^PDF · A4 · (\d+) KB$'), r'PDF · A4 · \1 КБ'), (_re.compile(r'^Last updated: (.+)$'), r'Последнее обновление: \1')]
 RU_MISSING = set()
 
 def _ru(text):
