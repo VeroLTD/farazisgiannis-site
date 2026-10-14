@@ -27,10 +27,6 @@ ENQUIRY = 'https://app.avrastro.com/v1/enquiry'
 BOOKING_API = os.environ.get('BOOKING_API', AVRASTRO + '/wp-json/vero/v1')
 # the owner's preview (/preview/, branch preview): a visible banner, pages waiting for approval, placeholders shown
 PREVIEW = os.environ.get('PREVIEW') == '1'
-# general insurance (owner 14 Oct 2026): he is registered for LIFE business only; car, home, travel and business cover
-# is advised on and placed by his registered partner. The page is built only once the partner is named (always in the
-# preview, with a visible placeholder). Fill these from the partner's entry in the ICCS register of intermediaries.
-PARTNER = {'name': '', 'firm': '', 'reg': ''}
 OWN_REG = ''
 # Russian edition (owner 14 Oct 2026: a Russian-speaking colleague in the office). Pages are rendered from the English
 # ones and every text segment is mapped through i18n/ru.json (python3 tools/ru_segments.py --missing lists what is
@@ -50,7 +46,6 @@ SLUGS = {
     'guides': {'el': 'odigoi', 'en': 'guides'},
     'contact': {'el': 'epikoinonia', 'en': 'contact'},
     'booking': {'el': 'rantevou', 'en': 'book'},
-    'general': {'el': 'genikes-asfaliseis', 'en': 'general-insurance'},
     'privacy': {'el': 'aporrito', 'en': 'privacy'},
 }
 NAV = ['about', 'solutions', 'how', 'guides', 'contact']
@@ -62,7 +57,6 @@ T = {
         'how': {'el': 'Πώς δουλεύω', 'en': 'How I work'}, 'guides': {'el': 'Οδηγοί', 'en': 'Guides'},
         'contact': {'el': 'Επικοινωνία', 'en': 'Contact'}, 'privacy': {'el': 'Απόρρητο', 'en': 'Privacy'},
         'booking': {'el': 'Κλείστε ραντεβού', 'en': 'Book an appointment'},
-        'general': {'el': 'Γενικές ασφαλίσεις', 'en': 'General insurance'},
     },
     'call': {'el': 'Καλέστε', 'en': 'Call'},
     'menu': {'el': 'Μενού', 'en': 'Menu'},
@@ -533,13 +527,7 @@ def page_solutions(lang):
             else 'Every proposal is based on the terms of the specific policy. Cover has limits, exclusions and, where they apply, waiting periods, which we go through together before you sign. Returns on investment-linked plans are not guaranteed, and tax relief depends on your own circumstances.')
     return head(lang, 'solutions', title, desc) + page_head(L(T['nav']['solutions'], lang),
         'Έντεκα ανάγκες που βλέπουμε μαζί. Ξεκινάμε πάντα από μια απλή ερώτηση.' if el else 'Eleven needs we look at together. We always start with one simple question.', 'life', '', 'film-solutions', lang) + f'''
-<section class="section section--tight"><div class="wrap">{jump}{rows}<p class="note">{note}</p>{general_link(lang)}</div></section>''' + cta_band(lang) + foot(lang)
-
-def general_link(lang):
-    if 'general' not in PAGES: return ''
-    el = lang == 'el'
-    return (f'<p class="general-link">{"Για αυτοκίνητο, σπίτι, ταξίδι και επιχειρήσεις συνεργάζομαι με εγγεγραμμένο συνεργάτη γενικού κλάδου." if el else "For car, home, travel and business cover I work with a registered general-insurance partner."} '
-            f'<a href="{url("general", lang)}">{"Συχνές ερωτήσεις και συνάντηση" if el else "Common questions and a meeting"}{ICON["arrow"]}</a></p>')
+<section class="section section--tight"><div class="wrap">{jump}{rows}<p class="note">{note}</p></div></section>''' + cta_band(lang) + foot(lang)
 
 def page_how(lang):
     el = lang == 'el'
@@ -645,8 +633,6 @@ def page_booking(lang):
 <label>{'Θέμα' if el else 'Topic'}<select name="topic">{topics}</select></label>
 <label>{'Τρόπος' if el else 'Type'}<select name="mode">{modes}</select></label>
 </div>
-<div class="place" data-place hidden><label><span data-place-label>{'Πού θα συναντηθούμε;' if el else 'Where shall we meet?'}</span><input name="place" maxlength="200" disabled autocomplete="off"></label></div>
-<div class="general-box" data-general hidden><p class="general-notice" data-general-notice></p><label class="check"><input type="checkbox" name="partner_consent" disabled><span data-partner-consent></span></label></div>
 <fieldset class="pick"><legend>{'Διαλέξτε ημέρα' if el else 'Choose a day'}</legend><div class="chips" data-days aria-live="polite"></div><button class="btn btn-link more-days" type="button" data-more hidden>{'Περισσότερες ημέρες' if el else 'More days'}</button></fieldset>
 <fieldset class="pick"><legend>{'Διαλέξτε ώρα' if el else 'Choose a time'}</legend><div class="chips chips--time" data-slots aria-live="polite"></div></fieldset>
 <div class="row">
@@ -665,67 +651,6 @@ def page_booking(lang):
 </div></section>
 <script src="/assets/js/booking.js?v={ASSET_V}" defer></script>''' + foot(lang)
 
-def partner_line(lang):
-    el = lang == 'el'
-    if PARTNER['name']:
-        who = PARTNER['name'] + (f" ({PARTNER['firm']})" if PARTNER['firm'] else '')
-        return (f'{who}, εγγεγραμμένος ασφαλιστικός διαμεσολαβητής γενικού κλάδου, Αρ. Μητρώου {PARTNER["reg"]}' if el
-                else f'{who}, registered general-insurance intermediary, Reg. No. {PARTNER["reg"]}')
-    return ('[Όνομα και αριθμός μητρώου του συνεργάτη — συμπληρώνονται πριν από τη δημοσίευση]' if el
-            else "[Partner's name and registration number — filled in before publication]")
-
-GENERAL_FAQ = [
-    ({'el': 'Είναι υποχρεωτική η ασφάλιση αυτοκινήτου;', 'en': 'Is car insurance compulsory?'},
-     {'el': 'Ναι. Στην Κύπρο κάθε όχημα που κυκλοφορεί πρέπει να έχει τουλάχιστον ασφάλιση ευθύνης έναντι τρίτων, δηλαδή για ζημιές και τραυματισμούς που μπορεί να προκαλέσετε σε άλλους. Οτιδήποτε πέρα από αυτό (ζημιές στο δικό σας όχημα, κλοπή, φωτιά) είναι επιλογή.',
-      'en': 'Yes. In Cyprus every vehicle on the road must have at least third-party liability cover, for damage and injury you may cause to others. Anything beyond that (damage to your own car, theft, fire) is optional.'}),
-    ({'el': 'Τι διαφέρει η κάλυψη «τρίτων» από την «πλήρη»;', 'en': 'What is the difference between “third party” and “comprehensive”?'},
-     {'el': 'Η κάλυψη τρίτων πληρώνει όσα χρωστάτε σε άλλους αν φταίτε εσείς. Η πλήρης καλύπτει επιπλέον και ζημιές στο δικό σας όχημα, σύμφωνα με τους όρους του συμβολαίου. Το τι ταιριάζει εξαρτάται από την αξία του οχήματος και από το αν θα μπορούσατε να το επισκευάσετε ή να το αντικαταστήσετε από δικά σας χρήματα.',
-      'en': 'Third-party cover pays what you owe others if you are at fault. Comprehensive also covers damage to your own car, under the policy terms. What fits depends on the car’s value and on whether you could repair or replace it from your own money.'}),
-    ({'el': 'Τι κάνω σε ένα τροχαίο;', 'en': 'What do I do after a road accident?'},
-     {'el': 'Πρώτα η ασφάλεια: αν υπάρχει τραυματίας, καλέστε το 112. Κρατήστε στοιχεία του άλλου οδηγού και του ασφαλιστή του, βγάλτε φωτογραφίες, και ενημερώστε την ασφαλιστική σας εταιρεία το συντομότερο, όπως λέει το συμβόλαιό σας. Μην παραδεχτείτε ευθύνη πριν ενημερώσετε την εταιρεία.',
-      'en': 'Safety first: if anyone is hurt, call 112. Take the other driver’s and their insurer’s details, take photos, and tell your insurer as soon as possible, as your policy says. Do not admit fault before you have told your insurer.'}),
-    ({'el': 'Η ασφάλεια σπιτιού καλύπτει και σεισμό;', 'en': 'Does home insurance cover earthquake?'},
-     {'el': 'Όχι πάντα. Σε πολλά συμβόλαια ο σεισμός είναι επιπλέον κάλυψη που πρέπει να ζητηθεί, συχνά με δικό του απαλλασσόμενο ποσό. Αν έχετε στεγαστικό δάνειο, η τράπεζα συνήθως ζητά ασφάλιση πυρός και σεισμού για όλη τη διάρκεια του δανείου.',
-      'en': 'Not always. In many policies earthquake is extra cover that has to be asked for, often with its own excess. If you have a mortgage, the bank usually asks for fire and earthquake cover for the whole term of the loan.'}),
-    ({'el': 'Τι είναι η «υπασφάλιση»;', 'en': 'What is “under-insurance”?'},
-     {'el': 'Όταν το ποσό ασφάλισης είναι μικρότερο από όσο θα κόστιζε να ξαναχτιστεί ή να αντικατασταθεί κάτι. Τότε, σε μια ζημιά, η αποζημίωση μπορεί να μειωθεί αναλογικά. Γι’ αυτό αξίζει να ελέγχεται το ποσό κάθε λίγα χρόνια.',
-      'en': 'When the sum insured is lower than what it would cost to rebuild or replace something. Then, after a loss, the payment can be reduced in proportion. That is why the amount is worth checking every few years.'}),
-    ({'el': 'Χρειάζομαι ασφάλεια ταξιδιού αν έχω την Ευρωπαϊκή Κάρτα Ασφάλισης Ασθενείας;', 'en': 'Do I need travel insurance if I have the European Health Insurance Card?'},
-     {'el': 'Η Ευρωπαϊκή Κάρτα δίνει πρόσβαση στη δημόσια περίθαλψη άλλων χωρών της ΕΕ με τους όρους των κατοίκων τους. Δεν καλύπτει συνήθως ιδιωτική περίθαλψη, επαναπατρισμό, ακύρωση ταξιδιού ή χαμένες αποσκευές· αυτά τα καλύπτει μια ασφάλεια ταξιδιού.',
-      'en': 'The European card gives access to public healthcare in other EU countries on the same terms as their residents. It usually does not cover private care, repatriation, trip cancellation or lost luggage; travel insurance covers those.'}),
-    ({'el': 'Τι είναι υποχρεωτικό για μια επιχείρηση;', 'en': 'What is compulsory for a business?'},
-     {'el': 'Όποιος απασχολεί προσωπικό στην Κύπρο πρέπει να έχει ασφάλιση ευθύνης εργοδότη. Άλλες καλύψεις, όπως δημόσια ή επαγγελματική ευθύνη και ασφάλιση περιουσίας, εξαρτώνται από τη δραστηριότητα και, σε ορισμένα επαγγέλματα, ζητούνται από τον νόμο ή από τον επαγγελματικό φορέα.',
-      'en': 'Anyone who employs staff in Cyprus must have employer’s liability insurance. Other cover, such as public or professional liability and property insurance, depends on the activity and, in some professions, is required by law or by the professional body.'}),
-    ({'el': 'Πώς γίνεται η συνάντηση για γενικές ασφαλίσεις;', 'en': 'How does a general-insurance meeting work?'},
-     {'el': 'Κλείνετε ώρα από το ημερολόγιο και διαλέγετε αν θα βρεθούμε σε ένα καφέ της επιλογής σας ή στον χώρο σας. Τη συμβουλή και την προσφορά τις δίνει ο συνεργάτης μου, που είναι εγγεγραμμένος για τον γενικό κλάδο.',
-      'en': 'You book a time in the calendar and choose whether we meet at a café of your choice or at your place. The advice and the quote come from my partner, who is registered for general insurance.'}),
-]
-
-def page_general(lang):
-    """General questions about car, home, travel and business insurance. Giannis is registered for life business only:
-    the page informs and books a meeting with his registered partner, who gives the advice (Law 38(I)/2016 art. 356(2))."""
-    el = lang == 'el'
-    title = {'el': 'Γενικές ασφαλίσεις: αυτοκίνητο, σπίτι, ταξίδι, επιχείρηση — συχνές ερωτήσεις', 'en': 'General insurance: car, home, travel, business — common questions'}[lang]
-    desc = {'el': 'Απλές απαντήσεις για ασφάλιση αυτοκινήτου, σπιτιού, ταξιδιού και επιχείρησης στην Κύπρο, και συνάντηση με εγγεγραμμένο συνεργάτη γενικού κλάδου.',
-            'en': 'Plain answers about car, home, travel and business insurance in Cyprus, and a meeting with a registered general-insurance partner.'}[lang]
-    faq = ''.join(f'<details class="qa"><summary>{esc(L(q, lang))}</summary><p>{esc(L(a, lang))}</p></details>' for q, a in GENERAL_FAQ)
-    book = url('booking', lang)
-    topics = [('car', 'Αυτοκίνητο', 'Car'), ('home', 'Σπίτι', 'Home'), ('travel', 'Ταξίδι', 'Travel'), ('business_general', 'Επιχείρηση', 'Business')]
-    chips = ''.join(f'<a class="btn btn-ghost" href="{book}?topic={k}">{ICON["cal"]}{a if el else b}</a>' for k, a, b in topics)
-    ld = [{'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': L(q, lang), 'acceptedAnswer': {'@type': 'Answer', 'text': L(a, lang)}} for q, a in GENERAL_FAQ]}]
-    disclosure = (f'Είμαι εγγεγραμμένος ασφαλιστικός σύμβουλος για τον <b>κλάδο ζωής</b>. Για αυτοκίνητο, σπίτι, ταξίδι και επιχειρήσεις, τη συμβουλή και την ασφάλιση τις παρέχει ο συνεργάτης μου: <b>{esc(partner_line(lang))}</b>. Οι απαντήσεις εδώ είναι γενικές πληροφορίες και όχι πρόταση για συγκεκριμένο προϊόν.' if el
-                  else f'I am a registered insurance advisor for <b>life business</b>. For car, home, travel and business, the advice and the cover come from my partner: <b>{esc(partner_line(lang))}</b>. The answers here are general information, not a recommendation of a specific product.')
-    return head(lang, 'general', title, desc, ld) + page_head(L(T['nav']['general'], lang), 'Συχνές ερωτήσεις για αυτοκίνητο, σπίτι, ταξίδι και επιχείρηση.' if el else 'Common questions about car, home, travel and business cover.') + f'''
-<section class="section"><div class="wrap prose">
-<p class="disclosure">{disclosure}</p>
-<h2>{'Συχνές ερωτήσεις' if el else 'Common questions'}</h2>
-{faq}
-<h2>{'Θέλετε να τα δείτε με τον συνεργάτη μου;' if el else 'Would you like to go through it with my partner?'}</h2>
-<p>{'Η συνάντηση γίνεται σε καφέ της επιλογής σας ή στον χώρο σας, όχι στο γραφείο. Διαλέξτε θέμα:' if el else 'We meet at a café of your choice or at your place, not at the office. Choose a topic:'}</p>
-<div class="actions">{chips}</div>
-<p class="note">{'Οι καλύψεις, τα όρια και οι εξαιρέσεις ορίζονται από τους όρους κάθε συμβολαίου.' if el else 'Cover, limits and exclusions are set by the terms of each policy.'}</p>
-</div></section>''' + foot(lang)
-
 def page_privacy(lang):
     el = lang == 'el'
     title = 'Πολιτική απορρήτου' if el else 'Privacy policy'
@@ -736,8 +661,7 @@ def page_privacy(lang):
 <h2>Πώς ταξιδεύουν τα στοιχεία</h2>
 <p>Η φόρμα στέλνει το μήνυμα μέσω διακομιστή μας στην Ευρωπαϊκή Ένωση (Hetzner, Φινλανδία), ο οποίος το προωθεί με e-mail στο επαγγελματικό γραμματοκιβώτιο του συμβούλου και δεν το αποθηκεύει. Ο ιστότοπος φιλοξενείται στο GitHub Pages (GitHub Inc.), που μπορεί να καταγράφει τεχνικά στοιχεία όπως τη διεύθυνση IP για λόγους ασφάλειας.</p>
 <h2>Online ραντεβού</h2>
-<p>Η σελίδα «Κλείστε ραντεβού» χρησιμοποιεί το σύστημα ραντεβού του avrastro.com (AVRASTRO). Όσα γράφετε εκεί (όνομα, e-mail, τηλέφωνο, θέμα, τρόπος και τόπος συνάντησης, σημείωση) αποθηκεύονται σε εκείνο το σύστημα, σας στέλνονται τα e-mail επιβεβαίωσης και υπενθύμισης, και το αίτημα καταχωρίζεται στο σύστημα διαχείρισης πελατών μου. Ισχύει η <a href="https://avrastro.com/privacy/" rel="noopener">πολιτική απορρήτου του avrastro.com</a>. Στοιχεία ραντεβού ανωνυμοποιούνται 24 μήνες μετά την ημερομηνία του ραντεβού.</p>
-<p>Για ραντεβού γενικού κλάδου (αυτοκίνητο, σπίτι, ταξίδι, επιχείρηση), με τη ρητή συγκατάθεσή σας στη φόρμα, το όνομα, τα στοιχεία επικοινωνίας, το θέμα και ο τόπος της συνάντησης δίνονται στον εγγεγραμμένο συνεργάτη γενικού κλάδου που αναφέρεται στη φόρμα, μόνο για αυτή τη συνάντηση.</p>
+<p>Η σελίδα «Κλείστε ραντεβού» χρησιμοποιεί το σύστημα ραντεβού του avrastro.com (AVRASTRO). Όσα γράφετε εκεί (όνομα, e-mail, τηλέφωνο, θέμα, τρόπος συνάντησης, σημείωση) αποθηκεύονται σε εκείνο το σύστημα, σας στέλνονται τα e-mail επιβεβαίωσης και υπενθύμισης, και το αίτημα καταχωρίζεται στο σύστημα διαχείρισης πελατών μου. Ισχύει η <a href="https://avrastro.com/privacy/" rel="noopener">πολιτική απορρήτου του avrastro.com</a>. Στοιχεία ραντεβού ανωνυμοποιούνται 24 μήνες μετά την ημερομηνία του ραντεβού.</p>
 <h2>Για πόσο τα κρατάμε</h2>
 <p>Όσο χρειάζεται για να απαντήσουμε και να εξυπηρετήσουμε το αίτημά σας. Αν δεν προχωρήσει συνεργασία, το μήνυμα διαγράφεται μέσα σε 12 μήνες.</p>
 <h2>Cookies και στατιστικά</h2>
@@ -749,8 +673,7 @@ def page_privacy(lang):
 <h2>How your details travel</h2>
 <p>The form sends your message through our server in the European Union (Hetzner, Finland), which forwards it by e-mail to the advisor’s business mailbox and does not store it. The website is hosted on GitHub Pages (GitHub Inc.), which may log technical data such as IP addresses for security.</p>
 <h2>Online appointments</h2>
-<p>The “Book an appointment” page uses the avrastro.com (AVRASTRO) booking system. What you enter there (name, e-mail, phone, topic, how and where to meet, note) is stored in that system, used for the confirmation and reminder e-mails, and recorded in my client management system. The <a href="https://avrastro.com/en/privacy/" rel="noopener">avrastro.com privacy notice</a> applies. Appointment details are anonymised 24 months after the appointment date.</p>
-<p>For general-insurance appointments (car, home, travel, business), with your explicit consent on the form, your name, contact details, topic and meeting place are given to the registered general-insurance partner named on the form, for that meeting only.</p>
+<p>The “Book an appointment” page uses the avrastro.com (AVRASTRO) booking system. What you enter there (name, e-mail, phone, topic, how to meet, note) is stored in that system, used for the confirmation and reminder e-mails, and recorded in my client management system. The <a href="https://avrastro.com/en/privacy/" rel="noopener">avrastro.com privacy notice</a> applies. Appointment details are anonymised 24 months after the appointment date.</p>
 <h2>How long we keep it</h2>
 <p>As long as needed to reply and deal with your request. If no business follows, the message is deleted within 12 months.</p>
 <h2>Cookies and statistics</h2>
@@ -768,8 +691,6 @@ def page_404():
             + page_head('Η σελίδα δεν βρέθηκε', 'Page not found') + f'<section class="section"><div class="wrap"><p><a href="/">Αρχική</a> · <a href="/en/">Home</a></p>{actions("el")}</div></section>' + foot('el'))
 
 PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'privacy': page_privacy}
-if PREVIEW or PARTNER['name']:
-    PAGES['general'] = page_general
 # addresses of the earlier Design.com site, kept working
 LEGACY = {'home': '/', 'contact-us': '/epikoinonia/', 'programs': '/lyseis/', 'about': '/sxetika/', 'vero': '/'}
 
