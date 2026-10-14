@@ -1,13 +1,14 @@
 # Builds the site (python3 build.py, no dependencies) and publishes it with GitHub Pages.
 # The owner's preview (14 Oct 2026): the branch `preview` is built too and published at /preview/ — not linked, not
 # indexed (noindex on every page, robots.txt Disallow), its booking calendar on the avrastro.com STAGING site. Changes
-# reach the real pages only when they are merged into main after the owner's approval.
+# reach the real pages only when they are merged into main after the owner's approval. Only main may deploy to Pages:
+# after pushing the preview branch, run this workflow on main (workflow_dispatch) to refresh /preview/.
 # Until farazisgiannis.com points here, site-prefix.txt holds /farazisgiannis-site (preview at
 # https://veroltd.github.io/farazisgiannis-site/, not indexed). After the DNS switch, empty that file.
 name: Publish site
 on:
   push:
-    branches: [main, preview]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
