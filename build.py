@@ -46,6 +46,7 @@ SLUGS = {
     'guides': {'el': 'odigoi', 'en': 'guides'},
     'contact': {'el': 'epikoinonia', 'en': 'contact'},
     'booking': {'el': 'rantevou', 'en': 'book'},
+    'first': {'el': 'proti-synantisi', 'en': 'first-meeting'},
     'privacy': {'el': 'aporrito', 'en': 'privacy'},
 }
 NAV = ['about', 'solutions', 'how', 'guides', 'contact']
@@ -57,6 +58,7 @@ T = {
         'how': {'el': 'Πώς δουλεύω', 'en': 'How I work'}, 'guides': {'el': 'Οδηγοί', 'en': 'Guides'},
         'contact': {'el': 'Επικοινωνία', 'en': 'Contact'}, 'privacy': {'el': 'Απόρρητο', 'en': 'Privacy'},
         'booking': {'el': 'Κλείστε ραντεβού', 'en': 'Book an appointment'},
+        'first': {'el': 'Πρώτη συνάντηση: τι να φέρω', 'en': 'Your first meeting: what to bring'},
     },
     'call': {'el': 'Καλέστε', 'en': 'Call'},
     'menu': {'el': 'Μενού', 'en': 'Menu'},
@@ -550,6 +552,7 @@ def page_how(lang):
 <div><hr class="rule"><h2>{'Πριν μιλήσουμε' if el else 'Before we talk'}</h2>
 <p>{'Δεν χρειάζεται να έχετε τα πάντα έτοιμα. Αν όμως σκεφτείτε από πριν τα παρακάτω, η συζήτηση θα είναι πιο σύντομη και πιο χρήσιμη.' if el else 'You do not need everything ready. But if you think about these beforehand, the conversation will be shorter and more useful.'}</p>
 <ul class="ticks">{''.join(f'<li>{ICON["check"]}{x}</li>' for x in prep)}</ul>
+<p><a href="{url('first', lang)}">{'Η πρώτη συνάντηση: τι να φέρετε' if el else 'Your first meeting: what to bring'}</a>{ICON['arrow']}</p>
 <p class="note">{'Μη στέλνετε ιατρικά στοιχεία ή αριθμούς λογαριασμών μέσω της φόρμας. Αν χρειαστεί, τα συζητάμε με ασφαλή τρόπο.' if el else 'Please do not send medical details or account numbers through the form. If needed, we discuss them securely.'}</p>
 </div></div></section>''' + cta_band(lang) + foot(lang)
 
@@ -669,6 +672,7 @@ def page_booking(lang):
 <h2>{'Πώς γίνεται' if el else 'How it works'}</h2>
 <ol class="steps-mini">{''.join(f'<li>{esc(x)}</li>' for x in steps)}</ol>
 <p>{'Η συνάντηση διαρκεί περίπου' if el else 'The meeting takes about'} <b><span data-minutes>45</span> {'λεπτά' if el else 'minutes'}</b>. {'Οι ώρες είναι ώρα Κύπρου.' if el else 'Times are Cyprus time.'}</p>
+<p><a href="{url('first', lang)}">{'Πώς γίνεται η πρώτη συνάντηση και τι να φέρετε' if el else 'How the first meeting works and what to bring'}</a>{ICON['arrow']}</p>
 <p class="hint">{'Το ημερολόγιο είναι το ίδιο με εκείνο του avrastro.com: μια ώρα που κλείνεται εδώ δεν μπορεί να κλειστεί αλλού.' if el else 'The calendar is the same as on avrastro.com: a time booked here cannot be booked anywhere else.'}</p>
 <p>{'Προτιμάτε να μιλήσουμε πρώτα;' if el else 'Would you rather talk first?'}</p>
 {actions(lang, book=False)}
@@ -693,10 +697,71 @@ def page_booking(lang):
 <div class="status" role="status" aria-live="polite"></div>
 <button class="btn btn-primary" type="submit">{'Αίτημα ραντεβού' if el else 'Request appointment'}</button>
 </form>
-<div class="form booking-done" data-done hidden tabindex="-1"><h2></h2><p class="booking-when" data-when></p><p data-body></p><p><button class="btn btn-ghost" type="button" data-again>…</button></p></div>
+<div class="form booking-done" data-done hidden tabindex="-1"><h2></h2><p class="booking-when" data-when></p><p data-body></p>
+<p class="booking-first">{'Πριν έρθετε:' if el else 'Before we meet:'} <a href="{url('first', lang)}">{'πώς γίνεται η πρώτη συνάντηση και τι να φέρετε' if el else 'how the first meeting works and what to bring'}</a>.</p>
+<p><button class="btn btn-ghost" type="button" data-again>…</button></p></div>
 </div>
 </div></section>
 <script src="/assets/js/booking.js?v={ASSET_V}" defer></script>''' + foot(lang)
+
+def page_first(lang):
+    """Ideas track 10 (14 Oct 2026): how the first meeting works and what to bring. Linked from the booking page and its
+    confirmation panel, and from How I work. Only what is true for every first meeting: about 45 minutes, nothing is
+    signed, the same at the office, by video call or by phone."""
+    el = lang == 'el'
+    title = 'Η πρώτη συνάντηση: πώς γίνεται και τι να φέρετε' if el else 'Your first meeting: how it works and what to bring'
+    desc = ('Περίπου 45 λεπτά, χωρίς να υπογράψετε τίποτα: τι συζητάμε στην πρώτη συνάντηση και ποια χαρτιά βοηθά να έχετε μαζί σας.' if el
+            else 'About 45 minutes, and nothing to sign: what we talk about at the first meeting and which papers help to have with you.')
+    facts = ([('45′', 'Περίπου 45 λεπτά', 'Αρκετός χρόνος για να γνωριστούμε και να δούμε τι χρειάζεστε, χωρίς βιασύνη.'),
+              ('0', 'Δεν υπογράφετε τίποτα', 'Η πρώτη συνάντηση είναι γνωριμία και καταγραφή αναγκών. Δεν υπογράφεται αίτηση ούτε συμβόλαιο.'),
+              ('3', 'Όπως σας βολεύει', 'Στο γραφείο στη Λευκωσία, με βιντεοκλήση ή τηλεφωνικά, στα Ελληνικά ή στα Αγγλικά.')] if el else
+             [('45′', 'About 45 minutes', 'Enough time to get to know each other and look at what you need, with no rush.'),
+              ('0', 'Nothing to sign', 'The first meeting is about getting to know you and noting what you need. No application or policy is signed.'),
+              ('3', 'The way that suits you', 'At the office in Nicosia, by video call or by phone, in Greek or English.')])
+    talk = (['Τι θέλετε να προστατεύσετε: την οικογένεια, το εισόδημα, την υγεία, ένα δάνειο, τη σύνταξη ή τις σπουδές των παιδιών.',
+             'Τι έχετε ήδη: ασφάλειες, ταμείο προνοίας, αποταμιεύσεις και τι καλύπτει το ΓεΣΥ στη δική σας περίπτωση.',
+             'Πού υπάρχουν κενά ή επικαλύψεις, με απλά λόγια.',
+             'Τι ποσό είναι λογικό για εσάς κάθε μήνα, ώστε να μη γίνει βάρος.',
+             'Τα επόμενα βήματα, αν θέλετε να συνεχίσουμε: τι θα ετοιμάσω και πότε θα τα δούμε μαζί.'] if el else
+            ['What you want to protect: your family, your income, your health, a loan, your retirement or your children’s studies.',
+             'What you already have: insurance, a provident fund, savings, and what GESY covers in your case.',
+             'Where the gaps or overlaps are, in plain words.',
+             'What amount each month is sensible for you, so that it does not become a burden.',
+             'The next steps, if you want to go on: what I will prepare and when we will look at it together.'])
+    bring = (['Τα συμβόλαια που ήδη έχετε (ζωής, υγείας, ατυχήματος, αποταμίευσης), ή έστω την εταιρεία, το είδος και το ασφάλιστρο.',
+              'Αν έχετε στεγαστικό ή άλλο δάνειο: το υπόλοιπο, τη διάρκεια και τη μηνιαία δόση.',
+              'Ένα κατά προσέγγιση μηνιαίο εισόδημα του νοικοκυριού και τα βασικά έξοδα.',
+              'Αν συμμετέχετε σε ταμείο προνοίας ή σε ομαδικό σχέδιο της δουλειάς σας, ό,τι ενημέρωση έχετε γι’ αυτό.',
+              'Τις ερωτήσεις σας, γραμμένες, για να μη ξεχαστεί καμία.'] if el else
+             ['The policies you already have (life, health, accident, savings), or at least the insurer, the type and the premium.',
+              'If you have a mortgage or another loan: the balance, the term and the monthly instalment.',
+              'A rough monthly household income and the main costs.',
+              'If you belong to a provident fund or a group plan at work, any statement you have for it.',
+              'Your questions, written down, so that none is forgotten.'])
+    nobring = (['Ιατρικούς φακέλους ή εξετάσεις: δεν χρειάζονται στην πρώτη συνάντηση.', 'Αριθμούς τραπεζικών λογαριασμών ή καρτών.', 'Πρωτότυπα έγγραφα: αρκούν αντίγραφα ή μια φωτογραφία στο κινητό.'] if el else
+               ['Medical files or test results: they are not needed at the first meeting.', 'Bank account or card numbers.', 'Original documents: copies or a photo on your phone are enough.'])
+    remote = ('Αν μιλάμε με βιντεοκλήση ή τηλεφωνικά, έχετε τα ίδια χαρτιά δίπλα σας. Δεν χρειάζεται να μου στείλετε τίποτα από πριν.' if el
+              else 'If we talk by video call or by phone, have the same papers next to you. You do not need to send me anything beforehand.')
+    after = ('Μετά τη συνάντηση αποφασίζετε εσείς αν θα συνεχίσουμε. Αν ναι, ετοιμάζω μια πρόταση με απλά λόγια, τι καλύπτει, τι δεν καλύπτει και πόσο κοστίζει, και τη βλέπουμε μαζί όποτε σας βολεύει. Μπορείτε να την πάρετε μαζί σας και να το σκεφτείτε όσο χρειάζεστε.' if el
+             else 'After the meeting you decide whether to go on. If you do, I prepare a proposal in plain words, what it covers, what it does not and what it costs, and we go through it together whenever suits you. You can take it with you and think about it for as long as you need.')
+    fl = ''.join(f'<li><span class="meet-facts__num">{n}</span><h3>{t}</h3><p>{d}</p></li>' for n, t, d in facts)
+    ul = lambda xs: '<ul class="ticks">' + ''.join(f'<li>{ICON["check"]}{x}</li>' for x in xs) + '</ul>'
+    return head(lang, 'first', title, desc) + page_head(L(T['nav']['first'], lang),
+        'Τι γίνεται στην πρώτη μας συνάντηση και τι βοηθά να έχετε μαζί σας.' if el else 'What happens at our first meeting, and what helps to have with you.', 'step-talk', '') + f'''
+<section class="section section--tight"><div class="wrap">
+<ul class="meet-facts">{fl}</ul>
+</div></section>
+<section class="section tint"><div class="wrap split split--wide">
+<div><hr class="rule"><h2>{'Τι συζητάμε' if el else 'What we talk about'}</h2>{ul(talk)}</div>
+<div><hr class="rule"><h2>{'Τι να φέρετε' if el else 'What to bring'}</h2>
+<p>{'Δεν χρειάζεται να έχετε τα πάντα. Ό,τι από τα παρακάτω βρείτε εύκολα κάνει τη συζήτηση πιο σύντομη και πιο χρήσιμη.' if el else 'You do not need everything. Whatever you find easily from the list below makes the conversation shorter and more useful.'}</p>
+{ul(bring)}<p class="note">{remote}</p></div>
+</div></section>
+<section class="section"><div class="wrap split split--wide">
+<div><hr class="rule"><h2>{'Τι δεν χρειάζεται' if el else 'What you do not need'}</h2>{ul(nobring)}</div>
+<div><hr class="rule"><h2>{'Μετά τη συνάντηση' if el else 'After the meeting'}</h2><p>{after}</p>
+<p><a class="btn btn-primary" href="{url('booking', lang)}">{ICON['cal']}{L(T['nav']['booking'], lang)}</a></p></div>
+</div></section>''' + cta_band(lang) + foot(lang)
 
 def page_privacy(lang):
     el = lang == 'el'
@@ -741,7 +806,7 @@ def page_404():
     return (head('el', 'home', 'Η σελίδα δεν βρέθηκε | Giannis Farazis', 'Η σελίδα δεν βρέθηκε.').replace('<link rel="canonical"', '<meta name="robots" content="noindex"><link rel="canonical"')
             + page_head('Η σελίδα δεν βρέθηκε', 'Page not found') + f'<section class="section"><div class="wrap"><p><a href="/">Αρχική</a> · <a href="/en/">Home</a></p>{actions("el")}</div></section>' + foot('el'))
 
-PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'privacy': page_privacy}
+PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'first': page_first, 'privacy': page_privacy}
 # addresses of the earlier Design.com site, kept working
 LEGACY = {'home': '/', 'contact-us': '/epikoinonia/', 'programs': '/lyseis/', 'about': '/sxetika/', 'vero': '/'}
 
