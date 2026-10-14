@@ -15,8 +15,8 @@ from datetime import date
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'site')
 BASE = 'https://farazisgiannis.com'
-UPDATED = '2026-10-14'   # privacy page "last updated"
-ASSET_V = '2026-10-11b'   # cache key of site.css / site.js, and the sitemap date (narrated films added 11 Oct 2026)
+UPDATED = '2026-10-14'   # privacy page "last updated" (call-back requests added 14 Oct 2026)
+ASSET_V = '2026-10-14'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
 PHONE = '+357 97 840941'; TEL = '+35797840941'
 OFFICE = '+357 22 124867'; OFFICE_TEL = '+35722124867'
 WHATSAPP = 'https://wa.me/35797840941'
@@ -465,7 +465,13 @@ def page_home(lang):
 <p class="lead">{'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά.' if el else 'Short answers to the questions I hear most often.'}</p></div>
 {guides}
 </div></section>
-''' + cta_band(lang) + foot(lang)
+
+<section class="section tint"><div class="wrap callback-wrap">
+<div class="callback-side"><hr class="rule"><h2>{'Προτιμάτε να σας καλέσω;' if el else 'Would you rather I called you?'}</h2>
+<p>{'Αν δεν σας βολεύει να τηλεφωνήσετε τώρα, αφήστε μου όνομα και τηλέφωνο. Σας καλώ εγώ το πρωί, το μεσημέρι ή το απόγευμα, όπως σας βολεύει.' if el else 'If it is not a good moment to phone, leave me your name and number. I will call you in the morning, at midday or in the afternoon, whichever suits you.'}</p></div>
+{callback_form(lang, heading=False)}
+</div></section>
+''' + cta_band(lang) + callback_script() + foot(lang)
 
 def page_about(lang):
     el = lang == 'el'
@@ -598,12 +604,53 @@ def page_contact(lang):
 <button class="btn btn-primary" type="submit">{'Αποστολή' if el else 'Send'}</button>
 </form>
 </div>
-</div></section>''' + foot(lang)
+</div></section>
+<section class="section tint"><div class="wrap callback-wrap">
+<div class="callback-side"><hr class="rule"><h2>{'Ή απλώς ζητήστε να σας καλέσω' if el else 'Or simply ask me to call you'}</h2>
+<p>{'Χωρίς μήνυμα και χωρίς e-mail: μόνο όνομα, τηλέφωνο και πότε σας βολεύει.' if el else 'No message and no e-mail: just your name, your phone number and when suits you.'}</p></div>
+{callback_form(lang, heading=False)}
+</div></section>''' + callback_script() + foot(lang)
 
 BOOKING_TOPICS = [('review', 'Ετήσια επανεξέταση', 'Annual review'), ('life', 'Ασφάλεια ζωής', 'Life cover'), ('health', 'Υγεία / ιατροφαρμακευτική', 'Health / medical'),
                   ('savings', 'Αποταμίευση', 'Savings'), ('pension', 'Σύνταξη', 'Retirement'), ('children', 'Παιδιά & σπουδές', 'Children & education'),
                   ('property', 'Κατοικία & δάνειο', 'Home & mortgage'), ('business', 'Επιχείρηση', 'Business'), ('claim', 'Αποζημίωση / απαίτηση', 'Claim'), ('other', 'Άλλο', 'Other')]
 BOOKING_MODES = [('office', 'Στο γραφείο', 'At the office'), ('video', 'Βιντεοκλήση', 'Video call'), ('phone', 'Τηλεφωνικά', 'By phone')]
+CALLBACK_TIMES = [('morning', 'Πρωί', 'Morning'), ('midday', 'Μεσημέρι', 'Midday'), ('afternoon', 'Απόγευμα', 'Afternoon')]
+
+def callback_form(lang, topic='life', title=None, lead=None, heading=True):
+    """«Πάρτε με τηλέφωνο» (ideas track 8, 14 Oct 2026): name, phone, when a call suits and a LIFE topic. Sent by
+    assets/js/callback.js to avrastro.com's contact endpoint as a call-back request (CORS allow-list there, JSON, no
+    cookies); it reaches the CRM inbox as a call task at that time of day. No e-mail asked. One per page."""
+    el = lang == 'el'
+    topics = ''.join(f'<option value="{k}"' + (' selected' if k == topic else '') + f'>{esc(a if el else b)}</option>' for k, a, b in BOOKING_TOPICS)
+    times = ''.join(f'<label class="when__opt"><input type="radio" name="best_time" value="{k}"' + (' checked' if i == 0 else '') + f'><span>{esc(a if el else b)}</span></label>'
+                    for i, (k, a, b) in enumerate(CALLBACK_TIMES))
+    title = title or ('Πάρτε με τηλέφωνο' if el else 'Ask me to call you')
+    lead = lead or ('Αφήστε όνομα και τηλέφωνο, πείτε μου πότε σας βολεύει, και σας καλώ εγώ. Χωρίς δέσμευση.' if el
+                    else 'Leave your name and phone number, tell me when suits you, and I will call you. No commitment.')
+    consent = (f'Συμφωνώ να με καλέσει ο Γιάννης Φαραζής για αυτό το αίτημα. Το αίτημα καταχωρίζεται στο σύστημα του avrastro.com και στο σύστημα διαχείρισης πελατών του. Δείτε την <a href="{url("privacy", lang, "callback")}">πολιτική απορρήτου</a>.' if el
+               else f'I agree that Giannis Farazis may call me about this request. The request is recorded in the avrastro.com system and in his client management system. See the <a href="{url("privacy", lang, "callback")}">privacy policy</a>.')
+    top = f'<h2>{title}</h2>\n<p>{lead}</p>\n' if heading else ''
+    return f'''<div class="callback" id="call-me">
+{top}<form class="form" id="callback" novalidate data-api="{esc(BOOKING_API)}" data-lang="{lang}">
+<div class="row">
+<label>{'Όνομα' if el else 'Name'}<input name="name" autocomplete="name" required maxlength="120"></label>
+<label>{'Τηλέφωνο' if el else 'Phone'}<input name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="40"></label>
+</div>
+<fieldset class="when"><legend>{'Πότε σας βολεύει;' if el else 'When suits you?'}</legend><div class="when__opts">{times}</div></fieldset>
+<label>{'Θέμα' if el else 'Topic'}<select name="topic">{topics}</select></label>
+<div class="hp" aria-hidden="true"><label>Leave empty<input name="vc_hp_x" tabindex="-1" autocomplete="off"></label></div>
+<label class="check"><input type="checkbox" name="privacy" required><span>{consent}</span></label>
+<noscript><p class="status err" style="display:block">{'Η φόρμα χρειάζεται JavaScript. Καλέστε στο' if el else 'This form needs JavaScript. Please call'} <a href="tel:{TEL}">{PHONE}</a>.</p></noscript>
+<div class="status" role="status" aria-live="polite"></div>
+<button class="btn btn-primary" type="submit">{ICON['phone']}{'Καλέστε με' if el else 'Call me back'}</button>
+</form>
+<div class="form callback-done" data-callback-done hidden tabindex="-1"><h3>{'Το αίτημα στάλθηκε' if el else 'Your request has been sent'}</h3>
+<p>{'Ευχαριστώ. Θα σας καλέσω στο τηλέφωνο που δώσατε, στο διάστημα που διαλέξατε ή το συντομότερο δυνατό.' if el else 'Thank you. I will call you on the number you gave, in the part of the day you chose or as soon as I can.'}</p></div>
+</div>'''
+
+def callback_script():
+    return f'<script src="/assets/js/callback.js?v={ASSET_V}" defer></script>'
 
 def page_booking(lang):
     """The same calendar as avrastro.com (booking.js). Without JavaScript: a link to the booking page on avrastro.com."""
@@ -654,14 +701,16 @@ def page_booking(lang):
 def page_privacy(lang):
     el = lang == 'el'
     title = 'Πολιτική απορρήτου' if el else 'Privacy policy'
-    desc = 'Ποια στοιχεία συλλέγει η φόρμα επικοινωνίας, γιατί, για πόσο, και τα δικαιώματά σας. Χωρίς cookies και χωρίς εργαλεία παρακολούθησης.' if el else 'What the contact form collects, why, for how long, and your rights. No cookies and no tracking tools.'
+    desc = 'Ποια στοιχεία συλλέγουν οι φόρμες του ιστότοπου, γιατί, για πόσο, και τα δικαιώματά σας. Χωρίς cookies και χωρίς εργαλεία παρακολούθησης.' if el else 'What the forms on this website collect, why, for how long, and your rights. No cookies and no tracking tools.'
     body = '''<p>Υπεύθυνος επεξεργασίας είναι ο Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος, Λευκωσία (τηλ. +357 97 840941).</p>
 <h2>Τι συλλέγουμε και γιατί</h2>
-<p>Μόνο ό,τι γράφετε στη φόρμα επικοινωνίας: ονοματεπώνυμο, τηλέφωνο ή e-mail, θέμα και μήνυμα. Τα χρησιμοποιούμε μόνο για να απαντήσουμε στο αίτημά σας. Νομική βάση είναι η συγκατάθεσή σας και τα βήματα που ζητάτε πριν από μια πιθανή σύμβαση.</p>
+<p>Μόνο ό,τι γράφετε στις φόρμες. Στη φόρμα επικοινωνίας: ονοματεπώνυμο, τηλέφωνο ή e-mail, θέμα και μήνυμα. Τα χρησιμοποιούμε μόνο για να απαντήσουμε στο αίτημά σας. Νομική βάση είναι η συγκατάθεσή σας και τα βήματα που ζητάτε πριν από μια πιθανή σύμβαση.</p>
 <h2>Πώς ταξιδεύουν τα στοιχεία</h2>
 <p>Η φόρμα στέλνει το μήνυμα μέσω διακομιστή μας στην Ευρωπαϊκή Ένωση (Hetzner, Φινλανδία), ο οποίος το προωθεί με e-mail στο επαγγελματικό γραμματοκιβώτιο του συμβούλου και δεν το αποθηκεύει. Ο ιστότοπος φιλοξενείται στο GitHub Pages (GitHub Inc.), που μπορεί να καταγράφει τεχνικά στοιχεία όπως τη διεύθυνση IP για λόγους ασφάλειας.</p>
 <h2>Online ραντεβού</h2>
 <p>Η σελίδα «Κλείστε ραντεβού» χρησιμοποιεί το σύστημα ραντεβού του avrastro.com (AVRASTRO). Όσα γράφετε εκεί (όνομα, e-mail, τηλέφωνο, θέμα, τρόπος συνάντησης, σημείωση) αποθηκεύονται σε εκείνο το σύστημα, σας στέλνονται τα e-mail επιβεβαίωσης και υπενθύμισης, και το αίτημα καταχωρίζεται στο σύστημα διαχείρισης πελατών μου. Ισχύει η <a href="https://avrastro.com/privacy/" rel="noopener">πολιτική απορρήτου του avrastro.com</a>. Στοιχεία ραντεβού ανωνυμοποιούνται 24 μήνες μετά την ημερομηνία του ραντεβού.</p>
+<h2 id="callback">Αίτημα κλήσης («Πάρτε με τηλέφωνο»)</h2>
+<p>Η φόρμα «Πάρτε με τηλέφωνο» στέλνει όνομα, τηλέφωνο, το διάστημα της ημέρας που σας βολεύει και το θέμα στο σύστημα του avrastro.com (AVRASTRO), μαζί με τη διεύθυνση της σελίδας από την οποία στάλθηκε. Εκεί αποθηκεύονται, μου στέλνεται ειδοποίηση με e-mail και το αίτημα καταχωρίζεται στο σύστημα διαχείρισης πελατών μου ως κλήση που πρέπει να κάνω. Δεν ζητείται e-mail. Τα χρησιμοποιώ μόνο για να σας καλέσω για αυτό το αίτημα· νομική βάση είναι η συγκατάθεσή σας. Τα στοιχεία του αιτήματος ανωνυμοποιούνται 24 μήνες μετά. Ισχύει και η <a href="https://avrastro.com/privacy/" rel="noopener">πολιτική απορρήτου του avrastro.com</a>.</p>
 <h2>Για πόσο τα κρατάμε</h2>
 <p>Όσο χρειάζεται για να απαντήσουμε και να εξυπηρετήσουμε το αίτημά σας. Αν δεν προχωρήσει συνεργασία, το μήνυμα διαγράφεται μέσα σε 12 μήνες.</p>
 <h2>Cookies και στατιστικά</h2>
@@ -669,11 +718,13 @@ def page_privacy(lang):
 <h2>Τα δικαιώματά σας</h2>
 <p>Μπορείτε να ζητήσετε πρόσβαση, διόρθωση ή διαγραφή των στοιχείων σας, να ανακαλέσετε τη συγκατάθεσή σας ή να αντιταχθείτε στην επεξεργασία, καλώντας στο +357 97 840941. Μπορείτε επίσης να υποβάλετε καταγγελία στον Επίτροπο Προστασίας Δεδομένων Προσωπικού Χαρακτήρα (<a href="https://www.dataprotection.gov.cy/" rel="noopener">www.dataprotection.gov.cy</a>).</p>''' if el else '''<p>The controller is Giannis Farazis, Insurance Advisor, Nicosia (tel. +357 97 840941).</p>
 <h2>What we collect and why</h2>
-<p>Only what you write in the contact form: your name, phone or e-mail, topic and message. We use it only to reply to your request. The legal basis is your consent and the steps you ask for before a possible contract.</p>
+<p>Only what you write in the forms. In the contact form: your name, phone or e-mail, topic and message. We use it only to reply to your request. The legal basis is your consent and the steps you ask for before a possible contract.</p>
 <h2>How your details travel</h2>
 <p>The form sends your message through our server in the European Union (Hetzner, Finland), which forwards it by e-mail to the advisor’s business mailbox and does not store it. The website is hosted on GitHub Pages (GitHub Inc.), which may log technical data such as IP addresses for security.</p>
 <h2>Online appointments</h2>
 <p>The “Book an appointment” page uses the avrastro.com (AVRASTRO) booking system. What you enter there (name, e-mail, phone, topic, how to meet, note) is stored in that system, used for the confirmation and reminder e-mails, and recorded in my client management system. The <a href="https://avrastro.com/en/privacy/" rel="noopener">avrastro.com privacy notice</a> applies. Appointment details are anonymised 24 months after the appointment date.</p>
+<h2 id="callback">Call-back requests (“Ask me to call you”)</h2>
+<p>The “Ask me to call you” form sends your name, phone number, the part of the day that suits you and the topic to the avrastro.com (AVRASTRO) system, together with the address of the page it was sent from. They are stored there, I am notified by e-mail, and the request is recorded in my client management system as a call I need to make. No e-mail address is asked for. I use these details only to call you about this request; the legal basis is your consent. The request details are anonymised after 24 months. The <a href="https://avrastro.com/en/privacy/" rel="noopener">avrastro.com privacy notice</a> also applies.</p>
 <h2>How long we keep it</h2>
 <p>As long as needed to reply and deal with your request. If no business follows, the message is deleted within 12 months.</p>
 <h2>Cookies and statistics</h2>
