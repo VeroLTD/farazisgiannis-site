@@ -242,6 +242,7 @@
       [].slice.call(sel.options).forEach(function (o) { g1.appendChild(o); });
       cfg.general.topics.forEach(function (it) { var o = document.createElement('option'); o.value = it.key; o.textContent = it.label; g2.appendChild(o); });
       sel.appendChild(g1); sel.appendChild(g2);
+      sel.selectedIndex = 0;   // moving the options into groups can leave the last one selected
       $('[data-general-notice]').textContent = cfg.general.notice;
       $('[data-partner-consent]').textContent = cfg.general.consent;
     }
