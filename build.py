@@ -697,7 +697,8 @@ def main():
     # Bing Webmaster Tools ownership file (same reason)
     write('BingSiteAuth.xml', '<?xml version="1.0"?>\n<users>\n\t<user>4DD6662B87831D9B870845ABE00172F7</user>\n</users>\n')
     # the preview must not be indexed (it would compete with the real address)
-    write('robots.txt', 'User-agent: *\nDisallow: /\n' if PREFIX else f'User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n')
+    # /preview/ holds the owner's preview of changes waiting for his approval (built from the preview branch, not indexed)
+    write('robots.txt', 'User-agent: *\nDisallow: /\n' if PREFIX else f'User-agent: *\nAllow: /\nDisallow: /preview/\n\nSitemap: {BASE}/sitemap.xml\n')
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
     for pid, lang, u in urls:
         sm.append(f'<url><loc>{BASE}{u}</loc><lastmod>{ASSET_V}</lastmod>'
