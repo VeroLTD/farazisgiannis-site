@@ -97,3 +97,6 @@
     v.addEventListener('ended', function () { b.hidden = false; });
   });
 })();
+
+// digital business card: the «Print» link (no inline scripts)
+(function () { [].forEach.call(document.querySelectorAll('[data-print]'), function (b) { b.addEventListener('click', function () { window.print(); }); }); })();

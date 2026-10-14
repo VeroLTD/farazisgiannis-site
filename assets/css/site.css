@@ -382,3 +382,31 @@ p { margin: 0 0 1em; max-width: 68ch; }
 .callback-side .ticks { margin-bottom: 1.2rem; }
 .card--static h3 { margin: 1.2rem 1.4rem .35rem; font-size: 1.35rem; }
 .card--static p { margin: 0 1.4rem 1rem; color: var(--muted); font-size: 1rem; }
+
+/* digital business card (ideas track 42, 14 Oct 2026) */
+.bcard-sec .wrap { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+@media (max-width: 860px) { .bcard-sec .wrap { grid-template-columns: 1fr; } }
+.bcard { background: radial-gradient(ellipse 80% 90% at 90% 0%, #1d3a66 0%, var(--midnight) 60%); color: #dfe7f2; border-radius: 20px; padding: clamp(1.4rem, 4vw, 2.4rem); box-shadow: var(--shadow); }
+.bcard__top { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 1.2rem; align-items: center; }
+.bcard__top img { width: 112px; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--arch); border: 2px solid var(--brass); }
+.bcard h1 { color: #fff; font-size: clamp(2rem, 6vw, 2.8rem); margin: 0 0 .2rem; }
+.bcard__role { color: var(--brass); font-weight: 560; margin: 0 0 .2rem; }
+.bcard__where { color: #c3cfdf; font-size: .95rem; margin: 0; }
+.bcard__rows { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: .2rem; }
+.bcard__rows li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: .8rem; align-items: center; padding: .6rem 0; border-top: 1px solid #ffffff1f; }
+.bcard__rows small { display: block; color: #a9b8cc; font-size: .82rem; }
+.bcard__rows a { color: #fff; font-weight: 540; text-decoration: none; overflow-wrap: anywhere; }
+.bcard__ico { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: #ffffff12; color: var(--brass); }
+.bcard__ico svg { width: 18px; height: 18px; }
+.bcard__actions { display: grid; gap: .7rem; margin-top: 1.6rem; }
+.bcard__actions .btn { justify-content: center; }
+.bcard-qr { text-align: center; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); padding: 1.6rem; }
+.bcard-qr img { width: min(100%, 260px); margin: 0 auto 1rem; image-rendering: pixelated; }
+.bcard-qr p { margin: 0 auto .5rem; font-size: .95rem; }
+.linkbtn { background: none; border: 0; padding: 0; font: inherit; color: var(--lapel); text-decoration: underline; cursor: pointer; }
+@media print {
+  .site-head, .site-foot, .callbar, .preview-banner, .ru-strip, .skip, .no-print, .bcard__actions { display: none !important; }
+  .bcard { box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .bcard-qr { box-shadow: none; break-inside: avoid; }
+  .bcard-qr img { width: 6cm; }
+}

@@ -48,6 +48,7 @@ SLUGS = {
     'booking': {'el': 'rantevou', 'en': 'book'},
     'first': {'el': 'proti-synantisi', 'en': 'first-meeting'},
     'employers': {'el': 'enimerosi-prosopikou', 'en': 'staff-talks'},
+    'card': {'el': 'card', 'en': 'card'},
     'privacy': {'el': 'aporrito', 'en': 'privacy'},
 }
 NAV = ['about', 'solutions', 'how', 'guides', 'contact']
@@ -61,6 +62,7 @@ T = {
         'booking': {'el': 'Κλείστε ραντεβού', 'en': 'Book an appointment'},
         'first': {'el': 'Πρώτη συνάντηση: τι να φέρω', 'en': 'Your first meeting: what to bring'},
         'employers': {'el': 'Ενημέρωση για το προσωπικό σας', 'en': 'A talk for your staff'},
+        'card': {'el': 'Ψηφιακή κάρτα', 'en': 'Digital business card'},
     },
     'call': {'el': 'Καλέστε', 'en': 'Call'},
     'menu': {'el': 'Μενού', 'en': 'Menu'},
@@ -216,7 +218,7 @@ def foot(lang):
 <footer class="site-foot"><div class="wrap">
 <div class="foot-brand"><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="200" height="115" loading="lazy">
 <p>{L(T['foot'], lang)}</p></div>
-<div class="foot-col"><h2>{'Σελίδες' if el else 'Pages'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in NAV + ['first', 'employers', 'privacy'])}</div>
+<div class="foot-col"><h2>{'Σελίδες' if el else 'Pages'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in NAV + ['first', 'employers', 'card', 'privacy'])}</div>
 <div class="foot-col"><h2>{'Επικοινωνία' if el else 'Contact'}</h2>
 <a href="tel:{TEL}">{PHONE}</a><a href="{WHATSAPP}" rel="noopener">WhatsApp</a><a href="{LINKEDIN}" rel="noopener">LinkedIn</a>
 <span>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</span></div>
@@ -883,6 +885,53 @@ def page_employers(lang):
 {callback_form(lang, topic='business', title='Ζητήστε μια ενημέρωση' if el else 'Ask for a talk', lead='Αφήστε όνομα και τηλέφωνο και σας καλώ για να κανονίσουμε μέρα, χώρο και διάρκεια.' if el else 'Leave your name and phone number and I will call you to agree a day, a place and the length.')}
 </div></section>''' + cta_band(lang) + callback_script() + foot(lang)
 
+def vcard():
+    """the «Save contact» file (vCard 3.0, written at build time): name, role, the two approved phones, website,
+    WhatsApp, LinkedIn, office address. No e-mail address (owner's rule); no company name (Eurolife only on Contact)."""
+    lines = ['BEGIN:VCARD', 'VERSION:3.0', 'N:Farazis;Giannis;;;', 'FN:Giannis Farazis (Γιάννης Φαραζής)',
+             'TITLE:Insurance Advisor / Ασφαλιστικός Σύμβουλος',
+             f'TEL;TYPE=CELL,WORK,VOICE:{TEL}', f'TEL;TYPE=WORK,VOICE:{OFFICE_TEL}',
+             'ADR;TYPE=WORK:;5th floor;124C Strovolou Avenue;Nicosia;;;Cyprus',
+             f'URL:{BASE}/', f'X-SOCIALPROFILE;TYPE=linkedin:{LINKEDIN}', f'URL;TYPE=WhatsApp:{WHATSAPP}',
+             f'PHOTO;VALUE=URI:{BASE}/assets/img/giannis-farazis-portrait.jpg', 'NOTE:Life\\, health\\, retirement and savings · Nicosia\\, all of Cyprus',
+             'END:VCARD']
+    return '\r\n'.join(lines) + '\r\n'
+
+CARD_URL = BASE + '/card/'
+
+def page_card(lang):
+    """Ideas track 42 (14 Oct 2026): the digital business card. «Save contact» downloads the vCard; the QR code (made at
+    build time by tools/qr.py, no network) always points to https://farazisgiannis.com/card/ and can be printed."""
+    el = lang == 'el'
+    title = 'Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος: ψηφιακή κάρτα' if el else 'Giannis Farazis, Insurance Advisor: digital business card'
+    desc = ('Τηλέφωνα, WhatsApp, LinkedIn και ραντεβού σε μία σελίδα. Αποθηκεύστε την επαφή στο κινητό σας.' if el
+            else 'Phones, WhatsApp, LinkedIn and appointments on one page. Save the contact to your phone.')
+    rows = [(ICON['phone'], 'Κινητό' if el else 'Mobile', f'<a href="tel:{TEL}">{PHONE}</a>'),
+            (ICON['phone'], 'Γραφείο' if el else 'Office', f'<a href="tel:{OFFICE_TEL}">{OFFICE}</a>'),
+            (ICON['wa'], 'WhatsApp', f'<a href="{WHATSAPP}" rel="noopener">{PHONE}</a>'),
+            (ICON['arrow'], 'LinkedIn', f'<a href="{LINKEDIN}" rel="noopener">Giannis Farazis</a>'),
+            (ICON['cy'], 'Γραφείο, διεύθυνση' if el else 'Office address', OFFICE_EL if el else OFFICE_EN)]
+    rl = ''.join(f'<li><span class="bcard__ico">{i}</span><span><small>{a}</small>{b}</span></li>' for i, a, b in rows)
+    qr_alt = 'Κωδικός QR για τη σελίδα farazisgiannis.com/card' if el else 'QR code for farazisgiannis.com/card'
+    return head(lang, 'card', title, desc) + f'''
+<section class="section bcard-sec"><div class="wrap">
+<article class="bcard on-dark">
+<div class="bcard__top">{portrait('Ο Γιάννης Φαραζής' if el else 'Giannis Farazis', eager=True)}
+<div><h1>{L(T['name'], lang)}</h1><p class="bcard__role">{L(T['role'], lang)}</p><p class="bcard__where">{L(T['where'], lang)}</p></div></div>
+<ul class="bcard__rows">{rl}</ul>
+<div class="bcard__actions">
+<a class="btn btn-primary" href="/assets/card/giannis-farazis.vcf" download="giannis-farazis.vcf">{ICON['check']}{'Αποθήκευση επαφής' if el else 'Save contact'}</a>
+<a class="btn btn-ghost" href="{url('booking', lang)}">{ICON['cal']}{L(T['nav']['booking'], lang)}</a>
+<a class="btn btn-ghost" href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)}</a>
+</div>
+</article>
+<div class="bcard-qr">
+<img src="/assets/card/card-qr.svg" width="290" height="290" alt="{qr_alt}">
+<p>{'Σκανάρετε για να ανοίξει αυτή η κάρτα: farazisgiannis.com/card' if el else 'Scan to open this card: farazisgiannis.com/card'}</p>
+<p class="no-print"><a href="/assets/card/card-qr.png" download="farazisgiannis-card-qr.png">{'Κατέβασμα QR (PNG)' if el else 'Download the QR code (PNG)'}</a> · <a href="/assets/card/card-qr.svg" download="farazisgiannis-card-qr.svg">SVG</a> · <button class="linkbtn" type="button" data-print>{'Εκτύπωση' if el else 'Print'}</button></p>
+</div>
+</div></section>''' + foot(lang)
+
 def page_privacy(lang):
     el = lang == 'el'
     title = 'Πολιτική απορρήτου' if el else 'Privacy policy'
@@ -926,7 +975,7 @@ def page_404():
     return (head('el', 'home', 'Η σελίδα δεν βρέθηκε | Giannis Farazis', 'Η σελίδα δεν βρέθηκε.').replace('<link rel="canonical"', '<meta name="robots" content="noindex"><link rel="canonical"')
             + page_head('Η σελίδα δεν βρέθηκε', 'Page not found') + f'<section class="section"><div class="wrap"><p><a href="/">Αρχική</a> · <a href="/en/">Home</a></p>{actions("el")}</div></section>' + foot('el'))
 
-PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'first': page_first, 'employers': page_employers, 'privacy': page_privacy,
+PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'first': page_first, 'employers': page_employers, 'card': page_card, 'privacy': page_privacy,
          **{'city-' + c[0]: make_city_page(c[0]) for c in CITIES}}
 # addresses of the earlier Design.com site, kept working
 LEGACY = {'home': '/', 'contact-us': '/epikoinonia/', 'programs': '/lyseis/', 'about': '/sxetika/', 'vero': '/'}
@@ -996,6 +1045,13 @@ def main():
     if os.path.isdir(OUT): shutil.rmtree(OUT)
     os.makedirs(OUT)
     shutil.copytree(os.path.join(ROOT, 'assets'), os.path.join(OUT, 'assets'))
+    # digital business card (ideas track 42): the vCard and the QR code of https://farazisgiannis.com/card/, made here
+    import sys; sys.path.insert(0, os.path.join(ROOT, 'tools')); import qr
+    card = os.path.join(OUT, 'assets', 'card'); os.makedirs(card, exist_ok=True)
+    with open(os.path.join(card, 'giannis-farazis.vcf'), 'w', encoding='utf-8', newline='') as f: f.write(vcard())
+    m = qr.encode(CARD_URL)
+    with open(os.path.join(card, 'card-qr.svg'), 'w', encoding='utf-8') as f: f.write(qr.svg(m, title='farazisgiannis.com/card'))
+    with open(os.path.join(card, 'card-qr.png'), 'wb') as f: f.write(qr.png(m, scale=24))
     urls = []
     for pid, fn in PAGES.items():
         for lang in ('el', 'en'):

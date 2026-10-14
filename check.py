@@ -22,5 +22,11 @@ for dp, _, files in os.walk(OUT):
         if 'Eurolife' in t and 'epikoinonia' not in rel and 'contact' not in rel: problems.append(f'{rel}: Eurolife outside the contact page')
         for n in re.findall(r'tel:\+?(\d+)', t):
             if n not in APPROVED: problems.append(f'{rel}: unapproved phone {n}')
+# digital business card (ideas track 42): vCard without e-mail, QR code generated
+vcf = os.path.join(OUT, 'assets', 'card', 'giannis-farazis.vcf')
+if not os.path.exists(vcf): problems.append('assets/card/giannis-farazis.vcf missing')
+elif re.search(r'(?im)^EMAIL|@[a-z0-9-]+\.[a-z]', open(vcf, encoding='utf-8').read()): problems.append('vCard contains an e-mail address')
+for f in ('card-qr.svg', 'card-qr.png'):
+    if not os.path.exists(os.path.join(OUT, 'assets', 'card', f)): problems.append(f'assets/card/{f} missing')
 print('\n'.join(problems) or 'site check: 0 problems')
 sys.exit(1 if problems else 0)
