@@ -247,7 +247,8 @@ p { margin: 0 0 1em; max-width: 68ch; }
 
 /* footer */
 .site-foot { background: var(--midnight-2); color: #b7c4d6; padding: 3.5rem 0 0; font-size: .97rem; }
-.site-foot .wrap { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2.5rem; }
+.site-foot .wrap { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2.5rem; }
+@media (max-width: 1000px) and (min-width: 761px) { .site-foot .wrap { grid-template-columns: 1fr 1fr; } }
 .site-foot img { width: 190px; margin-bottom: 1rem; }
 .site-foot h2 { font-family: var(--text); font-size: .95rem; font-weight: 600; color: #fff; margin: 0 0 .8rem; }
 .foot-col { display: flex; flex-direction: column; gap: .45rem; }
@@ -368,3 +369,8 @@ p { margin: 0 0 1em; max-width: 68ch; }
 .meet-facts p { margin: 0; color: var(--muted); }
 .booking-how p > svg, .split p > svg { width: 16px; height: 16px; vertical-align: -3px; margin-left: .3rem; color: var(--lapel); }
 .booking-first { font-size: .97rem; }
+
+/* city pages (ideas track 4, 14 Oct 2026) */
+.meet-facts--plain li { padding-top: 1.3rem; }
+.city-links a[aria-current="page"] { background: var(--midnight); border-color: var(--midnight); color: #fff; }
+.section p > svg { width: 16px; height: 16px; vertical-align: -3px; margin-left: .3rem; color: var(--lapel); }

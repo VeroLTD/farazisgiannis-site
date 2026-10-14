@@ -218,6 +218,7 @@ def foot(lang):
 <div class="foot-col"><h2>{'Επικοινωνία' if el else 'Contact'}</h2>
 <a href="tel:{TEL}">{PHONE}</a><a href="{WHATSAPP}" rel="noopener">WhatsApp</a><a href="{LINKEDIN}" rel="noopener">LinkedIn</a>
 <span>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</span></div>
+<div class="foot-col"><h2>{'Πόλεις' if el else 'Cities'}</h2>{''.join(f'<a href="{url("city-" + c[0], lang)}">{c[3] if el else c[5]}</a>' for c in CITIES)}</div>
 </div><div class="wrap foot-legal">© {date.today().year} {L(T['name'], lang)}{reg_line(lang)}</div></footer>
 <div class="callbar"><a href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)}</a><a href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a><a href="{url('booking', lang)}">{ICON['cal']}{'Ραντεβού' if lang == 'el' else 'Book'}</a></div>
 <script src="/assets/js/site.js?v={ASSET_V}" defer></script>
@@ -763,6 +764,88 @@ def page_first(lang):
 <p><a class="btn btn-primary" href="{url('booking', lang)}">{ICON['cal']}{L(T['nav']['booking'], lang)}</a></p></div>
 </div></section>''' + cta_band(lang) + foot(lang)
 
+# Ideas track 4 (14 Oct 2026): one page per city. Only what is true everywhere: the office is in Nicosia (124C Strovolou
+# Avenue, 5th floor); meetings by video call or phone anywhere in Cyprus; in-person visits by arrangement. No invented
+# local facts (no "local office", no local statistics, no testimonials). Each page has its own wording and structured
+# data (Service with areaServed = the city).
+OFFICE_EL = 'Λεωφόρος Στροβόλου 124Γ, 5ος όροφος, Λευκωσία'
+OFFICE_EN = '124C Strovolou Avenue, 5th floor, Nicosia'
+CITIES = [
+    ('nicosia', 'lefkosia', 'nicosia', 'Λευκωσία', 'στη Λευκωσία', 'Nicosia', True,
+     {'el': 'Το γραφείο μου είναι στη Λευκωσία, στη Λεωφόρο Στροβόλου. Εκεί γίνονται οι περισσότερες συναντήσεις από κοντά, και όποτε σας βολεύει μιλάμε και με βιντεοκλήση ή τηλεφωνικά.',
+      'en': 'My office is in Nicosia, on Strovolou Avenue. Most in-person meetings happen there, and whenever it suits you we can also talk by video call or by phone.'},
+     [{'el': 'Στο γραφείο', 'en': 'At the office'}, {'el': 'Ραντεβού στο γραφείο, στη Λεωφόρο Στροβόλου 124Γ, 5ος όροφος. Διαλέγετε μέρα και ώρα online ή με ένα τηλεφώνημα.', 'en': 'An appointment at the office, 124C Strovolou Avenue, 5th floor. Choose a day and time online or with a phone call.'}],
+     [{'el': 'Με βιντεοκλήση ή τηλεφωνικά', 'en': 'By video call or phone'}, {'el': 'Αν δεν προλαβαίνετε να έρθετε, η ίδια συζήτηση γίνεται από το σπίτι ή τη δουλειά σας.', 'en': 'If you cannot make it to the office, the same conversation can happen from your home or workplace.'}],
+     [{'el': 'Επίσκεψη κατόπιν συνεννόησης', 'en': 'A visit by arrangement'}, {'el': 'Αν χρειάζεται, π.χ. για μια επιχείρηση ή για κάποιον που δυσκολεύεται να μετακινηθεί, συνεννοούμαστε για συνάντηση στον δικό σας χώρο.', 'en': 'If needed, for example for a business or for someone who finds it hard to travel, we can arrange to meet at your place.'}]),
+    ('limassol', 'lemesos', 'limassol', 'Λεμεσός', 'στη Λεμεσό', 'Limassol', False,
+     {'el': 'Από τη Λεμεσό ο πιο απλός τρόπος είναι συχνά μια βιντεοκλήση: είναι το ίδιο ολοκληρωμένη συζήτηση, χωρίς τη διαδρομή μέχρι τη Λευκωσία. Αν θέλετε να συναντηθούμε από κοντά, το κανονίζουμε.',
+      'en': 'From Limassol the simplest way is often a video call: it is just as complete a conversation, without the drive to Nicosia. If you would like to meet in person, we arrange it.'},
+     [{'el': 'Πρώτα με βιντεοκλήση', 'en': 'Video call first'}, {'el': 'Η πρώτη συνάντηση, περίπου 45 λεπτά, γίνεται άνετα με βιντεοκλήση. Βλέπουμε μαζί τα συμβόλαια και τις ανάγκες σας στην οθόνη.', 'en': 'The first meeting, about 45 minutes, works well by video call. We look at your policies and needs together on screen.'}],
+     [{'el': 'Τηλεφωνικά', 'en': 'By phone'}, {'el': 'Για μια σύντομη ερώτηση ή αν δεν σας βολεύει η κάμερα, μιλάμε απλώς στο τηλέφωνο.', 'en': 'For a quick question, or if a camera does not suit you, we simply talk on the phone.'}],
+     [{'el': 'Από κοντά, κατόπιν συνεννόησης', 'en': 'In person, by arrangement'}, {'el': 'Στο γραφείο στη Λευκωσία όποτε περνάτε από εκεί, ή επίσκεψη στη Λεμεσό αφού το συνεννοηθούμε.', 'en': 'At the office in Nicosia whenever you are there, or a visit in Limassol once we have arranged it.'}]),
+    ('larnaca', 'larnaka', 'larnaca', 'Λάρνακα', 'στη Λάρνακα', 'Larnaca', False,
+     {'el': 'Αν μένετε ή δουλεύετε στη Λάρνακα, μπορούμε να ξεκινήσουμε με ένα τηλεφώνημα ή μια βιντεοκλήση και να συνεχίσουμε από κοντά, στο γραφείο στη Λευκωσία ή με επίσκεψη κατόπιν συνεννόησης.',
+      'en': 'If you live or work in Larnaca, we can start with a phone call or a video call and continue in person, at the office in Nicosia or with a visit by arrangement.'},
+     [{'el': 'Ένα πρώτο τηλεφώνημα', 'en': 'A first phone call'}, {'el': 'Μου λέτε με λίγα λόγια τι σας απασχολεί και βρίσκουμε τον τρόπο που σας βολεύει για την πρώτη συνάντηση.', 'en': 'You tell me briefly what is on your mind and we find the way that suits you for the first meeting.'}],
+     [{'el': 'Βιντεοκλήση', 'en': 'Video call'}, {'el': 'Η πρώτη συνάντηση με βιντεοκλήση, από όπου βρίσκεστε. Τα χαρτιά σας τα έχετε δίπλα σας.', 'en': 'The first meeting by video call, wherever you are. You keep your papers next to you.'}],
+     [{'el': 'Στο γραφείο ή στον χώρο σας', 'en': 'At the office or at your place'}, {'el': 'Στο γραφείο στη Λευκωσία, ή επίσκεψη στη Λάρνακα αφού το κανονίσουμε.', 'en': 'At the office in Nicosia, or a visit in Larnaca once we have arranged it.'}]),
+    ('paphos', 'pafos', 'paphos', 'Πάφος', 'στην Πάφο', 'Paphos', False,
+     {'el': 'Η Πάφος είναι η πιο μακρινή πόλη από το γραφείο μου, γι’ αυτό εκεί δουλεύουμε κυρίως με βιντεοκλήση και τηλέφωνο. Η εξυπηρέτηση είναι η ίδια: πρώτη συζήτηση, πρόταση με απλά λόγια, και βοήθεια όταν χρειαστεί αποζημίωση.',
+      'en': 'Paphos is the furthest city from my office, so there we mostly work by video call and phone. The service is the same: a first conversation, a proposal in plain words, and help when you need to claim.'},
+     [{'el': 'Βιντεοκλήση', 'en': 'Video call'}, {'el': 'Ο πιο πρακτικός τρόπος από την Πάφο: περίπου 45 λεπτά, χωρίς ταξίδι, στα Ελληνικά ή στα Αγγλικά.', 'en': 'The most practical way from Paphos: about 45 minutes, no travel, in Greek or English.'}],
+     [{'el': 'Τηλέφωνο και WhatsApp', 'en': 'Phone and WhatsApp'}, {'el': 'Για ερωτήσεις, αλλαγές ή μια αποζημίωση, είμαι ένα τηλεφώνημα ή ένα μήνυμα μακριά.', 'en': 'For questions, changes or a claim, I am one phone call or one message away.'}],
+     [{'el': 'Από κοντά, όταν χρειάζεται', 'en': 'In person, when needed'}, {'el': 'Μια επίσκεψη στην Πάφο κανονίζεται κατόπιν συνεννόησης, ή συναντιόμαστε στο γραφείο όταν βρίσκεστε στη Λευκωσία.', 'en': 'A visit in Paphos can be arranged, or we meet at the office when you are in Nicosia.'}]),
+    ('famagusta', 'ammochostos', 'famagusta', 'Αμμόχωστος', 'στην Αμμόχωστο', 'Famagusta', False,
+     {'el': 'Για την ελεύθερη επαρχία Αμμοχώστου, όπως το Παραλίμνι, την Αγία Νάπα και το Δερύνεια, οι συναντήσεις γίνονται με βιντεοκλήση ή τηλεφωνικά, και από κοντά κατόπιν συνεννόησης.',
+      'en': 'For the free Famagusta district, such as Paralimni, Ayia Napa and Deryneia, we meet by video call or by phone, and in person by arrangement.'},
+     [{'el': 'Βιντεοκλήση ή τηλέφωνο', 'en': 'Video call or phone'}, {'el': 'Όλη η πρώτη συζήτηση γίνεται από απόσταση, την ώρα που σας βολεύει.', 'en': 'The whole first conversation can happen remotely, at a time that suits you.'}],
+     [{'el': 'Πρόταση με απλά λόγια', 'en': 'A proposal in plain words'}, {'el': 'Σας εξηγώ την πρόταση στην οθόνη και την έχετε και γραπτώς, για να τη σκεφτείτε με την ησυχία σας.', 'en': 'I explain the proposal on screen and you get it in writing, to think it over in your own time.'}],
+     [{'el': 'Από κοντά, κατόπιν συνεννόησης', 'en': 'In person, by arrangement'}, {'el': 'Στο γραφείο στη Λευκωσία, ή επίσκεψη στην περιοχή σας αφού το κανονίσουμε.', 'en': 'At the office in Nicosia, or a visit in your area once we have arranged it.'}]),
+]
+for _cid, _el, _en, _nel, _, _nen, *_ in CITIES:
+    SLUGS['city-' + _cid] = {'el': _el, 'en': _en}
+    T['nav']['city-' + _cid] = {'el': _nel, 'en': _nen}
+
+def city_links(lang, current=''):
+    el = lang == 'el'
+    return ('<nav class="jump city-links" aria-label="' + ('Πόλεις' if el else 'Cities') + '">'
+            + ''.join(f'<a href="{url("city-" + c[0], lang)}"' + (' aria-current="page"' if c[0] == current else '') + f'>{c[3] if el else c[5]}</a>' for c in CITIES) + '</nav>')
+
+def make_city_page(cid):
+    c = next(x for x in CITIES if x[0] == cid)
+    _, _, _, name_el, in_el, name_en, office, lead, *ways = c
+    def page(lang):
+        el = lang == 'el'
+        name = name_el if el else name_en
+        title = f'Ασφαλιστικός Σύμβουλος {in_el}: ζωή, υγεία, σύνταξη' if el else f'Insurance Advisor in {name_en}: life, health, retirement'
+        desc = (f'Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος. Συναντήσεις {in_el} ' + ('στο γραφείο, με βιντεοκλήση ή τηλεφωνικά.' if office else 'με βιντεοκλήση ή τηλεφωνικά, και από κοντά κατόπιν συνεννόησης.') if el else
+                f'Giannis Farazis, Insurance Advisor. Meetings in {name_en} ' + ('at the office, by video call or by phone.' if office else 'by video call or phone, and in person by arrangement.'))
+        ld = [{'@context': 'https://schema.org', '@type': 'Service', 'name': title, 'serviceType': 'Life, health and retirement insurance advice',
+               'provider': {'@id': BASE + '/#person'}, 'areaServed': {'@type': 'City', 'name': name, 'containedInPlace': {'@type': 'Country', 'name': 'Κύπρος' if el else 'Cyprus'}},
+               'availableChannel': [{'@type': 'ServiceChannel', 'serviceLocation': {'@type': 'Place', 'name': 'Office' if not el else 'Γραφείο', 'address': {'@type': 'PostalAddress', 'streetAddress': 'Λεωφόρος Στροβόλου 124Γ, 5ος όροφος' if el else '124C Strovolou Avenue, 5th floor', 'addressLocality': 'Λευκωσία' if el else 'Nicosia', 'addressCountry': 'CY'}}, 'servicePhone': {'@type': 'ContactPoint', 'telephone': TEL}}],
+               'url': BASE + url('city-' + cid, lang)}]
+        cards = ''.join(f'<li><h3>{L(t, lang)}</h3><p>{L(d, lang)}</p></li>' for t, d in ways)
+        topics = [x for x in SOLUTIONS if x[0] in ('life', 'health', 'retirement', 'review')]
+        addr = OFFICE_EL if el else OFFICE_EN
+        return head(lang, 'city-' + cid, title, desc, ld) + page_head(name, L(lead, lang)) + f'''
+<section class="section section--tight"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{('Πώς συναντιόμαστε ' + in_el) if el else ('How we meet in ' + name_en)}</h2></div>
+<ul class="meet-facts meet-facts--plain">{cards}</ul>
+<p class="note">{'Γραφείο' if el else 'Office'}: {addr} · <a href="tel:{TEL}">{PHONE}</a> · <a href="tel:{OFFICE_TEL}">{OFFICE}</a></p>
+{actions(lang)}
+</div></section>
+<section class="section tint"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Τι μπορούμε να δούμε μαζί' if el else 'What we can look at together'}</h2></div>
+{sol_cards(lang, topics)}
+<p><a href="{url('first', lang)}">{L(T['nav']['first'], lang)}</a>{ICON['arrow']}</p>
+</div></section>
+<section class="section"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Και σε άλλες πόλεις' if el else 'Other cities'}</h2>
+<p>{'Η ίδια εξυπηρέτηση σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά.' if el else 'The same service across Cyprus, in Greek and English.'}</p></div>
+{city_links(lang, cid)}
+</div></section>''' + cta_band(lang) + foot(lang)
+    return page
+
 def page_privacy(lang):
     el = lang == 'el'
     title = 'Πολιτική απορρήτου' if el else 'Privacy policy'
@@ -806,7 +889,8 @@ def page_404():
     return (head('el', 'home', 'Η σελίδα δεν βρέθηκε | Giannis Farazis', 'Η σελίδα δεν βρέθηκε.').replace('<link rel="canonical"', '<meta name="robots" content="noindex"><link rel="canonical"')
             + page_head('Η σελίδα δεν βρέθηκε', 'Page not found') + f'<section class="section"><div class="wrap"><p><a href="/">Αρχική</a> · <a href="/en/">Home</a></p>{actions("el")}</div></section>' + foot('el'))
 
-PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'first': page_first, 'privacy': page_privacy}
+PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'first': page_first, 'privacy': page_privacy,
+         **{'city-' + c[0]: make_city_page(c[0]) for c in CITIES}}
 # addresses of the earlier Design.com site, kept working
 LEGACY = {'home': '/', 'contact-us': '/epikoinonia/', 'programs': '/lyseis/', 'about': '/sxetika/', 'vero': '/'}
 
