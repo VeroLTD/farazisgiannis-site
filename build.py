@@ -23,6 +23,8 @@ WHATSAPP = 'https://wa.me/35797840941'
 LINKEDIN = 'https://www.linkedin.com/in/giannis-farazis-209221350/'
 AVRASTRO = 'https://avrastro.com'
 ENQUIRY = 'https://app.avrastro.com/v1/enquiry'
+# online booking (ideas track 2, 14 Oct 2026): avrastro.com's own booking system, same free times and bookings
+BOOKING_API = os.environ.get('BOOKING_API', AVRASTRO + '/wp-json/vero/v1')
 
 SLUGS = {
     'home': {'el': '', 'en': ''},
@@ -31,6 +33,7 @@ SLUGS = {
     'how': {'el': 'pos-douleuo', 'en': 'how-i-work'},
     'guides': {'el': 'odigoi', 'en': 'guides'},
     'contact': {'el': 'epikoinonia', 'en': 'contact'},
+    'booking': {'el': 'rantevou', 'en': 'book'},
     'privacy': {'el': 'aporrito', 'en': 'privacy'},
 }
 NAV = ['about', 'solutions', 'how', 'guides', 'contact']
@@ -41,6 +44,7 @@ T = {
         'about': {'el': 'Σχετικά', 'en': 'About'}, 'solutions': {'el': 'Λύσεις', 'en': 'Solutions'},
         'how': {'el': 'Πώς δουλεύω', 'en': 'How I work'}, 'guides': {'el': 'Οδηγοί', 'en': 'Guides'},
         'contact': {'el': 'Επικοινωνία', 'en': 'Contact'}, 'privacy': {'el': 'Απόρρητο', 'en': 'Privacy'},
+        'booking': {'el': 'Κλείστε ραντεβού', 'en': 'Book an appointment'},
     },
     'call': {'el': 'Καλέστε', 'en': 'Call'},
     'menu': {'el': 'Μενού', 'en': 'Menu'},
@@ -61,6 +65,7 @@ def url(page, lang, anchor=''):
     return ('/en/' if lang == 'en' else '/') + (slug + '/' if slug else '') + (('#' + anchor) if anchor else '')
 
 ICON = {
+    'cal': '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
     'phone': '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3h3l2 5-2.5 1.5a11 11 0 0 0 7 7L16 14l5 2v3a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>',
     'wa': '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l1.3-3.8A8 8 0 1 1 8 19z"/><path d="M9 9.5c.3 2 2.2 4.2 4.5 4.8l1.2-1.1 1.8.8c-.2 1-1 1.8-2 1.8A6 6 0 0 1 8 9.8c0-1 .8-1.8 1.8-2l.8 1.8z"/></svg>',
     'clear': '<svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 8h20l8 8v24H10z"/><path d="M30 8v8h8"/><path d="M16 24h16M16 30h16M16 36h10"/></svg>',
@@ -191,15 +196,16 @@ def foot(lang):
 <a href="tel:{TEL}">{PHONE}</a><a href="{WHATSAPP}" rel="noopener">WhatsApp</a><a href="{LINKEDIN}" rel="noopener">LinkedIn</a>
 <span>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</span></div>
 </div><div class="wrap foot-legal">© {date.today().year} {L(T['name'], lang)}</div></footer>
-<div class="callbar"><a href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)}</a><a href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a></div>
+<div class="callbar"><a href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)}</a><a href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a><a href="{url('booking', lang)}">{ICON['cal']}{'Ραντεβού' if lang == 'el' else 'Book'}</a></div>
 <script src="/assets/js/site.js?v={ASSET_V}" defer></script>
 </body></html>
 '''
 
-def actions(lang, extra=''):
+def actions(lang, extra='', book=True):
     return f'''<div class="actions">
 <a class="btn btn-primary" href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)} {PHONE}</a>
-<a class="btn btn-ghost" href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a>{extra}
+<a class="btn btn-ghost" href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a>
+{f'<a class="btn btn-ghost" href="{url("booking", lang)}">{ICON["cal"]}{L(T["nav"]["booking"], lang)}</a>' if book else ''}{extra}
 </div>'''
 
 def page_head(title, lead, img=None, alt='', movie=None, lang='el'):
@@ -573,6 +579,57 @@ def page_contact(lang):
 </div>
 </div></section>''' + foot(lang)
 
+BOOKING_TOPICS = [('review', 'Ετήσια επανεξέταση', 'Annual review'), ('life', 'Ασφάλεια ζωής', 'Life cover'), ('health', 'Υγεία / ιατροφαρμακευτική', 'Health / medical'),
+                  ('savings', 'Αποταμίευση', 'Savings'), ('pension', 'Σύνταξη', 'Retirement'), ('children', 'Παιδιά & σπουδές', 'Children & education'),
+                  ('property', 'Κατοικία & δάνειο', 'Home & mortgage'), ('business', 'Επιχείρηση', 'Business'), ('claim', 'Αποζημίωση / απαίτηση', 'Claim'), ('other', 'Άλλο', 'Other')]
+BOOKING_MODES = [('office', 'Στο γραφείο', 'At the office'), ('video', 'Βιντεοκλήση', 'Video call'), ('phone', 'Τηλεφωνικά', 'By phone')]
+
+def page_booking(lang):
+    """The same calendar as avrastro.com (booking.js). Without JavaScript: a link to the booking page on avrastro.com."""
+    el = lang == 'el'
+    title = {'el': 'Κλείστε ραντεβού με τον Γιάννη Φαραζή, Ασφαλιστικό Σύμβουλο', 'en': 'Book an appointment with Giannis Farazis, Insurance Advisor'}[lang]
+    desc = {'el': 'Διαλέξτε μέρα και ώρα από τις πραγματικές ελεύθερες ώρες: στο γραφείο στη Λευκωσία, με βιντεοκλήση ή τηλεφωνικά. Χωρίς δέσμευση.',
+            'en': 'Choose a day and time from the real free times: at the office in Nicosia, by video call or by phone. No commitment.'}[lang]
+    topics = ''.join(f'<option value="{k}">{esc(a if el else b)}</option>' for k, a, b in BOOKING_TOPICS)
+    modes = ''.join(f'<option value="{k}">{esc(a if el else b)}</option>' for k, a, b in BOOKING_MODES)
+    fallback = AVRASTRO + ('/en' if not el else '') + '/citizen-booking/'
+    steps = (['Διαλέγετε θέμα, τρόπο, μέρα και ώρα.', 'Λαμβάνετε αμέσως e-mail ότι το αίτημα παραλήφθηκε.', 'Το επιβεβαιώνω και σας έρχεται e-mail με όλες τις λεπτομέρειες και υπενθύμιση την προηγούμενη μέρα.']
+             if el else ['Choose a topic, a way to meet, a day and a time.', 'You receive an e-mail at once that the request was received.', 'I confirm it and you receive an e-mail with every detail, and a reminder the day before.'])
+    return head(lang, 'booking', title, desc) + page_head(L(T['nav']['booking'], lang), 'Μια πρώτη συζήτηση, χωρίς δέσμευση, την ώρα που σας βολεύει.' if el else 'A first conversation, with no commitment, at a time that suits you.') + f'''
+<section class="section"><div class="wrap contact-grid booking-grid">
+<div class="booking-how">
+<h2>{'Πώς γίνεται' if el else 'How it works'}</h2>
+<ol class="steps-mini">{''.join(f'<li>{esc(x)}</li>' for x in steps)}</ol>
+<p>{'Η συνάντηση διαρκεί περίπου' if el else 'The meeting takes about'} <b><span data-minutes>45</span> {'λεπτά' if el else 'minutes'}</b>. {'Οι ώρες είναι ώρα Κύπρου.' if el else 'Times are Cyprus time.'}</p>
+<p class="hint">{'Το ημερολόγιο είναι το ίδιο με εκείνο του avrastro.com: μια ώρα που κλείνεται εδώ δεν μπορεί να κλειστεί αλλού.' if el else 'The calendar is the same as on avrastro.com: a time booked here cannot be booked anywhere else.'}</p>
+<p>{'Προτιμάτε να μιλήσουμε πρώτα;' if el else 'Would you rather talk first?'}</p>
+{actions(lang, book=False)}
+</div>
+<div id="booking" class="booking" data-api="{esc(BOOKING_API)}" data-lang="{lang}">
+<noscript><p class="status err" style="display:block">{'Για την online κράτηση χρειάζεται JavaScript.' if el else 'Online booking needs JavaScript.'} <a href="{fallback}">{'Κλείστε ραντεβού στο avrastro.com' if el else 'Book on avrastro.com'}</a></p></noscript>
+<form class="form" novalidate>
+<div class="row">
+<label>{'Θέμα' if el else 'Topic'}<select name="topic">{topics}</select></label>
+<label>{'Τρόπος' if el else 'Type'}<select name="mode">{modes}</select></label>
+</div>
+<fieldset class="pick"><legend>{'Διαλέξτε ημέρα' if el else 'Choose a day'}</legend><div class="chips" data-days aria-live="polite"></div><button class="btn btn-link more-days" type="button" data-more hidden>{'Περισσότερες ημέρες' if el else 'More days'}</button></fieldset>
+<fieldset class="pick"><legend>{'Διαλέξτε ώρα' if el else 'Choose a time'}</legend><div class="chips chips--time" data-slots aria-live="polite"></div></fieldset>
+<div class="row">
+<label>{'Ονοματεπώνυμο' if el else 'Full name'}<input name="name" autocomplete="name" required maxlength="120"></label>
+<label><span>E-mail <span class="hint">{'(εκεί έρχεται η επιβεβαίωση)' if el else '(the confirmation is sent there)'}</span></span><input name="email" type="email" autocomplete="email" required maxlength="160"></label>
+</div>
+<label><span>{'Τηλέφωνο' if el else 'Phone'} <span class="hint">{'(προαιρετικό)' if el else '(optional)'}</span></span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40"></label>
+<label><span>{'Τι θα θέλατε να συζητήσουμε;' if el else 'What would you like to discuss?'} <span class="hint">{'Προαιρετικό. Μη γράφετε ιατρικά στοιχεία.' if el else 'Optional. Please do not include medical details.'}</span></span><textarea name="note" maxlength="1500"></textarea></label>
+<div class="hp" aria-hidden="true"><label>Leave empty<input name="vc_hp_x" tabindex="-1" autocomplete="off"></label></div>
+<label class="check"><input type="checkbox" name="privacy" required><span>{f'Διάβασα την <a data-privacy href="{AVRASTRO}/privacy/" rel="noopener">Πολιτική απορρήτου</a> και αποδέχομαι τους <a data-terms href="{AVRASTRO}/terms/" rel="noopener">Όρους χρήσης</a> του συστήματος ραντεβού AVRASTRO. Το αίτημα πηγαίνει στον Γιάννη Φαραζή και μπορεί να καταχωριστεί στο σύστημα διαχείρισης πελατών του.' if el else f'I have read the <a data-privacy href="{AVRASTRO}/en/privacy/" rel="noopener">Privacy notice</a> and accept the <a data-terms href="{AVRASTRO}/en/terms/" rel="noopener">Terms of use</a> of the AVRASTRO booking system. The request goes to Giannis Farazis and may be recorded in his client management system.'}</span></label>
+<div class="status" role="status" aria-live="polite"></div>
+<button class="btn btn-primary" type="submit">{'Αίτημα ραντεβού' if el else 'Request appointment'}</button>
+</form>
+<div class="form booking-done" data-done hidden tabindex="-1"><h2></h2><p class="booking-when" data-when></p><p data-body></p><p><button class="btn btn-ghost" type="button" data-again>…</button></p></div>
+</div>
+</div></section>
+<script src="/assets/js/booking.js?v={ASSET_V}" defer></script>''' + foot(lang)
+
 def page_privacy(lang):
     el = lang == 'el'
     title = 'Πολιτική απορρήτου' if el else 'Privacy policy'
@@ -608,7 +665,7 @@ def page_404():
     return (head('el', 'home', 'Η σελίδα δεν βρέθηκε | Giannis Farazis', 'Η σελίδα δεν βρέθηκε.').replace('<link rel="canonical"', '<meta name="robots" content="noindex"><link rel="canonical"')
             + page_head('Η σελίδα δεν βρέθηκε', 'Page not found') + f'<section class="section"><div class="wrap"><p><a href="/">Αρχική</a> · <a href="/en/">Home</a></p>{actions("el")}</div></section>' + foot('el'))
 
-PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'privacy': page_privacy}
+PAGES = {'home': page_home, 'about': page_about, 'solutions': page_solutions, 'how': page_how, 'guides': page_guides, 'contact': page_contact, 'booking': page_booking, 'privacy': page_privacy}
 # addresses of the earlier Design.com site, kept working
 LEGACY = {'home': '/', 'contact-us': '/epikoinonia/', 'programs': '/lyseis/', 'about': '/sxetika/', 'vero': '/'}
 

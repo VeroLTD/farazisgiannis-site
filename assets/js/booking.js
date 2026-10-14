@@ -1,0 +1,170 @@
+// farazisgiannis.com — online booking (ideas track 2, 14 Oct 2026).
+// The calendar IS avrastro.com's: free times and the booking itself go through avrastro.com's booking endpoints, so a
+// time taken here, on avrastro.com, in the CRM or in Outlook is taken everywhere. Nothing is stored in this browser,
+// no cookies are sent (credentials: 'omit'), no third-party code. Without JavaScript the page links to avrastro.com.
+(function () {
+  var root = document.getElementById('booking');
+  if (!root || !window.fetch) return;
+  var API = root.getAttribute('data-api'), el = root.getAttribute('data-lang') !== 'en', LANG = el ? 'el' : 'en';
+  var LOCALE = el ? 'el-GR' : 'en-GB', TZ = 'Europe/Nicosia';
+  var txt = {
+    loading: el ? 'Φόρτωση ελεύθερων ωρών…' : 'Loading free times…',
+    none: el ? 'Δεν υπάρχουν ελεύθερες ώρες τις επόμενες εβδομάδες. Καλέστε στο +357 97 840941 ή στείλτε μήνυμα.' : 'There are no free times in the coming weeks. Please call +357 97 840941 or send a message.',
+    off: el ? 'Η online κράτηση δεν είναι διαθέσιμη αυτή τη στιγμή. Καλέστε στο +357 97 840941.' : 'Online booking is not available right now. Please call +357 97 840941.',
+    down: el ? 'Δεν ήταν δυνατό να φορτωθούν οι ώρες. Δοκιμάστε ξανά σε λίγο ή καλέστε στο +357 97 840941.' : 'The times could not be loaded. Please try again shortly or call +357 97 840941.',
+    pickDay: el ? 'Διαλέξτε πρώτα ημέρα.' : 'Choose a day first.',
+    noSlots: el ? 'Δεν έμειναν ώρες αυτή την ημέρα. Διαλέξτε άλλη.' : 'No times left on this day. Please choose another.',
+    slots: el ? 'ώρες' : 'times', slot1: el ? 'ώρα' : 'time',
+    missing: el ? 'Συμπληρώστε ονοματεπώνυμο και e-mail, διαλέξτε ημέρα και ώρα και τσεκάρετε τη συγκατάθεση.' : 'Please fill in your name and e-mail, choose a day and a time, and tick the consent box.',
+    email: el ? 'Το e-mail δεν φαίνεται σωστό. Εκεί θα σταλεί η επιβεβαίωση.' : 'That e-mail address does not look right. The confirmation is sent there.',
+    taken: el ? 'Η ώρα μόλις κλείστηκε από κάποιον άλλον. Διαλέξτε άλλη ώρα.' : 'That time was just taken. Please choose another time.',
+    rate: el ? 'Έχουν γίνει πολλά αιτήματα. Δοκιμάστε ξανά σε μία ώρα ή καλέστε στο +357 97 840941.' : 'Too many requests. Try again in an hour or call +357 97 840941.',
+    failed: el ? 'Η κράτηση δεν ολοκληρώθηκε. Καλέστε στο +357 97 840941 ή στείλτε μήνυμα στο WhatsApp.' : 'The booking did not go through. Please call +357 97 840941 or send a WhatsApp message.',
+    sending: el ? 'Αποστολή…' : 'Sending…',
+    okTitle: el ? 'Το αίτημα ραντεβού στάλθηκε' : 'Your appointment request has been sent',
+    okBody: el ? 'Θα λάβετε τώρα e-mail ότι το αίτημα παραλήφθηκε και, μόλις το επιβεβαιώσω, δεύτερο e-mail με όλες τις λεπτομέρειες (πού, πώς, προσθήκη στο ημερολόγιο). Από το e-mail μπορείτε να ακυρώσετε ή να αλλάξετε την ώρα.' : 'You will now receive an e-mail that the request was received and, once I confirm it, a second e-mail with all the details (where, how, add to your calendar). You can cancel or change the time from the e-mail.',
+    again: el ? 'Νέο ραντεβού' : 'Book another',
+  };
+  var $ = function (s) { return root.querySelector(s); };
+  var form = $('form'), daysBox = $('[data-days]'), slotsBox = $('[data-slots]'), status = $('.status'), submit = $('button[type=submit]');
+  var state = { date: '', time: '', token: '', tokenAt: 0, all: false };
+  var more = $('[data-more]');
+  more.addEventListener('click', function () { state.all = true; loadDays(); });
+
+  function show(kind, text) { status.className = 'status ' + kind; status.textContent = text; if (kind === 'err') status.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+  function call(path, opts) {
+    opts = opts || {};
+    var headers = { 'X-Vero-Lang': LANG };
+    if (opts.body) headers['Content-Type'] = 'application/json';
+    return fetch(API + path, { method: opts.body ? 'POST' : 'GET', headers: headers, body: opts.body ? JSON.stringify(opts.body) : undefined, credentials: 'omit', cache: 'no-store', mode: 'cors' })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (b) { return { ok: r.ok, status: r.status, b: b }; }); });
+  }
+  function token() {
+    return call('/form-token').then(function (r) { if (!r.ok || !r.b.token) throw new Error('token'); state.token = r.b.token; state.tokenAt = Date.now(); });
+  }
+  function dayLabel(iso) {
+    var p = iso.split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2], 12));
+    return {
+      wd: d.toLocaleDateString(LOCALE, { weekday: 'short', timeZone: TZ }),
+      dm: d.toLocaleDateString(LOCALE, { day: 'numeric', month: 'short', timeZone: TZ }),
+      long: d.toLocaleDateString(LOCALE, { weekday: 'long', day: 'numeric', month: 'long', timeZone: TZ }),
+    };
+  }
+  function chip(label, sub, pressed, onClick) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'chip'; b.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    var s = document.createElement('span'); s.textContent = label; b.appendChild(s);
+    if (sub) { var m = document.createElement('small'); m.textContent = sub; b.appendChild(m); }
+    b.addEventListener('click', onClick);
+    return b;
+  }
+  function note(box, text) { box.textContent = ''; var p = document.createElement('p'); p.className = 'hint'; p.textContent = text; box.appendChild(p); }
+
+  function loadDays() {
+    note(daysBox, txt.loading); note(slotsBox, txt.pickDay);
+    return call('/booking/days').then(function (r) {
+      if (!r.ok) throw new Error('days');
+      var days = r.b.days || [];
+      daysBox.textContent = '';
+      if (!days.length) { more.hidden = true; return note(daysBox, txt.none); }
+      // the first two weeks first; the rest one tap away (keeps the phone page short)
+      var limit = state.all ? days.length : 9, chosenAt = days.findIndex(function (d) { return d.date === state.date; });
+      if (chosenAt >= limit) limit = days.length;
+      more.hidden = limit >= days.length;
+      days.slice(0, limit).forEach(function (d) {
+        var l = dayLabel(d.date);
+        var b = chip(l.wd + ' ' + l.dm, d.slots + ' ' + (d.slots === 1 ? txt.slot1 : txt.slots), d.date === state.date, function () { pickDay(d.date); });
+        b.setAttribute('aria-label', l.long + ', ' + d.slots + ' ' + (d.slots === 1 ? txt.slot1 : txt.slots));
+        b.setAttribute('data-date', d.date);
+        daysBox.appendChild(b);
+      });
+      if (state.date && !days.some(function (d) { return d.date === state.date; })) { state.date = ''; state.time = ''; }
+      if (state.date) return loadSlots();
+    }).catch(function () { note(daysBox, txt.down); });
+  }
+  function pickDay(date) {
+    state.date = date; state.time = '';
+    [].forEach.call(daysBox.querySelectorAll('.chip'), function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-date') === date ? 'true' : 'false'); });
+    loadSlots();
+  }
+  function loadSlots() {
+    note(slotsBox, txt.loading);
+    return call('/booking/slots?date=' + encodeURIComponent(state.date)).then(function (r) {
+      if (!r.ok) throw new Error('slots');
+      var slots = r.b.slots || [];
+      slotsBox.textContent = '';
+      if (!slots.length) return note(slotsBox, txt.noSlots);
+      slots.forEach(function (t) {
+        var b = chip(t, '', t === state.time, function () {
+          state.time = t;
+          [].forEach.call(slotsBox.querySelectorAll('.chip'), function (c) { c.setAttribute('aria-pressed', c.textContent === t ? 'true' : 'false'); });
+        });
+        slotsBox.appendChild(b);
+      });
+    }).catch(function () { note(slotsBox, txt.down); });
+  }
+
+  function send(data, retried) {
+    var wait = Math.max(0, 2500 - (Date.now() - state.tokenAt));
+    return new Promise(function (ok) { setTimeout(ok, wait); }).then(function () {
+      data.form_token = state.token;
+      return call('/booking', { body: data });
+    }).then(function (r) {
+      if (r.ok && r.b.ok) return done(data);
+      var code = r.b && r.b.code;
+      if (!retried && (code === 'vero_form_expired' || code === 'vero_too_fast')) return token().then(function () { return send(data, true); });
+      if (r.status === 429) return show('err', txt.rate);
+      if (code === 'vero_slot_taken' || (r.b && r.b.data && r.b.data.fields && r.b.data.fields.time)) { state.time = ''; loadDays(); return show('err', txt.taken); }
+      var f = r.b && r.b.data && r.b.data.fields;
+      if (f) { var k = Object.keys(f); return show('err', k.map(function (x) { return f[x]; }).join(' ')); }
+      show('err', (r.b && r.b.message) || txt.failed);
+    });
+  }
+  function done(data) {
+    var l = dayLabel(data.date);
+    form.hidden = true;
+    var box = $('[data-done]');
+    box.querySelector('h2').textContent = txt.okTitle;
+    box.querySelector('[data-when]').textContent = l.long + ' · ' + data.time;
+    box.querySelector('[data-body]').textContent = txt.okBody;
+    box.hidden = false; box.focus();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = form.elements;
+    var data = {
+      name: f.name.value.trim(), email: f.email.value.trim(), phone: f.phone.value.trim(), topic: f.topic.value, mode: f.mode.value,
+      note: f.note.value.trim(), date: state.date, time: state.time, privacy: f.privacy.checked, vc_hp_x: f.vc_hp_x.value,
+    };
+    if (data.name.length < 2 || !data.email || !data.date || !data.time || !data.privacy) return show('err', txt.missing);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) return show('err', txt.email);
+    var label = submit.textContent; submit.disabled = true; submit.textContent = txt.sending; status.className = 'status';
+    (state.token ? Promise.resolve() : token()).then(function () { return send(data, false); })
+      .catch(function () { show('err', txt.failed); })
+      .then(function () { submit.disabled = false; submit.textContent = label; });
+  });
+  $('[data-again]').addEventListener('click', function () {
+    form.reset(); state.date = ''; state.time = ''; state.all = false; $('[data-done]').hidden = true; form.hidden = false; token().catch(function () {}); loadDays();
+  });
+
+  // what the advisor offers (topics, ways to meet, links to the booking system's privacy notice and terms)
+  call('/booking/config').then(function (r) {
+    if (!r.ok) throw new Error('config');
+    var c = r.b;
+    if (!c.available) { form.hidden = true; return show('err', txt.off); }
+    var fill = function (sel, items) { if (!items || !items.length) return; sel.textContent = ''; items.forEach(function (it) { var o = document.createElement('option'); o.value = it.key; o.textContent = it.label; sel.appendChild(o); }); };
+    var want = root.getAttribute('data-topic');
+    fill(form.elements.topic, c.topics); fill(form.elements.mode, c.modes);
+    if (want && [].some.call(form.elements.topic.options, function (o) { return o.value === want; })) form.elements.topic.value = want;
+    if (c.privacy_url) $('[data-privacy]').href = c.privacy_url;
+    if (c.terms_url) $('[data-terms]').href = c.terms_url;
+    if (c.minutes) $('[data-minutes]').textContent = String(c.minutes);
+    root.classList.add('is-ready');
+  }).catch(function () { root.classList.add('is-ready'); });
+  var q = new URLSearchParams(location.search).get('topic');
+  if (q) root.setAttribute('data-topic', q);
+  token().catch(function () {});
+  loadDays();
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && !form.hidden) loadDays(); });
+})();
