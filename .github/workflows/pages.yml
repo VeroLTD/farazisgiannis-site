@@ -1,10 +1,13 @@
 # Builds the site (python3 build.py, no dependencies) and publishes it with GitHub Pages.
+# The owner's preview (14 Oct 2026): the branch `preview` is built too and published at /preview/ — not linked, not
+# indexed (noindex on every page, robots.txt Disallow), its booking calendar on the avrastro.com STAGING site. Changes
+# reach the real pages only when they are merged into main after the owner's approval.
 # Until farazisgiannis.com points here, site-prefix.txt holds /farazisgiannis-site (preview at
 # https://veroltd.github.io/farazisgiannis-site/, not indexed). After the DNS switch, empty that file.
 name: Publish site
 on:
   push:
-    branches: [main]
+    branches: [main, preview]
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,15 +21,30 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Build and check (every internal link and image exists, contact rules)
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-src
+      - name: Build and check the real site from main (every internal link and image exists, contact rules)
+        working-directory: main-src
         run: |
           export SITE_PREFIX="$(tr -d '[:space:]' < site-prefix.txt 2>/dev/null || true)"
           python3 build.py
           python3 check.py
+      - name: Build the preview from the preview branch, at /preview/ (not indexed)
+        run: |
+          if git ls-remote --exit-code --heads origin preview >/dev/null; then
+            git fetch --depth 1 origin preview && git worktree add ../preview-src FETCH_HEAD
+            (cd ../preview-src && SITE_PREFIX=/preview PREVIEW=1 BOOKING_API="${PREVIEW_BOOKING_API:-https://staging-faba-verocrminsurance-dihox.wpcomstaging.com/wp-json/vero/v1}" python3 build.py && SITE_PREFIX=/preview python3 check.py)
+            mkdir -p main-src/site/preview && cp -R ../preview-src/site/. main-src/site/preview/
+            rm -f main-src/site/preview/CNAME main-src/site/preview/robots.txt main-src/site/preview/sitemap.xml main-src/site/preview/google*.html main-src/site/preview/BingSiteAuth.xml
+          else
+            echo "no preview branch"
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: main-src/site
   deploy:
     needs: build
     runs-on: ubuntu-24.04
