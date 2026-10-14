@@ -22,7 +22,7 @@
     failed: el ? 'Η κράτηση δεν ολοκληρώθηκε. Καλέστε στο +357 97 840941 ή στείλτε μήνυμα στο WhatsApp.' : 'The booking did not go through. Please call +357 97 840941 or send a WhatsApp message.',
     sending: el ? 'Αποστολή…' : 'Sending…',
     okTitle: el ? 'Το αίτημα ραντεβού στάλθηκε' : 'Your appointment request has been sent',
-    okBody: el ? 'Θα λάβετε τώρα e-mail ότι το αίτημα παραλήφθηκε και, μόλις το επιβεβαιώσω, δεύτερο e-mail με όλες τις λεπτομέρειες (πού, πώς, προσθήκη στο ημερολόγιο). Από το e-mail μπορείτε να ακυρώσετε ή να αλλάξετε την ώρα.' : 'You will now receive an e-mail that the request was received and, once I confirm it, a second e-mail with all the details (where, how, add to your calendar). You can cancel or change the time from the e-mail.',
+    okBody: el ? 'Θα λάβετε τώρα e-mail ότι το αίτημα παραλήφθηκε και, μόλις το επιβεβαιώσω, δεύτερο e-mail με όλες τις λεπτομέρειες (πού, πώς, προσθήκη στο ημερολόγιο). Αν χρειαστεί, μπορείτε να το ακυρώσετε από τον σύνδεσμο στο e-mail και να κλείσετε άλλη ώρα.' : 'You will now receive an e-mail that the request was received and, once I confirm it, a second e-mail with all the details (where, how, add to your calendar). If you need to, you can cancel it from the link in the e-mail and book another time.',
     again: el ? 'Νέο ραντεβού' : 'Book another',
   };
   var $ = function (s) { return root.querySelector(s); };
@@ -127,6 +127,7 @@
     box.querySelector('h2').textContent = txt.okTitle;
     box.querySelector('[data-when]').textContent = l.long + ' · ' + data.time;
     box.querySelector('[data-body]').textContent = txt.okBody;
+    box.querySelector('[data-again]').textContent = txt.again;
     box.hidden = false; box.focus();
   }
 
