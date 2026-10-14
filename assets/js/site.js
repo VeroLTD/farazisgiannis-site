@@ -8,7 +8,7 @@
 
   var form = document.getElementById('enquiry');
   if (!form) return;
-  var el = form.getAttribute('data-lang') !== 'en';
+  var lang = form.getAttribute('data-lang') || 'el', el = lang === 'el';
   var msg = {
     missing: el ? 'Γράψτε το όνομά σας και ένα τηλέφωνο ή e-mail για να σας απαντήσω.' : 'Please give your name and a phone number or e-mail so I can reply.',
     email: el ? 'Το e-mail δεν φαίνεται σωστό. Ελέγξτε το και ξαναδοκιμάστε.' : 'That e-mail address does not look right. Please check it.',
@@ -19,6 +19,16 @@
     ok: el ? 'Ευχαριστώ. Το μήνυμά σας στάλθηκε και θα σας καλέσω σύντομα.' : 'Thank you. Your message has been sent and I will call you soon.',
     sending: el ? 'Αποστολή…' : 'Sending…',
   };
+  if (lang === 'ru') msg = {
+    missing: 'Укажите имя и телефон или e-mail, чтобы я мог ответить.',
+    email: 'Похоже, e-mail указан неверно. Проверьте его.',
+    phone: 'Похоже, телефон указан неверно. Используйте только цифры, пробелы и +.',
+    consent: 'Отметьте согласие, чтобы я мог с вами связаться.',
+    rate_limited: 'Отправлено слишком много сообщений. Попробуйте через час или позвоните по номеру +357 97 840941.',
+    failed: 'Сообщение не отправлено. Позвоните по номеру +357 97 840941 или напишите в WhatsApp.',
+    ok: 'Спасибо. Ваше сообщение отправлено, я скоро перезвоню.',
+    sending: 'Отправляем…',
+  };
   var status = form.querySelector('.status'), submit = form.querySelector('button[type=submit]');
   function show(kind, text) { status.className = 'status ' + kind; status.textContent = text; }
   form.addEventListener('submit', function (e) {
@@ -26,7 +36,7 @@
     var f = form.elements;
     var data = {
       name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), topic: f.topic.value,
-      message: f.message.value.trim(), website: f.website.value, consent: f.consent.checked, lang: el ? 'el' : 'en',
+      message: f.message.value.trim(), website: f.website.value, consent: f.consent.checked, lang: lang,
     };
     if (!data.name || (!data.phone && !data.email)) return show('err', msg.missing);
     if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) return show('err', msg.email);

@@ -332,3 +332,22 @@ p { margin: 0 0 1em; max-width: 68ch; }
   .chips .hint { grid-column: 1 / -1; }
 }
 .booking [hidden] { display: none !important; }
+.general-box { display: grid; gap: .6rem; background: var(--shirt); border-left: 3px solid var(--brass); border-radius: 10px; padding: .9rem 1rem; }
+.general-box .general-notice { margin: 0; font-size: .93rem; color: var(--ink); }
+.booking .place label { display: grid; gap: .35rem; font-weight: 520; }
+
+/* preview banner (only in the owner's /preview/ build) and the general-insurance page */
+.preview-banner { background: #8a6a2f; color: #fff; text-align: center; padding: .55rem 1rem; font-weight: 600; font-size: .92rem; }
+.disclosure { background: var(--shirt); border-left: 3px solid var(--brass); padding: 1rem 1.15rem; border-radius: 10px; }
+details.qa { border-bottom: 1px solid var(--line); padding: .25rem 0; }
+details.qa summary { cursor: pointer; font-weight: 560; padding: .8rem 0; min-height: 44px; list-style-position: outside; }
+details.qa p { margin: 0 0 1rem; }
+.general-link { margin-top: 1.5rem; }
+.general-link a { display: inline-flex; align-items: center; gap: .3rem; }
+.general-link svg { width: 16px; height: 16px; }
+/* three languages in the menu (Russian edition, 14 Oct 2026) */
+.nav-call { white-space: nowrap; }
+.ru-strip { margin: 0; background: var(--shirt); color: var(--ink); text-align: center; padding: .7rem var(--gutter); font-size: .95rem; border-bottom: 1px solid var(--line); }
+.nav { gap: clamp(.85rem, 1.3vw, 1.5rem); }
+.nav a { white-space: nowrap; }
+@media (max-width: 1180px) { .nav .nav-call { display: none; } }
