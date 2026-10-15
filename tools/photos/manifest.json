@@ -81,17 +81,17 @@
    "use": "card: Life insurance",
    "src": "sol-life.webp",
    "alt": {
-    "el": "Πατέρας κρατά απαλά το χεράκι του μωρού του",
-    "en": "A father gently holding his baby’s hand",
-    "ru": "Отец бережно держит ручку своего малыша"
+    "el": "Οικογένεια περπατά με το παιδί της στο ηλιοβασίλεμα",
+    "en": "A family walking with their child at sunset",
+    "ru": "Семья гуляет с ребёнком на закате"
    },
    "credit": {
-    "title": "Free father holding baby's hand",
-    "creator": null,
-    "page": "https://www.rawpixel.com/image/5904571/photo-image-public-domain-hands-kid",
-    "openverse_id": "855aa0e8-805e-4d3e-9ab4-0a4471491955",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "family, walking, countryside, sunset, field, parents, mother, father, toddler, evening, walk, daughter, together, child, nature, outdoors, family, family, family, family, family, parents",
+    "creator": "TheVirtualDenise",
+    "page": "https://pixabay.com/photos/family-walking-countryside-sunset-2485714/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "sol-health": {
@@ -99,17 +99,17 @@
    "use": "card: Health and medical cover",
    "src": "sol-health.webp",
    "alt": {
-    "el": "Γιατροί σε διάδρομο νοσοκομείου",
-    "en": "Doctors in a hospital corridor",
-    "ru": "Врачи в коридоре больницы"
+    "el": "Γιατρός εξετάζει ασθενή στο νοσοκομείο",
+    "en": "A doctor examining a patient in hospital",
+    "ru": "Врач осматривает пациентку в больнице"
    },
    "credit": {
-    "title": "Doctors Hospital",
-    "creator": "Oles kanebckuu",
-    "page": "https://stocksnap.io/photo/doctors-hospital-5YUFL6LC0E",
-    "openverse_id": "373a2ccd-73e0-4e8c-bd07-b0d611b7ac6e",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "doctor, examining, patient, stethoscope, male, female, healthcare, worker, standing, hospital, sick, medicine, lifestyle, bed, health care, occupation, resident, treatment, teamwork, illness, breathing, indoors, two, people, young",
+    "creator": "kumarsu6745_",
+    "page": "https://pixabay.com/photos/doctor-examining-patient-10217214/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "sol-accident": {
@@ -117,30 +117,17 @@
    "use": "card: Personal accident",
    "src": "sol-accident.webp",
    "alt": {
-    "el": "Χαμογελαστό παιδί παίζει έξω με μια μπάλα",
-    "en": "A smiling child playing outdoors with a ball",
-    "ru": "Улыбающийся ребёнок играет с мячом на улице"
+    "el": "Φυσικοθεραπεύτρια βοηθά ασθενή με τραυματισμένο γόνατο",
+    "en": "A physiotherapist helping a patient with an injured knee",
+    "ru": "Физиотерапевт помогает пациенту с травмой колена"
    },
    "credit": {
-    "title": "Happy Kid",
-    "creator": "Lukáš Rychvalský",
-    "page": "https://stocksnap.io/photo/happy-kid-X2XRVZYTZ1",
-    "openverse_id": "ff76a7e5-2460-4ffd-9d4d-7c98b77970f5",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
-   },
-   "fetch": {
-    "replace": true,
-    "queries": [
-     "physiotherapy knee injury",
-     "physiotherapist patient rehabilitation",
-     "man arm sling injury"
-    ],
-    "alt": {
-     "el": "Φυσικοθεραπεία μετά από τραυματισμό",
-     "en": "Physiotherapy after an injury",
-     "ru": "Физиотерапия после травмы"
-    }
+    "title": "knee, orthopedics, therapy, pain, medical, health, physiotherapy, joint, arthritis, exercise, muscles, physiotherapist, treatment, healthcare, rehabilitation, orthopedic, examination, elderly, diagnosis, caregiver, nursing",
+    "creator": "kumarsu6745_",
+    "page": "https://pixabay.com/photos/knee-orthopedics-therapy-pain-10309879/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "sol-retirement": {
@@ -148,17 +135,17 @@
    "use": "card: Retirement",
    "src": "sol-retirement.webp",
    "alt": {
-    "el": "Ζευγάρι μεγαλύτερης ηλικίας χαμογελά μπροστά σε ένα tablet",
-    "en": "An older couple smiling over a tablet at home",
-    "ru": "Пожилая пара с улыбкой смотрит на планшет дома"
+    "el": "Ηλικιωμένο ζευγάρι περπατά σε φθινοπωρινό μονοπάτι",
+    "en": "An older couple walking on an autumn path",
+    "ru": "Пожилая пара гуляет по осенней тропинке"
    },
    "credit": {
-    "title": "Happy Couple",
-    "creator": "Senior Living",
-    "page": "https://stocksnap.io/photo/happy-couple-L54KROOB9E",
-    "openverse_id": "ce8fe730-75ea-4484-a000-b462df2f8f6f",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "couple, elderly, walking, fall, trail, elderly couple, old couple, holding hands, path, autumn, trees, outdoors, nature, grandparents, couple, couple, couple, couple, couple, elderly, elderly couple, old couple, old couple, grandparents",
+    "creator": "EddieKphoto",
+    "page": "https://pixabay.com/photos/couple-elderly-walking-fall-trail-6653517/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "sol-savings": {
@@ -166,17 +153,17 @@
    "use": "card: Savings",
    "src": "sol-savings.webp",
    "alt": {
-    "el": "Ροζ κουμπαράς με κέρματα",
-    "en": "A pink piggy bank with coins",
-    "ru": "Розовая копилка с монетами"
+    "el": "Στοίβες από κέρματα που μεγαλώνουν",
+    "en": "Stacks of coins growing taller",
+    "ru": "Растущие столбики монет"
    },
    "credit": {
-    "title": "Free coins image",
-    "creator": null,
-    "page": "https://www.rawpixel.com/image/5906370/photo-image-public-domain-money-free",
-    "openverse_id": "1c7124d3-d250-44bb-82ab-3a582d8f3e79",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "money, coins, stack, stacked coins, loose change, growing money, money tower, euro, currency, cash, metal money, finance, silver, wealth, prosperity, concept, idea, money, money, money, money, money",
+    "creator": "kschneider2991",
+    "page": "https://pixabay.com/photos/money-coins-stack-stacked-coins-2180330/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "sol-education": {
@@ -184,17 +171,17 @@
    "use": "card: Children and education",
    "src": "sol-education.webp",
    "alt": {
-    "el": "Παιδί ζωγραφίζει με μολύβια σε ένα τετράδιο",
-    "en": "A child drawing with pencils in a notebook",
-    "ru": "Ребёнок рисует карандашами в блокноте"
+    "el": "Χαρούμενος απόφοιτος με τήβεννο και καπέλο",
+    "en": "A happy graduate in cap and gown",
+    "ru": "Счастливый выпускник в мантии и шапочке"
    },
    "credit": {
-    "title": "Free child drawing pencil notepad",
-    "creator": null,
-    "page": "https://www.rawpixel.com/image/5926180/photo-image-public-domain-kid-person",
-    "openverse_id": "66c6c193-b950-491b-9201-4a1dfea08cea",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "graduation, man, cap, gown, education, university, college, school, achievement, student, success, degree, people, academic, graduate, young, happiness, happy, smiling, white, graduation, graduation, graduation, graduation, graduation, university, university, university, college, college, student, degree, degree, graduate, graduate",
+    "creator": "robtowne0",
+    "page": "https://pixabay.com/photos/graduation-man-cap-gown-education-879941/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "sol-loan": {
@@ -202,17 +189,17 @@
    "use": "card: Loan protection",
    "src": "sol-loan.webp",
    "alt": {
-    "el": "Κλειδί στην κλειδαριά της εξώπορτας ενός σπιτιού",
-    "en": "A key in the lock of a front door",
-    "ru": "Ключ в замке входной двери"
+    "el": "Ζευγάρι στο νέο του σπίτι ανάμεσα σε κούτες μετακόμισης",
+    "en": "A couple in their new home among moving boxes",
+    "ru": "Пара в новом доме среди коробок после переезда"
    },
    "credit": {
-    "title": "Keys Door",
-    "creator": "WDnet Studio",
-    "page": "https://stocksnap.io/photo/keys-door-Z1TKDI29FZ",
-    "openverse_id": "deb7b5c9-590d-41e2-9b6c-7c7196d45f7d",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "home, house, family, husband and wife, couple, boxes, love, dreams, new home, new house, new home, new home, new home, new home, new home, new house",
+    "creator": "natik_1123",
+    "page": "https://pixabay.com/photos/home-house-family-husband-and-wife-5574911/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "sol-business": {
@@ -220,17 +207,17 @@
    "use": "card: Business protection",
    "src": "sol-business.webp",
    "alt": {
-    "el": "Αρτοποιός βγάζει φρέσκο ψωμί από τον φούρνο",
-    "en": "A baker taking fresh bread out of the oven",
-    "ru": "Пекарь достаёт из печи свежий хлеб"
+    "el": "Ο πάγκος εργασίας ενός μικρού ανθοπωλείου",
+    "en": "The worktable of a small flower shop",
+    "ru": "Рабочий стол небольшого цветочного магазина"
    },
    "credit": {
-    "title": "Free fresh artisan bread oven",
-    "creator": null,
-    "page": "https://www.rawpixel.com/image/5904163/photo-image-public-domain-person-food",
-    "openverse_id": "581ff4cc-97c6-405f-a791-564d32f6f7d5",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "arrangement, attractive, beautiful, bloom, blossom, bouquet, beautiful flowers, business, nature, colorful, decoration, flower background, flower wallpaper, detail, floral, florist, flowers, natural, plants, present, shop, small business, wooden table, workspace",
+    "creator": "rawpixel",
+    "page": "https://pixabay.com/photos/arrangement-attractive-beautiful-2264812/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "sol-review": {
@@ -238,17 +225,17 @@
    "use": "card: Policy reviews",
    "src": "sol-review.webp",
    "alt": {
-    "el": "Χέρι υπογράφει έγγραφα σε έναν φάκελο",
-    "en": "A hand signing documents in a binder",
-    "ru": "Рука подписывает документы в папке"
+    "el": "Έγγραφα, σημειώσεις και φορητός υπολογιστής πάνω σε ξύλινο τραπέζι",
+    "en": "Papers, notes and a laptop on a wooden table",
+    "ru": "Документы, заметки и ноутбук на деревянном столе"
    },
    "credit": {
-    "title": "Signing contract",
-    "creator": null,
-    "page": "https://www.rawpixel.com/image/5917619/signing-contract-free-public-domain-cc0-photo",
-    "openverse_id": "f91e65b5-bca7-49c5-9f2c-0541565a4be4",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "desk, work, business, office, finance, documents, analysis, application, brainstorming, computer, flatlay, information, laptop, marketing, notebook, objects, planning, startup, wooden table, workplace, workspace, business, business, business, business, business, finance",
+    "creator": "rawpixel",
+    "page": "https://pixabay.com/photos/desk-work-business-office-finance-3139127/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "how-talk": {
@@ -256,17 +243,17 @@
    "use": "step 1: a first conversation",
    "src": "how-talk.webp",
    "alt": {
-    "el": "Γυναίκα με το κινητό και έναν καφέ μπροστά στον υπολογιστή της",
-    "en": "A woman with her phone and a cup of coffee at her laptop",
-    "ru": "Женщина с телефоном и чашкой кофе за ноутбуком"
+    "el": "Κινητό τηλέφωνο και σημειωματάριο δίπλα σε φορητό υπολογιστή",
+    "en": "A phone and a notebook beside a laptop",
+    "ru": "Телефон и блокнот рядом с ноутбуком"
    },
    "credit": {
-    "title": "Girl Woman",
-    "creator": "Wilfred Iven",
-    "page": "https://stocksnap.io/photo/girl-woman-70JMTNDBJI",
-    "openverse_id": "55d9dbde-12f6-4497-a73e-1deb306b6f09",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "business, computer, mobile, smartphone, iphone, connection, data, desk, electronics, home office, internet, keyboard, laptop, macbook, modern, notebook, paper, journal, mockup, technology, telephone, wireless, workplace, workspace, business, business, business, business, business, computer, computer, mobile, iphone, iphone, iphone, data, laptop, laptop, journal, technology",
+    "creator": "6689062",
+    "page": "https://pixabay.com/photos/business-computer-mobile-smartphone-2846221/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "how-needs": {
@@ -274,17 +261,17 @@
    "use": "step 2: looking at your needs",
    "src": "how-needs.webp",
    "alt": {
-    "el": "Χέρι σημειώνει αριθμούς δίπλα σε μια αριθμομηχανή",
-    "en": "A hand noting figures beside a calculator",
-    "ru": "Рука записывает цифры рядом с калькулятором"
+    "el": "Άνθρωποι κρατούν σημειώσεις γύρω από ένα τραπέζι",
+    "en": "People taking notes around a table",
+    "ru": "Люди делают записи за столом"
    },
    "credit": {
-    "title": "Accountant. Free public domain CC0",
-    "creator": null,
-    "page": "https://www.rawpixel.com/image/5913662/accountant-free-public-domain-cc0-photo",
-    "openverse_id": "9fc07d00-e550-4448-bfc5-98438a83dfd2",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "startup, start-up, people, silicon valley, teamwork, business, team, office, group, meeting, corporate, conference, company, men, partnership, table, technology, casual, successful, seminar, colleagues, working, planning, network, strategy, cooperation, professional, notes, notepad, writing, laptop, computer, drinks, business, business, business, business, business, team, team, office, office, meeting, meeting, meeting, company, technology, writing, writing, computer",
+    "creator": "StartupStockPhotos",
+    "page": "https://pixabay.com/photos/startup-start-up-people-593341/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "how-proposal": {
@@ -292,17 +279,17 @@
    "use": "step 3: a proposal in plain words",
    "src": "how-proposal.webp",
    "alt": {
-    "el": "Μια γραπτή πρόταση σε πινακίδα με κλιπ, πάνω σε γραφείο",
-    "en": "A written proposal on a clipboard on a desk",
-    "ru": "Письменное предложение на планшете с зажимом на столе"
+    "el": "Ζευγάρι μελετά χαρτιά με ένα μικρό ξύλινο σπίτι στο τραπέζι",
+    "en": "A couple going through papers, a small wooden house on the table",
+    "ru": "Пара изучает бумаги, на столе маленький деревянный домик"
    },
    "credit": {
-    "title": "Office Work",
-    "creator": "Châu Thông Phan",
-    "page": "https://stocksnap.io/photo/office-work-UP9J4EZYNJ",
-    "openverse_id": "b3be6880-561e-4926-bc94-de401f44d115",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "maintenance, divorce lawyer pune, divorce lawyers pune",
+    "creator": "thedivorcelawfirm",
+    "page": "https://pixabay.com/photos/maintenance-divorce-lawyer-pune-9826086/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "how-after": {
@@ -315,12 +302,12 @@
     "ru": "Рукопожатие"
    },
    "credit": {
-    "title": "Work Business",
-    "creator": "Matt Moloney",
-    "page": "https://stocksnap.io/photo/work-business-WQ2JMRIIQB",
-    "openverse_id": "934f04e8-0913-4155-8e31-b0869d08e266",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "shaking hands, handshake, hands, welcome, agreement, contract, shake hands, negotiation, finger, business people, collaboration, friendship, together, binding, compatible, conclusion, liability, meet, relationship, connection, men's suit, office, business, symbol, promise, teamwork, team, result, company, human, handshake, handshake, handshake, handshake, handshake",
+    "creator": "geralt",
+    "page": "https://pixabay.com/photos/shaking-hands-handshake-hands-3091906/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "how-prepare": {
@@ -328,17 +315,17 @@
    "use": "Before we talk",
    "src": "how-prepare.webp",
    "alt": {
-    "el": "Υπολογιστής με ένα υπολογιστικό φύλλο και μια αριθμομηχανή",
-    "en": "A laptop with a spreadsheet, and a calculator",
-    "ru": "Ноутбук с таблицей и калькулятор"
+    "el": "Λίστα με τα πράγματα που πρέπει να γίνουν σε τετράδιο",
+    "en": "A to-do list in a notebook",
+    "ru": "Список дел в блокноте"
    },
    "credit": {
-    "title": "Accounting Finance",
-    "creator": "Wilfred Iven",
-    "page": "https://stocksnap.io/photo/accounting-finance-JONMP7TPGK",
-    "openverse_id": "9b7ef946-1e8c-4654-bd90-ee183d6056a3",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "to do, list, checklist, notepad, notebook, pen, writing, business, work, to do, list, list, list, list, checklist, checklist, checklist, checklist, checklist",
+    "creator": "StockSnap",
+    "page": "https://pixabay.com/photos/to-do-list-checklist-notepad-2607082/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "guide-life": {
@@ -346,17 +333,17 @@
    "use": "guide: how much life cover",
    "src": "guide-life.webp",
    "alt": {
-    "el": "Πατέρας αγκαλιάζει τον χαμογελαστό γιο του",
-    "en": "A father hugging his smiling son",
-    "ru": "Отец обнимает улыбающегося сына"
+    "el": "Πατέρας αγκαλιάζει τη χαμογελαστή κόρη του",
+    "en": "A father hugging his smiling daughter",
+    "ru": "Отец обнимает улыбающуюся дочь"
    },
    "credit": {
-    "title": "Father Son",
-    "creator": "Family Moments",
-    "page": "https://stocksnap.io/photo/father-son-HBKFP7NCLL",
-    "openverse_id": "bfbc01c8-4783-4354-a83a-62e8e47ce31d",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "people, father, daughter, smile, happy, hug, carry, love, field, beard, cap, child, outdoors, countryside, happiness, fathers day, people, father, father, father, father, father, smile, smile, happy, happy, happy, hug, happiness, fathers day",
+    "creator": "StockSnap",
+    "page": "https://pixabay.com/photos/people-father-daughter-smile-happy-2585733/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "guide-gesy": {
@@ -364,17 +351,17 @@
    "use": "guide: GESY and a private plan",
    "src": "guide-gesy.webp",
    "alt": {
-    "el": "Γιατρός συζητά με μια ασθενή",
-    "en": "A doctor talking with a patient",
-    "ru": "Врач беседует с пациенткой"
+    "el": "Φαρμακοποιός στα ράφια του φαρμακείου",
+    "en": "A pharmacist at the pharmacy shelves",
+    "ru": "Фармацевт у полок аптеки"
    },
    "credit": {
-    "title": "Doctor Patient",
-    "creator": "Direct Media",
-    "page": "https://stocksnap.io/photo/doctor-patient-2CKENQVERF",
-    "openverse_id": "009250f6-639d-4100-aa1b-c536809e8869",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "doctor, pharmacy, pharmaceutical, medicine, store, organize, pharmacy, pharmacy, pharmacy, pharmacy, pharmacy",
+    "creator": "hosnysalah",
+    "page": "https://pixabay.com/photos/doctor-pharmacy-pharmaceutical-8264057/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "guide-review": {
@@ -382,17 +369,17 @@
    "use": "guide: when to review",
    "src": "guide-review.webp",
    "alt": {
-    "el": "Χέρι γράφει σε ένα ημερολόγιο",
-    "en": "A hand writing in a planner",
-    "ru": "Рука делает запись в ежедневнике"
+    "el": "Ημερολόγιο γραφείου και στυλό",
+    "en": "A desk diary and a pen",
+    "ru": "Ежедневник и ручка"
    },
    "credit": {
-    "title": "Writing Hand",
-    "creator": "Kristin Hardwick",
-    "page": "https://stocksnap.io/photo/writing-hand-2FRRD2PUVA",
-    "openverse_id": "0fd12f2a-5497-4577-ba8f-e8b0a5d32407",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "calendar, meeting, planning, scheduling, time management, tasks, agenda, schedule, time planning, to organize, daily plan",
+    "creator": "Ralf1403",
+    "page": "https://pixabay.com/photos/calendar-meeting-planning-10045176/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "first-meeting": {
@@ -400,17 +387,17 @@
    "use": "page header",
    "src": "first-meeting.webp",
    "alt": {
-    "el": "Τρία άτομα συζητούν μπροστά σε έναν υπολογιστή",
-    "en": "Three people talking over a laptop",
-    "ru": "Трое людей беседуют у ноутбука"
+    "el": "Ήσυχο καφέ με τραπέζια για συζήτηση",
+    "en": "A quiet café with tables for a talk",
+    "ru": "Тихое кафе со столиками для беседы"
    },
    "credit": {
-    "title": "Business People",
-    "creator": "Direct Media",
-    "page": "https://stocksnap.io/photo/business-people-DUXISHKTT3",
-    "openverse_id": "e2b49788-c79b-4d17-be4f-7b3307803f9b",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "space, interior, design, architecture, wall, frame, meeting, furniture, old, floor, vintage, retro, window, meeting, meeting, meeting, meeting, meeting",
+    "creator": "uh_yeah_20101995",
+    "page": "https://pixabay.com/photos/space-interior-design-architecture-4660847/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "staff-talks": {
@@ -418,102 +405,107 @@
    "use": "page header",
    "src": "staff-talks.webp",
    "alt": {
-    "el": "Γυναίκα με tablet σε γραφείο, με συναδέλφους πίσω της",
-    "en": "A woman with a tablet in an office, colleagues behind her",
-    "ru": "Женщина с планшетом в офисе, за ней коллеги"
+    "el": "Ομάδα εργαζομένων με φορητούς υπολογιστές σε συνάντηση",
+    "en": "A team of employees with laptops in a meeting",
+    "ru": "Команда сотрудников с ноутбуками на встрече"
    },
    "credit": {
-    "title": "Business Woman",
-    "creator": "Direct Media",
-    "page": "https://stocksnap.io/photo/business-woman-S81ZPXJZUU",
-    "openverse_id": "47630adb-c428-49bb-ac22-3be84632bd21",
-    "license": "CC0 1.0",
-    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    "title": "job, office, team, business, internet, technology, design, draft, portable, meeting, job, office, office, office, office, team, team, business, business, business, business, business, technology, meeting, meeting, meeting",
+    "creator": "RonaldCandonga",
+    "page": "https://pixabay.com/photos/job-office-team-business-internet-5382501/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "city-nicosia": {
    "page": "city-nicosia",
    "use": "page header",
-   "fetch": {
-    "queries": [
-     "Nicosia Cyprus",
-     "Lefkosia",
-     "Nicosia old town",
-     "Nicosia Venetian walls"
-    ]
-   },
    "alt": {
-    "el": "Άποψη της Λευκωσίας",
-    "en": "A view of Nicosia",
-    "ru": "Вид Никосии"
+    "el": "Δρόμος στην παλιά Λευκωσία",
+    "en": "A street in old Nicosia",
+    "ru": "Улица старой Никосии"
+   },
+   "src": "city-nicosia.webp",
+   "credit": {
+    "title": "architecture, street, travel, building, old town, city, urban, nicosia, lefkosia, cyprus, nicosia, nicosia, nicosia, nicosia, nicosia",
+    "creator": "dimitrisvetsikas1969",
+    "page": "https://pixabay.com/photos/architecture-street-travel-building-3311913/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "city-limassol": {
    "page": "city-limassol",
    "use": "page header",
-   "fetch": {
-    "queries": [
-     "Limassol Cyprus",
-     "Limassol marina",
-     "Limassol seafront",
-     "Limassol old port"
-    ]
-   },
    "alt": {
-    "el": "Άποψη της Λεμεσού",
-    "en": "A view of Limassol",
-    "ru": "Вид Лимасола"
+    "el": "Η παραλιακή της Λεμεσού",
+    "en": "The Limassol seafront",
+    "ru": "Набережная Лимасола"
+   },
+   "src": "city-limassol.webp",
+   "credit": {
+    "title": "cyprus, limassol, marina, molos, cyprus, cyprus, cyprus, cyprus, cyprus",
+    "creator": "LaraKoptseva",
+    "page": "https://pixabay.com/photos/cyprus-limassol-marina-molos-3629039/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "city-larnaca": {
    "page": "city-larnaca",
    "use": "page header",
-   "fetch": {
-    "queries": [
-     "Larnaca Cyprus",
-     "Larnaca Finikoudes",
-     "Larnaca seafront",
-     "Saint Lazarus church Larnaca"
-    ]
-   },
    "alt": {
-    "el": "Άποψη της Λάρνακας",
-    "en": "A view of Larnaca",
-    "ru": "Вид Ларнаки"
+    "el": "Ο παραλιακός πεζόδρομος της Λάρνακας",
+    "en": "The Larnaca seafront promenade",
+    "ru": "Набережная Ларнаки"
+   },
+   "src": "city-larnaca.webp",
+   "credit": {
+    "title": "cyprus, larnaca, promenade, beach, sea, seashore, pier, jetty, seaside, nature, winter, romantic, tourism, leisure, travel",
+    "creator": "dimitrisvetsikas1969",
+    "page": "https://pixabay.com/photos/cyprus-larnaca-promenade-beach-sea-3152489/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "city-paphos": {
    "page": "city-paphos",
    "use": "page header",
-   "fetch": {
-    "queries": [
-     "Paphos harbour",
-     "Paphos Cyprus",
-     "Paphos castle",
-     "Pafos"
-    ]
-   },
    "alt": {
-    "el": "Άποψη της Πάφου",
-    "en": "A view of Paphos",
-    "ru": "Вид Пафоса"
+    "el": "Το λιμανάκι της Πάφου",
+    "en": "Paphos harbour",
+    "ru": "Гавань Пафоса"
+   },
+   "src": "city-paphos.webp",
+   "credit": {
+    "title": "fortress, paphos, cyprus, landmark, historic, ruins, paphos, paphos, paphos, paphos, paphos",
+    "creator": "maritravel",
+    "page": "https://pixabay.com/photos/fortress-paphos-cyprus-landmark-173895/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   },
   "city-famagusta": {
    "page": "city-famagusta",
    "use": "page header",
-   "fetch": {
-    "queries": [
-     "Ayia Napa Cyprus",
-     "Protaras Cyprus",
-     "Cape Greco Cyprus",
-     "Paralimni Cyprus"
-    ]
-   },
    "alt": {
-    "el": "Άποψη της ελεύθερης επαρχίας Αμμοχώστου",
-    "en": "A view of the free Famagusta district",
-    "ru": "Вид свободной части района Фамагусты"
+    "el": "Η ακτή της ελεύθερης Αμμοχώστου",
+    "en": "The coast of free Famagusta district",
+    "ru": "Побережье свободной части района Фамагусты"
+   },
+   "src": "city-famagusta.webp",
+   "credit": {
+    "title": "rock formation, coast, waves, sea, rocky coast, beach, seashore, nature, seascape, scenery, cyprus, ayia napa",
+    "creator": "dimitrisvetsikas1969",
+    "page": "https://pixabay.com/photos/rock-formation-coast-waves-sea-7404192/",
+    "license": "Pixabay Content License",
+    "license_url": "https://pixabay.com/service/license-summary/",
+    "source": "pixabay"
    }
   }
  }
