@@ -256,8 +256,10 @@ def film_band(lang, key, title, tint=False, poster=None):
     if not f: return ''
     return (f'<section class="section section--film{" tint" if tint else ""}"><div class="wrap"><div class="section-head"><hr class="rule"><h2>{title}</h2></div>{f}</div></section>')
 
-def portrait(alt='', cls='', eager=False):
-    return (f'<picture><source srcset="/assets/img/giannis-farazis-portrait.webp" type="image/webp"><img class="{cls}" src="/assets/img/giannis-farazis-portrait.jpg" '
+def portrait(alt='', cls='', eager=False, n=''):
+    # 15 Oct 2026: three portraits from the owner's shoot, one per page (home, About -2, digital card -3), so none repeats
+    f = 'giannis-farazis-portrait' + (f'-{n}' if n else '')
+    return (f'<picture><source srcset="/assets/img/{f}.webp" type="image/webp"><img class="{cls}" src="/assets/img/{f}.jpg" '
             f'width="480" height="600" alt="{esc(alt)}"' + (' fetchpriority="high"' if eager else ' loading="lazy"') + '></picture>')
 
 LANG_NAME = {'el': 'Ελληνικά', 'en': 'English', 'ru': 'Русский'}
@@ -654,7 +656,7 @@ def page_about(lang):
     return head(lang, 'about', title, desc) + f'''
 <section class="about-hero on-dark"><div class="wrap">
 <div><p class="hero__role">{L(T['role'], lang)}</p><h1>{L(T['name'], lang)}</h1><p class="hero__lead">{L(T['where'], lang)}</p>{actions(lang)}</div>
-<figure class="portrait portrait--sm">{LINES}{portrait('Ο Γιάννης Φαραζής' if el else 'Giannis Farazis', eager=True)}</figure>
+<figure class="portrait portrait--sm">{LINES}{portrait('Ο Γιάννης Φαραζής' if el else 'Giannis Farazis', eager=True, n='2')}</figure>
 </div></section>
 <section class="section"><div class="wrap about-body">
 <div class="prose">{body}</div>
@@ -1157,7 +1159,7 @@ def page_card(lang):
     return head(lang, 'card', title, desc) + f'''
 <section class="section bcard-sec"><div class="wrap">
 <article class="bcard on-dark">
-<div class="bcard__top">{portrait('Ο Γιάννης Φαραζής' if el else 'Giannis Farazis', eager=True)}
+<div class="bcard__top">{portrait('Ο Γιάννης Φαραζής' if el else 'Giannis Farazis', eager=True, n='3')}
 <div><h1>{L(T['name'], lang)}</h1><p class="bcard__role">{L(T['role'], lang)}</p><p class="bcard__where">{L(T['where'], lang)}</p></div></div>
 <ul class="bcard__rows">{rl}</ul>
 <div class="bcard__actions">
