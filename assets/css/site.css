@@ -647,3 +647,10 @@ p { margin: 0 0 1em; max-width: 68ch; }
 }
 @media (min-width: 901px) { .page-head:not(.has-media) .page-head__text { max-width: min(700px, 64%); } }
 .ru-strip { max-width: none; }
+
+/* 15 Oct 2026 — farazisgiannis.com films: a row of short films under the checklists, one beside the booking steps */
+.films-title { font-size: 1.4rem; margin: 2.4rem 0 1rem; }
+.films { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.5vw, 1.75rem); }
+@media (max-width: 960px) { .films { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .films { grid-template-columns: minmax(0, 1fr); } }
+.explainer--side { margin: 0 0 1.4rem; }

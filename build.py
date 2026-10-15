@@ -184,45 +184,77 @@ def film(name, lang, cls=''):
             '<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>'
             '<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button></div>')
 
-# Narrated explainer films (11 Oct 2026), made in the AVRASTRO repository (tools/video) and copied here by
-# tools/add_explainers.py: assets/video/explainers/explainers.json → {key: {lang: {video, poster, vtt, title, duration}}}
-_EXP = os.path.join(ROOT, 'assets/video/explainers/explainers.json')
+# Narrated explainer films (11 Oct 2026; farazisgiannis.com films and Russian versions 15 Oct 2026), made in the AVRASTRO
+# repository (tools/video) and copied here by tools/add_explainers.py: assets/video/explainers/explainers.json →
+# {key: {lang: {video, poster, vtt, title, description, duration, posters?}}}, lang el / en / ru. A film that is not in the
+# folder yet shows nothing (the page keeps its icon or simply has no film). EXPLAINERS_JSON=<path> reads another index
+# (used to test the wiring with a fixture).
+_EXP = os.environ.get('EXPLAINERS_JSON') or os.path.join(ROOT, 'assets/video/explainers/explainers.json')
 EXPLAINERS = json.load(open(_EXP, encoding='utf8')) if os.path.exists(_EXP) else {}
-# 'loan' has no film on purpose (owner 14 Oct 2026: nothing about general insurance on this site): the loan film also
-# talks about cover for the home against fire, earthquake and flood and its tax relief. Until a life-only cut exists, the
-# Loan protection section shows its icon panel.
-FILM_OF = {'life': 'topic-life', 'health': 'topic-health', 'accident': 'topic-income', 'retirement': 'topic-retirement',
-           'savings': 'topic-savings', 'education': 'topic-education', 'business': 'topic-business', 'group': 'topic-group',
-           'expats': 'topic-expats', 'review': 'topic-review'}
-# the About film opens on the portrait, which is already the page's header photo: its poster is the motto frame instead
-# (taken from the film itself at 0:36 / 0:33 with ffmpeg; 14 Oct 2026 photo audit)
-for _l, _f in (('el', 'avrastro-film-meet-giannis-el-motto.jpg'), ('en', 'avrastro-film-meet-giannis-en-motto.jpg')):
-    if EXPLAINERS.get('meet-giannis', {}).get(_l) and os.path.exists(os.path.join(ROOT, 'assets/video/explainers', _f)):
-        EXPLAINERS['meet-giannis'][_l]['poster'] = _f
+# Solutions page: the subject's film, the first of the list that exists. Loan protection is fg-loan (life only); the
+# AVRASTRO film topic-loan is never shown here (it also covers the home against fire, earthquake and flood).
+FILM_OF = {'life': ['topic-life'], 'health': ['topic-health'], 'accident': ['topic-income'], 'retirement': ['topic-retirement'],
+           'savings': ['fg-savings', 'topic-savings'], 'education': ['topic-education'], 'business': ['topic-business'],
+           'group': ['topic-group'], 'expats': ['topic-expats'], 'loan': ['fg-loan'], 'review': ['topic-review']}
+NEVER_HERE = {'topic-loan'}
+# the checklist films beside their PDFs on the Guides page (tools/checklists.py stems)
+FILM_OF_CHECKLIST = {'eggrafa-apozimiosis': 'fg-checklist-claims', 'prin-ypograpso': 'fg-checklist-signing', 'etisios-elegxos': 'fg-yearly-check'}
+# the About film opens on the portrait, which is already the page's header photo: its poster is a later frame of the
+# film (add_explainers.py → posters.alt; the 14 Oct 2026 frames *-motto.jpg until the next export)
+for _l in ('el', 'en', 'ru'):
+    _e = EXPLAINERS.get('meet-giannis', {}).get(_l)
+    _f = f'avrastro-film-meet-giannis-{_l}-motto.jpg'
+    if _e and not (_e.get('posters') or {}).get('alt') and os.path.exists(os.path.join(ROOT, 'assets/video/explainers', _f)):
+        _e.setdefault('posters', {})['alt'] = _f
 
-def explainer(key, lang, cls=''):
+EXP_TXT = {
+    'el': {'play': 'Αναπαραγωγή βίντεο: ', 'watch': 'Δείτε το βίντεο', 'cc': 'Με υπότιτλους', 'track': 'Ελληνικά'},
+    'en': {'play': 'Play the video: ', 'watch': 'Watch', 'cc': 'Captions available', 'track': 'English'},
+    'ru': {'play': 'Смотреть видео: ', 'watch': 'Смотреть', 'cc': 'С субтитрами', 'track': 'Русский'},
+}
+
+def film_of(keys):
+    """the first of these films that is in the site"""
+    for k in ([keys] if isinstance(keys, str) else keys or []):
+        if k not in NEVER_HERE and EXPLAINERS.get(k): return k
+    return ''
+
+def explainer(key, lang, cls='', poster=None):
     """A narrated film with its poster, captions (off until the visitor turns them on) and a large play button; it
-    plays only when the visitor presses play. Empty when the film is not in the site yet."""
-    e = EXPLAINERS.get(key, {}).get(lang)
+    plays only when the visitor presses play. The Russian page shows the Russian film (the English one while there is
+    none). poster: the name of one of the film's extra posters (add_explainers.py), so that a film shown on several
+    pages does not show the same picture twice. Empty when the film is not in the site yet."""
+    if key in NEVER_HERE: return ''
+    fl = 'ru' if RENDER['ru'] else lang
+    films = EXPLAINERS.get(key, {})
+    e = films.get(fl) or (films.get('en') if fl == 'ru' else None)
     if not e:
         return ''
+    el = fl if e is films.get(fl) else 'en'   # the language of the film actually shown
+    tx = EXP_TXT[el]
     v = '/assets/video/explainers/'
-    el = lang == 'el'
     secs = int(round(e.get('duration', 0)))
     length = f'{secs // 60}:{secs % 60:02d}' if secs else ''
-    play = ('Αναπαραγωγή βίντεο: ' if el else 'Play the video: ') + e['title']
+    pst = (e.get('posters') or {}).get(poster) or e['poster']
+    play = tx['play'] + e['title']
     ld = {'@context': 'https://schema.org', '@type': 'VideoObject', 'name': e['title'], 'description': e.get('description') or e['title'],
-          'thumbnailUrl': BASE + v + e['poster'], 'contentUrl': BASE + v + e['video'], 'uploadDate': e.get('date', ASSET_V[:10]),
-          'duration': f'PT{secs // 60}M{secs % 60}S', 'inLanguage': lang}
-    cc = f'<track kind="captions" src="{v}{e["vtt"]}" srclang="{lang}" label="{"Ελληνικά" if el else "English"}">' if e.get('vtt') else ''
-    cap = f'<span class="explainer__title">{esc(e["title"])}</span>' + (f'<span>{length}</span>' if length else '') + (f'<span>{"Με υπότιτλους" if el else "Captions available"}</span>' if cc else '')
-    return (f'<figure class="explainer {cls}"><div class="explainer__frame">'
-            f'<video class="explainer__video" controls preload="none" playsinline width="1920" height="1080" poster="{v}{e["poster"]}" aria-label="{esc(e["title"])}">'
+          'thumbnailUrl': BASE + v + pst, 'contentUrl': BASE + v + e['video'], 'uploadDate': e.get('date', ASSET_V[:10]),
+          'duration': f'PT{secs // 60}M{secs % 60}S', 'inLanguage': el}
+    cc = f'<track kind="captions" src="{v}{e["vtt"]}" srclang="{el}" label="{tx["track"]}">' if e.get('vtt') else ''
+    cap = f'<span class="explainer__title">{esc(e["title"])}</span>' + (f'<span>{length}</span>' if length else '') + (f'<span>{tx["cc"]}</span>' if cc else '')
+    return (f'<figure class="explainer {cls}" data-film="{key}" lang="{el}"><div class="explainer__frame">'
+            f'<video class="explainer__video" controls preload="none" playsinline width="1920" height="1080" poster="{v}{pst}" aria-label="{esc(e["title"])}">'
             f'<source src="{v}{e["video"]}" type="video/mp4">{cc}</video>'
             f'<button class="explainer__play" type="button" hidden aria-label="{esc(play)}"><span class="explainer__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>'
-            f'<span aria-hidden="true">{"Δείτε το βίντεο" if el else "Watch"}' + (f' <b>{length}</b>' if length else '') + '</span></button></div>'
+            f'<span aria-hidden="true">{tx["watch"]}' + (f' <b>{length}</b>' if length else '') + '</span></button></div>'
             f'<figcaption>{cap}</figcaption>'
             '<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False).replace('</', '<\\/') + '</script></figure>')
+
+def film_band(lang, key, title, tint=False, poster=None):
+    """a section with one film; nothing at all while the film is not in the site"""
+    f = explainer(key, lang, 'explainer--wide', poster)
+    if not f: return ''
+    return (f'<section class="section section--film{" tint" if tint else ""}"><div class="wrap"><div class="section-head"><hr class="rule"><h2>{title}</h2></div>{f}</div></section>')
 
 def portrait(alt='', cls='', eager=False):
     return (f'<picture><source srcset="/assets/img/giannis-farazis-portrait.webp" type="image/webp"><img class="{cls}" src="/assets/img/giannis-farazis-portrait.jpg" '
@@ -607,7 +639,7 @@ def page_about(lang):
         ('LinkedIn', f'<a href="{LINKEDIN}" rel="noopener">Giannis Farazis</a>'),
     ]
     fl = ''.join(f'<li><span>{a}</span><span>{b}</span></li>' for a, b in facts)
-    meet = explainer('meet-giannis', lang, 'explainer--wide')
+    meet = explainer('meet-giannis', lang, 'explainer--wide', 'alt')
     meet_band = (f'<section class="section section--film"><div class="wrap"><div class="section-head"><hr class="rule"><h2>{"Μια σύντομη γνωριμία" if el else "A short introduction"}</h2></div>{meet}</div></section>'
                  if meet else '')
     body = ('''<p class="lead">Ονομάζομαι Γιάννης Φαραζής και είμαι Ασφαλιστικός Σύμβουλος από το 2024.</p>
@@ -640,7 +672,7 @@ def page_solutions(lang):
     jump = '<nav class="jump" aria-label="' + ('Οι λύσεις' if el else 'Solutions') + '">' + ''.join(f'<a href="#{sid}">{L(t, lang)}</a>' for sid, _, t, *_ in SOLUTIONS) + '</nav>'
     rows = ''
     for i, (sid, img, t, s, lng, inc, q) in enumerate(SOLUTIONS):
-        fm = explainer(FILM_OF.get(sid, ''), lang)   # the subject's narrated film; otherwise its icon (its photo is on the home page)
+        fm = explainer(film_of(FILM_OF.get(sid)), lang)   # the subject's narrated film; otherwise its icon (its photo is on the home page)
         media = fm or icon_panel(TOPIC_ICON.get(sid, 't-review'), 'icon-panel--wide')
         rows += f'''<article class="sol{' is-reverse' if i % 2 else ''}{' has-film' if fm else ''}" id="{sid}">
 {media}
@@ -666,6 +698,7 @@ def page_how(lang):
 <div><p class="sol__step">{('Βήμα ' if el else 'Step ')}{i + 1}</p><h2>{L(t, lang)}</h2><p>{L(d, lang)}</p></div></article>''' for i, (img, t, d) in enumerate(STEPS))
     return head(lang, 'how', title, desc) + page_head(L(T['nav']['how'], lang), 'Τέσσερα βήματα, χωρίς βιασύνη και χωρίς ψιλά γράμματα.' if el else 'Four steps, with no rush and no small print.', None, '', 'film-how', lang) + f'''
 <section class="section section--tight"><div class="wrap">{rows}</div></section>
+{film_band(lang, 'fg-how', 'Πώς δουλεύω, σε ένα σύντομο βίντεο' if el else 'How I work, in a short film')}
 <section class="section tint"><div class="wrap split split--wide">
 <figure class="split__img">{photo('how-prepare', lang, sizes='(max-width: 860px) 100vw, 560px')}</figure>
 <div><hr class="rule"><h2>{'Πριν μιλήσουμε' if el else 'Before we talk'}</h2>
@@ -694,7 +727,15 @@ def checklists_section(lang):
 <div class="section-head"><hr class="rule"><h2>{'Δωρεάν λίστες ελέγχου' if el else 'Free checklists'}</h2>
 <p class="lead">{'Τέσσερις σελίδες για εκτύπωση ή για το κινητό, με απλά λόγια. Χωρίς εγγραφή και χωρίς e-mail.' if el else 'Four pages to print or keep on your phone, in plain words. No sign-up and no e-mail.'}</p></div>
 <ul class="dls">{items}</ul>
+{checklist_films(lang)}
 </div></section>'''
+
+def checklist_films(lang):
+    """the short films that go with the checklists (tools/add_explainers.py), in a row under the PDFs"""
+    films = ''.join(f'<li>{f}</li>' for f in (explainer(FILM_OF_CHECKLIST.get(stem, ''), lang) for _, stem, *_ in CHECKLISTS) if f)
+    if not films: return ''
+    el = lang == 'el'
+    return f'<h3 class="films-title">{"Τρία σύντομα βίντεο για τις λίστες" if el else "Three short films that go with the lists"}</h3><ul class="films">{films}</ul>'
 
 def page_guides(lang):
     el = lang == 'el'
@@ -854,6 +895,7 @@ def page_booking(lang):
 <div class="booking-how">
 <h2>{'Πώς γίνεται' if el else 'How it works'}</h2>
 <ol class="steps-mini">{''.join(f'<li>{esc(x)}</li>' for x in steps)}</ol>
+{explainer('fg-callback', lang, 'explainer--side')}
 <p class="booking-needs">{ICON['list']}<span>{'Στη φόρμα θα βρείτε και έναν <a href="#needs" data-open-needs>σύντομο έλεγχο αναγκών</a>: έξι ερωτήσεις, προαιρετικές, που πηγαίνουν μαζί με το αίτημα.' if el else 'The form also has a <a href="#needs" data-open-needs>short needs check</a>: six optional questions that go with your request.'}</span></p>
 <p>{'Η συνάντηση διαρκεί περίπου' if el else 'The meeting takes about'} <b><span data-minutes>45</span> {'λεπτά' if el else 'minutes'}</b>. {'Οι ώρες είναι ώρα Κύπρου.' if el else 'Times are Cyprus time.'}</p>
 <p><a href="{url('first', lang)}">{'Πώς γίνεται η πρώτη συνάντηση και τι να φέρετε' if el else 'How the first meeting works and what to bring'}</a>{ICON['arrow']}</p>
@@ -940,6 +982,7 @@ def page_first(lang):
 <section class="section section--tight"><div class="wrap">
 <ul class="meet-facts">{fl}</ul>
 </div></section>
+{film_band(lang, 'fg-first-meeting', 'Η πρώτη συνάντηση, σε ένα σύντομο βίντεο' if el else 'The first meeting, in a short film')}
 <section class="section tint"><div class="wrap pair">
 <article class="panel"><hr class="rule"><h2>{'Τι συζητάμε' if el else 'What we talk about'}</h2>{ul(talk)}</article>
 <article class="panel"><hr class="rule"><h2>{'Τι να φέρετε' if el else 'What to bring'}</h2>
@@ -1029,6 +1072,7 @@ def make_city_page(cid):
 <ul class="meet-facts">{cards}</ul>
 <div class="office-line"><span class="office-line__ico">{ICON['office']}</span><p><b>{'Το γραφείο' if el else 'The office'}</b>{addr}<br><a href="tel:{TEL}">{PHONE}</a> · <a href="tel:{OFFICE_TEL}">{OFFICE}</a> · <a href="{maps}" rel="noopener">{'Οδηγίες στον χάρτη' if el else 'Directions on the map'}</a></p></div>
 </div></section>
+{film_band(lang, 'fg-cities', 'Από όπου κι αν είστε στην Κύπρο' if el else 'Wherever you are in Cyprus', poster=cid)}
 <section class="section tint"><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Τι μπορούμε να δούμε μαζί' if el else 'What we can look at together'}</h2>
 <p class="lead">{'Τα θέματα που ρωτούν πιο συχνά οι πελάτες, και όλα τα υπόλοιπα στη σελίδα Λύσεις.' if el else 'The subjects clients ask about most often, and everything else on the Solutions page.'}</p></div>
@@ -1076,6 +1120,7 @@ def page_employers(lang):
 <p class="lead">{'Θέματα που αφορούν κάθε εργαζόμενο, χωρίς ορολογία.' if el else 'Subjects that matter to every employee, without jargon.'}</p></div>
 {cards}
 </div></section>
+{film_band(lang, 'fg-employers', 'Η ενημέρωση, σε ένα σύντομο βίντεο' if el else 'The talk, in a short film')}
 <section class="section tint"><div class="wrap callback-wrap">
 <div class="callback-side"><hr class="rule"><h2>{'Πώς γίνεται' if el else 'How it works'}</h2>{ul(how)}<p class="note">{note}</p></div>
 {callback_form(lang, topic='business', title='Ζητήστε μια ενημέρωση' if el else 'Ask for a talk', lead='Αφήστε όνομα και τηλέφωνο και σας καλώ για να κανονίσουμε μέρα, χώρο και διάρκεια.' if el else 'Leave your name and phone number and I will call you to agree a day, a place and the length.')}
@@ -1389,7 +1434,7 @@ RU_MISSING = set()
 def _ru(text):
     """one segment → Russian (whitespace kept); unknown English is left as it is and reported"""
     core = _re.sub(r'\s+', ' ', text).strip()
-    if not core or not _re.search(r'[A-Za-z]', core) or _re.match(r'^(https?://|#|/|[\w.+-]+@)', core) or core.startswith('width=') or core in LANG_NAME.values() or ' ' not in core and not core[0].isupper(): return text
+    if not core or not _re.search(r'[A-Za-z]', core) or _re.search(r'[А-Яа-яЁё]', core) or _re.match(r'^(https?://|#|/|[\w.+-]+@)', core) or core.startswith('width=') or core in LANG_NAME.values() or ' ' not in core and not core[0].isupper(): return text
     if core in RU: out = RU[core]
     else:
         out = None

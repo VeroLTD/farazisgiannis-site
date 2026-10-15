@@ -41,6 +41,7 @@ for dp, _, files in os.walk(OUT):
             for k in set(keys):
                 photo_pages[k].add(page)
                 if keys.count(k) > 1: problems.append(f'{rel}: photo {k} used {keys.count(k)} times on the page')
+        if 'film-topic-loan' in t or 'data-film="topic-loan"' in t: problems.append(f'{rel}: the AVRASTRO loan film (home insurance) is shown')
         if 'Eurolife' in t and 'epikoinonia' not in rel and 'contact' not in rel: problems.append(f'{rel}: Eurolife outside the contact page')
         for n in re.findall(r'tel:\+?(\d+)', t):
             if n not in APPROVED: problems.append(f'{rel}: unapproved phone {n}')
