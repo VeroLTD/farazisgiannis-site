@@ -35,7 +35,7 @@ OWN_REG = '7854'   # owner 14 Oct 2026
 # Russian edition (owner 14 Oct 2026: a Russian-speaking colleague in the office). Pages are rendered from the English
 # ones and every text segment is mapped through i18n/ru.json (python3 tools/ru_segments.py --missing lists what is
 # left). Built in the preview; on the real site only once the colleague has checked the texts (RU_LIVE = True).
-RU_LIVE = False
+RU_LIVE = True   # 15 Oct 2026: the Russian-speaking colleague checked the texts; owner approved
 _ru_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'i18n', 'ru.json')
 RU = json.load(open(_ru_file, encoding='utf-8')) if os.path.exists(_ru_file) else {}
 RU_ON = bool(RU) and (PREVIEW or RU_LIVE)
