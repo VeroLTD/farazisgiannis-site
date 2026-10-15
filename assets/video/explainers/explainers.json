@@ -1,20 +1,318 @@
 {
- "meet-giannis": {
+ "fg-callback": {
   "el": {
-   "video": "avrastro-film-meet-giannis-el-3eca4b6c30.mp4",
-   "poster": "avrastro-film-meet-giannis-el-3eca4b6c30.jpg",
-   "vtt": "avrastro-film-meet-giannis-el-3eca4b6c30.vtt",
-   "title": "Γιάννης Φαραζής",
-   "description": "Ο Γιάννης Φαραζής είναι Ασφαλιστικός Σύμβουλος με βάση τη Λευκωσία. Από το 2024 εξυπηρετεί οικογένειες και επαγγελματίες σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά. Ασφάλεια ζωής και υγείας, σύνταξη, σπουδές παιδιών και αποταμίευση, με καθαρές εξηγήσεις και χωρίς πίεση.",
-   "duration": 49
+   "video": "avrastro-film-fg-callback-el-b03eb04fa7.mp4",
+   "poster": "avrastro-film-fg-callback-el-b03eb04fa7.jpg",
+   "vtt": "avrastro-film-fg-callback-el-b03eb04fa7.vtt",
+   "title": "Ραντεβού ή «πάρτε με τηλέφωνο»",
+   "description": "Δύο απλοί τρόποι για μια πρώτη συζήτηση με τον Γιάννη Φαραζή: κλείνετε μόνοι σας ραντεβού, ή ζητάτε να σας καλέσει εκείνος. Για ραντεβού, διαλέγετε θέμα, τρόπο, μέρα και ώρα από τις πραγματικές ελεύθερες ώρες. Λαμβάνετε αμέσως e-mail ότι το αίτημα παραλήφθηκε, και όταν επιβεβαιωθεί, e-mail με όλες τις λεπτομέρειες και υπενθύμιση την προηγούμενη μέρα.",
+   "duration": 53.4
   },
   "en": {
-   "video": "avrastro-film-meet-giannis-en-3bfd477dc0.mp4",
-   "poster": "avrastro-film-meet-giannis-en-3bfd477dc0.jpg",
-   "vtt": "avrastro-film-meet-giannis-en-3bfd477dc0.vtt",
+   "video": "avrastro-film-fg-callback-en-02d062ad2d.mp4",
+   "poster": "avrastro-film-fg-callback-en-02d062ad2d.jpg",
+   "vtt": "avrastro-film-fg-callback-en-02d062ad2d.vtt",
+   "title": "Book, or ask for a call",
+   "description": "Two simple ways to a first conversation with Giannis Farazis: book an appointment yourself, or ask him to call you. To book, you choose a topic, a way to meet, a day and a time from the real free times. You receive an e-mail at once that the request was received, and once it is confirmed, an e-mail with every detail and a reminder the day before.",
+   "duration": 51.6
+  },
+  "ru": {
+   "video": "avrastro-film-fg-callback-ru-478b34f7f8.mp4",
+   "poster": "avrastro-film-fg-callback-ru-478b34f7f8.jpg",
+   "vtt": "avrastro-film-fg-callback-ru-478b34f7f8.vtt",
+   "title": "Запись или обратный звонок",
+   "description": "Два простых способа начать разговор с Яннисом Фаразисом: записаться на встречу самостоятельно или попросить его перезвонить вам. Для записи вы выбираете тему, формат встречи, день и время из реально свободных окон. Сразу приходит письмо о том, что запрос получен, а после подтверждения — письмо со всеми деталями и напоминание накануне.",
+   "duration": 51.7
+  }
+ },
+ "fg-checklist-claims": {
+  "el": {
+   "video": "avrastro-film-fg-checklist-claims-el-57d1721b6c.mp4",
+   "poster": "avrastro-film-fg-checklist-claims-el-57d1721b6c.jpg",
+   "vtt": "avrastro-film-fg-checklist-claims-el-57d1721b6c.vtt",
+   "title": "Έγγραφα για αποζημίωση",
+   "description": "Κάθε ασφαλιστική εταιρεία έχει το δικό της έντυπο αποζημίωσης και μπορεί να ζητήσει κάτι επιπλέον. Υπάρχουν όμως έγγραφα που ζητούνται σχεδόν πάντα, και αξίζει να τα μαζέψετε νωρίς. Για κάθε αποζημίωση: τον αριθμό του συμβολαίου, το έντυπο της εταιρείας συμπληρωμένο και υπογραμμένο, αντίγραφο ταυτότητας ή διαβατηρίου του δικαιούχου, και τα στοιχεία του λογαριασμού όπου θα γίνει η πληρωμή.",
+   "duration": 78.5
+  },
+  "en": {
+   "video": "avrastro-film-fg-checklist-claims-en-476f6ca751.mp4",
+   "poster": "avrastro-film-fg-checklist-claims-en-476f6ca751.jpg",
+   "vtt": "avrastro-film-fg-checklist-claims-en-476f6ca751.vtt",
+   "title": "Documents for a claim",
+   "description": "Every insurer has its own claim form and may ask for something more. But some documents are asked for almost every time, and it is worth gathering them early. For every claim: the policy number, the insurer’s claim form filled in and signed, a copy of the claimant’s ID card or passport, and the account details for the payment.",
+   "duration": 80.8
+  },
+  "ru": {
+   "video": "avrastro-film-fg-checklist-claims-ru-7b50961723.mp4",
+   "poster": "avrastro-film-fg-checklist-claims-ru-7b50961723.jpg",
+   "vtt": "avrastro-film-fg-checklist-claims-ru-7b50961723.vtt",
+   "title": "Документы для страховой выплаты",
+   "description": "У каждой страховой компании своя форма заявления, и она может запросить что-то ещё. Но некоторые документы требуются почти всегда, и их стоит собрать заранее. Для любой выплаты: номер полиса, заполненная и подписанная форма страховщика, копия удостоверения личности или паспорта получателя и реквизиты счёта для выплаты.",
+   "duration": 78.5
+  }
+ },
+ "fg-checklist-signing": {
+  "el": {
+   "video": "avrastro-film-fg-checklist-signing-el-044aaacc64.mp4",
+   "poster": "avrastro-film-fg-checklist-signing-el-044aaacc64.jpg",
+   "vtt": "avrastro-film-fg-checklist-signing-el-044aaacc64.vtt",
+   "title": "Τι ρωτάω πριν υπογράψω",
+   "description": "Πριν υπογράψετε ένα συμβόλαιο ζωής, υγείας ή αποταμίευσης, κάποιες ερωτήσεις αξίζει να έχουν απάντηση, με απλά λόγια και γραπτώς. Τι ακριβώς καλύπτει και τι όχι. Αν υπάρχουν περίοδοι αναμονής πριν ισχύσει μια κάλυψη. Τι ισχύει για παθήσεις που έχετε ήδη. Και για πόσα χρόνια ισχύει.",
+   "duration": 70.4
+  },
+  "en": {
+   "video": "avrastro-film-fg-checklist-signing-en-b01ae718c0.mp4",
+   "poster": "avrastro-film-fg-checklist-signing-en-b01ae718c0.jpg",
+   "vtt": "avrastro-film-fg-checklist-signing-en-b01ae718c0.vtt",
+   "title": "What to ask before I sign",
+   "description": "Before you sign a life, health or savings policy, some questions deserve an answer, in plain words and in writing. What exactly it covers, and what not. Whether there are waiting periods before any cover starts. What applies to conditions you already have. And for how many years the cover lasts.",
+   "duration": 70.1
+  },
+  "ru": {
+   "video": "avrastro-film-fg-checklist-signing-ru-841d7966e7.mp4",
+   "poster": "avrastro-film-fg-checklist-signing-ru-841d7966e7.jpg",
+   "vtt": "avrastro-film-fg-checklist-signing-ru-841d7966e7.vtt",
+   "title": "Что спросить перед подписанием",
+   "description": "Прежде чем подписать полис страхования жизни, здоровья или накоплений, стоит получить ответы на несколько вопросов — простыми словами и письменно. Что именно покрывается, а что нет. Есть ли период ожидания до начала действия защиты. Что действует в отношении уже имеющихся заболеваний. И на сколько лет оформляется защита.",
+   "duration": 71.6
+  }
+ },
+ "fg-cities": {
+  "el": {
+   "video": "avrastro-film-fg-cities-el-1265948e36.mp4",
+   "poster": "avrastro-film-fg-cities-el-1265948e36.jpg",
+   "vtt": "avrastro-film-fg-cities-el-1265948e36.vtt",
+   "title": "Σε όλη την Κύπρο",
+   "description": "Ο Γιάννης Φαραζής εξυπηρετεί οικογένειες και επαγγελματίες σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά. Το γραφείο του είναι στη Λευκωσία, στη Λεωφόρο Στροβόλου. Εκεί γίνονται οι περισσότερες συναντήσεις από κοντά, και όποτε σας βολεύει, η ίδια συζήτηση γίνεται με βιντεοκλήση ή τηλεφωνικά.",
+   "duration": 55.6,
+   "posters": {
+    "nicosia": "avrastro-film-fg-cities-el-1265948e36-poster-nicosia.jpg",
+    "limassol": "avrastro-film-fg-cities-el-1265948e36-poster-limassol.jpg",
+    "larnaca": "avrastro-film-fg-cities-el-1265948e36-poster-larnaca.jpg",
+    "paphos": "avrastro-film-fg-cities-el-1265948e36-poster-paphos.jpg",
+    "famagusta": "avrastro-film-fg-cities-el-1265948e36-poster-famagusta.jpg"
+   }
+  },
+  "en": {
+   "video": "avrastro-film-fg-cities-en-c16a0e7408.mp4",
+   "poster": "avrastro-film-fg-cities-en-c16a0e7408.jpg",
+   "vtt": "avrastro-film-fg-cities-en-c16a0e7408.vtt",
+   "title": "Across Cyprus",
+   "description": "Giannis Farazis serves families and professionals across Cyprus, in Greek and English. His office is in Nicosia, on Strovolou Avenue. Most in-person meetings happen there, and whenever it suits you, the same conversation can happen by video call or by phone.",
+   "duration": 57.3,
+   "posters": {
+    "nicosia": "avrastro-film-fg-cities-en-c16a0e7408-poster-nicosia.jpg",
+    "limassol": "avrastro-film-fg-cities-en-c16a0e7408-poster-limassol.jpg",
+    "larnaca": "avrastro-film-fg-cities-en-c16a0e7408-poster-larnaca.jpg",
+    "paphos": "avrastro-film-fg-cities-en-c16a0e7408-poster-paphos.jpg",
+    "famagusta": "avrastro-film-fg-cities-en-c16a0e7408-poster-famagusta.jpg"
+   }
+  },
+  "ru": {
+   "video": "avrastro-film-fg-cities-ru-92f74ef737.mp4",
+   "poster": "avrastro-film-fg-cities-ru-92f74ef737.jpg",
+   "vtt": "avrastro-film-fg-cities-ru-92f74ef737.vtt",
+   "title": "По всему Кипру",
+   "description": "Яннис Фаразис работает с семьями и специалистами по всему Кипру, на греческом и английском языках. Его офис находится в Никосии, на проспекте Строволу. Большинство личных встреч проходит там, а когда вам удобно, тот же разговор можно провести по видеосвязи или по телефону.",
+   "duration": 54,
+   "posters": {
+    "nicosia": "avrastro-film-fg-cities-ru-92f74ef737-poster-nicosia.jpg",
+    "limassol": "avrastro-film-fg-cities-ru-92f74ef737-poster-limassol.jpg",
+    "larnaca": "avrastro-film-fg-cities-ru-92f74ef737-poster-larnaca.jpg",
+    "paphos": "avrastro-film-fg-cities-ru-92f74ef737-poster-paphos.jpg",
+    "famagusta": "avrastro-film-fg-cities-ru-92f74ef737-poster-famagusta.jpg"
+   }
+  }
+ },
+ "fg-employers": {
+  "el": {
+   "video": "avrastro-film-fg-employers-el-308eb77000.mp4",
+   "poster": "avrastro-film-fg-employers-el-308eb77000.jpg",
+   "vtt": "avrastro-film-fg-employers-el-308eb77000.vtt",
+   "title": "Ενημέρωση για το προσωπικό σας",
+   "description": "Οι εργαζόμενοί σας ξέρουν τι καλύπτει το ΓεΣΥ, πώς λειτουργεί το ταμείο προνοίας, και γιατί η σύνταξη σπάνια φτάνει; Ο Γιάννης Φαραζής κάνει δωρεάν ενημέρωση για το προσωπικό της επιχείρησής σας, με απλά λόγια. Τι καλύπτει το ΓεΣΥ και πού το συμπληρώνει ένα ιδιωτικό ή ομαδικό σχέδιο υγείας. Πώς υπολογίζεται σε γενικές γραμμές η σύνταξη των Κοινωνικών Ασφαλίσεων. Πώς λειτουργούν οι εισφορές στο ταμείο προνοίας, και τι μπορεί να περιλαμβάνει ένα ομαδικό σχέδιο ζωής και υγείας.",
+   "duration": 63.1
+  },
+  "en": {
+   "video": "avrastro-film-fg-employers-en-bb1d0fd369.mp4",
+   "poster": "avrastro-film-fg-employers-en-bb1d0fd369.jpg",
+   "vtt": "avrastro-film-fg-employers-en-bb1d0fd369.vtt",
+   "title": "A talk for your staff",
+   "description": "Do your employees know what GESY covers, how the provident fund works, and why the pension rarely covers everything? Giannis Farazis gives a free talk for your staff, in plain words. What GESY covers and where a private or group health plan complements it. How the Social Insurance pension is worked out in broad terms. How provident fund contributions work, and what a group life and health plan can include.",
+   "duration": 57.7
+  },
+  "ru": {
+   "video": "avrastro-film-fg-employers-ru-4d70fa90ab.mp4",
+   "poster": "avrastro-film-fg-employers-ru-4d70fa90ab.jpg",
+   "vtt": "avrastro-film-fg-employers-ru-4d70fa90ab.vtt",
+   "title": "Встреча для ваших сотрудников",
+   "description": "Знают ли ваши сотрудники, что покрывает ГеСИ, как работает накопительный фонд и почему пенсии редко хватает? Яннис Фаразис проводит для персонала вашей компании бесплатную встречу — простыми словами. Что покрывает ГеСИ и где его дополняет частная или групповая медицинская программа. Как в общих чертах рассчитывается пенсия Социального страхования. Как работают взносы в накопительный фонд и что может включать групповая программа страхования жизни и здоровья.",
+   "duration": 59
+  }
+ },
+ "fg-first-meeting": {
+  "el": {
+   "video": "avrastro-film-fg-first-meeting-el-1476b23648.mp4",
+   "poster": "avrastro-film-fg-first-meeting-el-1476b23648.jpg",
+   "vtt": "avrastro-film-fg-first-meeting-el-1476b23648.vtt",
+   "title": "Η πρώτη συνάντηση",
+   "description": "Η πρώτη συνάντηση με τον Γιάννη Φαραζή κρατά περίπου σαράντα πέντε λεπτά. Δεν υπογράφεται αίτηση ούτε συμβόλαιο. Γίνεται στο γραφείο στη Λευκωσία, με βιντεοκλήση ή τηλεφωνικά, στα Ελληνικά ή στα Αγγλικά. Συζητάτε τι θέλετε να προστατεύσετε, τι έχετε ήδη, όπως ασφάλειες, ταμείο προνοίας και αποταμιεύσεις, πού υπάρχουν κενά ή επικαλύψεις, και τι μηνιαίο ποσό είναι λογικό για εσάς, ώστε να μη γίνει βάρος.",
+   "duration": 75.6
+  },
+  "en": {
+   "video": "avrastro-film-fg-first-meeting-en-83d0ebb8ae.mp4",
+   "poster": "avrastro-film-fg-first-meeting-en-83d0ebb8ae.jpg",
+   "vtt": "avrastro-film-fg-first-meeting-en-83d0ebb8ae.vtt",
+   "title": "Your first meeting",
+   "description": "The first meeting with Giannis Farazis takes about forty-five minutes. No application or policy is signed. It happens at the office in Nicosia, by video call or by phone, in Greek or English. You talk about what you want to protect, what you already have, such as insurance, a provident fund and savings, where the gaps or overlaps are, and what monthly amount is sensible for you, so that it does not become a burden.",
+   "duration": 74.1
+  },
+  "ru": {
+   "video": "avrastro-film-fg-first-meeting-ru-b926dd4e60.mp4",
+   "poster": "avrastro-film-fg-first-meeting-ru-b926dd4e60.jpg",
+   "vtt": "avrastro-film-fg-first-meeting-ru-b926dd4e60.vtt",
+   "title": "Первая встреча",
+   "description": "Первая встреча с Яннисом Фаразисом длится около сорока пяти минут. Никакое заявление и никакой полис не подписываются. Встреча проходит в офисе в Никосии, по видеосвязи или по телефону, на греческом или английском языке. Вы обсуждаете, что хотите защитить, что у вас уже есть — страховки, накопительный фонд, сбережения, — где пробелы или дублирование и какая ежемесячная сумма для вас разумна, чтобы она не стала обузой.",
+   "duration": 76.3
+  }
+ },
+ "fg-how": {
+  "el": {
+   "video": "avrastro-film-fg-how-el-2bd18162ea.mp4",
+   "poster": "avrastro-film-fg-how-el-2bd18162ea.jpg",
+   "vtt": "avrastro-film-fg-how-el-2bd18162ea.vtt",
+   "title": "Πώς δουλεύει ο Γιάννης Φαραζής",
+   "description": "Από την πρώτη συζήτηση μέχρι μια αποζημίωση: τέσσερα βήματα, χωρίς βιασύνη και χωρίς ψιλά γράμματα. Πρώτα μια συζήτηση, τηλεφωνικά, με βιντεοκλήση ή από κοντά: ακούει τι θέλετε να προστατεύσετε και τι έχετε ήδη. Μετά βλέπετε μαζί οικογένεια, εισόδημα, δάνεια και στόχους, και πού βρίσκονται τα κενά.",
+   "duration": 74.4
+  },
+  "en": {
+   "video": "avrastro-film-fg-how-en-6c4e661812.mp4",
+   "poster": "avrastro-film-fg-how-en-6c4e661812.jpg",
+   "vtt": "avrastro-film-fg-how-en-6c4e661812.vtt",
+   "title": "How Giannis Farazis works",
+   "description": "From the first conversation to a claim: four steps, with no rush and no small print. First a conversation, by phone, video call or in person: he listens to what you want to protect and what you already have. Then you look together at family, income, loans and goals, and where the gaps are.",
+   "duration": 72.7
+  },
+  "ru": {
+   "video": "avrastro-film-fg-how-ru-60215117f2.mp4",
+   "poster": "avrastro-film-fg-how-ru-60215117f2.jpg",
+   "vtt": "avrastro-film-fg-how-ru-60215117f2.vtt",
+   "title": "Как работает Яннис Фаразис",
+   "description": "От первой беседы до страховой выплаты — четыре шага, без спешки и без мелкого шрифта. Сначала беседа — по телефону, по видеосвязи или лично: он выслушает, что вы хотите защитить и что у вас уже есть. Затем вы вместе смотрите на семью, доход, кредиты и цели — и на то, где пробелы.",
+   "duration": 72.4
+  }
+ },
+ "fg-loan": {
+  "el": {
+   "video": "avrastro-film-fg-loan-el-365d5669ac.mp4",
+   "poster": "avrastro-film-fg-loan-el-365d5669ac.jpg",
+   "vtt": "avrastro-film-fg-loan-el-365d5669ac.vtt",
+   "title": "Στεγαστικό: η ασφάλεια ζωής",
+   "description": "Για ένα στεγαστικό δάνειο, η τράπεζα ζητά συνήθως ασφάλεια ζωής για το ποσό και τη διάρκεια του δανείου. Το συμβόλαιο εκχωρείται στην τράπεζα, ώστε να εξοφληθεί το δάνειο αν συμβεί κάτι. Με δύο δανειολήπτες, ρωτήστε αν πρέπει να ασφαλιστούν και οι δύο και για ποιο ποσό. Ρωτήστε αν η τράπεζα δέχεται συμβόλαιο από ασφαλιστική εταιρεία της επιλογής σας. Και υπολογίστε χρόνο: ανάλογα με την ηλικία και το ποσό, μπορεί να ζητηθούν ερωτήσεις ή εξετάσεις υγείας.",
+   "duration": 84.2
+  },
+  "en": {
+   "video": "avrastro-film-fg-loan-en-61e52c9895.mp4",
+   "poster": "avrastro-film-fg-loan-en-61e52c9895.jpg",
+   "vtt": "avrastro-film-fg-loan-en-61e52c9895.vtt",
+   "title": "Your mortgage: the life cover",
+   "description": "For a mortgage, the bank usually asks for life cover for the amount and term of the loan. The policy is assigned to the bank, so the loan is paid off if something happens. With two borrowers, ask whether both must be insured and for what amount. Ask whether the bank accepts a policy from an insurer of your choice. And allow time: depending on age and amount, health questions or tests may be required.",
+   "duration": 79.6
+  },
+  "ru": {
+   "video": "avrastro-film-fg-loan-ru-59ec4b20bd.mp4",
+   "poster": "avrastro-film-fg-loan-ru-59ec4b20bd.jpg",
+   "vtt": "avrastro-film-fg-loan-ru-59ec4b20bd.vtt",
+   "title": "Ипотека: страхование жизни",
+   "description": "Для ипотеки банк обычно требует страхование жизни на сумму и срок кредита. Полис переуступается банку, чтобы кредит был погашен, если что-то случится. Если заёмщиков двое, уточните, нужно ли страховать обоих и на какую сумму. Спросите, принимает ли банк полис страховой компании по вашему выбору. И заложите время: в зависимости от возраста и суммы могут понадобиться вопросы о здоровье или обследование.",
+   "duration": 81.4
+  }
+ },
+ "fg-savings": {
+  "el": {
+   "video": "avrastro-film-fg-savings-el-1469970b1c.mp4",
+   "poster": "avrastro-film-fg-savings-el-1469970b1c.jpg",
+   "vtt": "avrastro-film-fg-savings-el-1469970b1c.vtt",
+   "title": "Αποταμίευση και επενδυτικά προγράμματα",
+   "description": "Ένα κεφάλαιο, ένα σπίτι, ένα μαξιλάρι ασφαλείας: στόχοι που απέχουν χρόνια χρειάζονται τακτική αποταμίευση. Εσείς ορίζετε τον στόχο και τον ορίζοντα χρόνου, και διαλέγετε επίπεδο κινδύνου. Συχνά, το πρόγραμμα περιλαμβάνει και κάλυψη ζωής.",
+   "duration": 45.2
+  },
+  "en": {
+   "video": "avrastro-film-fg-savings-en-47c0bb9ce6.mp4",
+   "poster": "avrastro-film-fg-savings-en-47c0bb9ce6.jpg",
+   "vtt": "avrastro-film-fg-savings-en-47c0bb9ce6.vtt",
+   "title": "Savings and investment-linked plans",
+   "description": "Capital, a home, a safety cushion: goals that are years away need regular saving. You set the goal and the time horizon, and choose a level of risk. Often, the plan includes life cover too.",
+   "duration": 43.2
+  },
+  "ru": {
+   "video": "avrastro-film-fg-savings-ru-43b5968b0a.mp4",
+   "poster": "avrastro-film-fg-savings-ru-43b5968b0a.jpg",
+   "vtt": "avrastro-film-fg-savings-ru-43b5968b0a.vtt",
+   "title": "Накопительные и инвестиционные программы",
+   "description": "Капитал, жильё, финансовая подушка: для целей, до которых годы, нужны регулярные накопления. Вы сами задаёте цель и срок и выбираете уровень риска. Часто программа включает и страхование жизни.",
+   "duration": 44.8
+  }
+ },
+ "fg-yearly-check": {
+  "el": {
+   "video": "avrastro-film-fg-yearly-check-el-9d1cacca67.mp4",
+   "poster": "avrastro-film-fg-yearly-check-el-9d1cacca67.jpg",
+   "vtt": "avrastro-film-fg-yearly-check-el-9d1cacca67.vtt",
+   "title": "Ο ετήσιος έλεγχος των ασφαλειών μου",
+   "description": "Βάλτε μια υπενθύμιση μία φορά τον χρόνο, για παράδειγμα στα γενέθλιά σας, και περάστε δέκα ερωτήσεις με τα συμβόλαια μπροστά σας. Πρώτα η ζωή σας: άλλαξε κάτι στην οικογένεια; Άλλαξε η δουλειά ή το εισόδημα; Πήρατε, εξοφλήσατε ή αναχρηματοδοτήσατε ένα δάνειο;",
+   "duration": 71.7
+  },
+  "en": {
+   "video": "avrastro-film-fg-yearly-check-en-fe6ccf459a.mp4",
+   "poster": "avrastro-film-fg-yearly-check-en-fe6ccf459a.jpg",
+   "vtt": "avrastro-film-fg-yearly-check-en-fe6ccf459a.vtt",
+   "title": "My yearly insurance check",
+   "description": "Set a reminder once a year, for example on your birthday, and go through ten questions with your policies in front of you. First, your life: has anything changed in the family? Has your job or income changed? Did you take out, pay off or refinance a loan?",
+   "duration": 67.5
+  },
+  "ru": {
+   "video": "avrastro-film-fg-yearly-check-ru-f4b3825676.mp4",
+   "poster": "avrastro-film-fg-yearly-check-ru-f4b3825676.jpg",
+   "vtt": "avrastro-film-fg-yearly-check-ru-f4b3825676.vtt",
+   "title": "Ежегодная проверка моих страховок",
+   "description": "Поставьте напоминание раз в год — например, на свой день рождения — и пройдите десять вопросов, держа полисы перед собой. Сначала ваша жизнь: изменилось ли что-то в семье? Изменились ли работа или доход? Брали, погасили или рефинансировали кредит?",
+   "duration": 79.4
+  }
+ },
+ "meet-giannis": {
+  "el": {
+   "video": "avrastro-film-meet-giannis-el-1701610cce.mp4",
+   "poster": "avrastro-film-meet-giannis-el-1701610cce.jpg",
+   "vtt": "avrastro-film-meet-giannis-el-1701610cce.vtt",
+   "title": "Γιάννης Φαραζής",
+   "description": "Ο Γιάννης Φαραζής είναι Ασφαλιστικός Σύμβουλος με βάση τη Λευκωσία. Από το 2024 εξυπηρετεί οικογένειες και επαγγελματίες σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά. Ασφάλεια ζωής και υγείας, σύνταξη, σπουδές παιδιών και αποταμίευση, με καθαρές εξηγήσεις και χωρίς πίεση.",
+   "duration": 49,
+   "posters": {
+    "alt": "avrastro-film-meet-giannis-el-1701610cce-poster-alt.jpg"
+   }
+  },
+  "en": {
+   "video": "avrastro-film-meet-giannis-en-e9a0f93cfd.mp4",
+   "poster": "avrastro-film-meet-giannis-en-e9a0f93cfd.jpg",
+   "vtt": "avrastro-film-meet-giannis-en-e9a0f93cfd.vtt",
    "title": "Giannis Farazis",
    "description": "Giannis Farazis is an Insurance Advisor based in Nicosia. Since 2024 he has served families and professionals across Cyprus, in Greek and English. Life and health cover, retirement, children’s studies and savings, with clear explanations and no pressure.",
-   "duration": 46.7
+   "duration": 46.7,
+   "posters": {
+    "alt": "avrastro-film-meet-giannis-en-e9a0f93cfd-poster-alt.jpg"
+   }
+  },
+  "ru": {
+   "video": "avrastro-film-meet-giannis-ru-7d44bc2b75.mp4",
+   "poster": "avrastro-film-meet-giannis-ru-7d44bc2b75.jpg",
+   "vtt": "avrastro-film-meet-giannis-ru-7d44bc2b75.vtt",
+   "title": "Яннис Фаразис",
+   "description": "Яннис Фаразис — страховой консультант из Никосии. С 2024 года он работает с семьями и специалистами по всему Кипру, на греческом и английском языках. Страхование жизни и здоровья, пенсия, учёба детей и накопления — с понятными объяснениями и без давления.",
+   "duration": 49,
+   "posters": {
+    "alt": "avrastro-film-meet-giannis-ru-7d44bc2b75-poster-alt.jpg"
+   }
   }
  },
  "topic-business": {
@@ -33,6 +331,14 @@
    "title": "Protecting your business",
    "description": "If the person who brings in your clients were gone tomorrow, how long would your business hold up? A business depends on people. Often, one or two of them bring in most of the revenue.",
    "duration": 65.9
+  },
+  "ru": {
+   "video": "avrastro-film-topic-business-ru-90c0e8c5de.mp4",
+   "poster": "avrastro-film-topic-business-ru-90c0e8c5de.jpg",
+   "vtt": "avrastro-film-topic-business-ru-90c0e8c5de.vtt",
+   "title": "Защита бизнеса",
+   "description": "Если бы завтра не стало человека, который приводит клиентов, сколько продержался бы ваш бизнес? Бизнес держится на людях. Часто один-два человека приносят большую часть выручки.",
+   "duration": 65.3
   }
  },
  "topic-education": {
@@ -51,6 +357,14 @@
    "title": "Saving for a child’s studies",
    "description": "University is one of a family’s biggest costs, and it comes on a known date. Take the yearly cost, multiply by the years of study, add inflation, take away what you already have, and spread the rest over the months that remain.",
    "duration": 46.6
+  },
+  "ru": {
+   "video": "avrastro-film-topic-education-ru-915869c47f.mp4",
+   "poster": "avrastro-film-topic-education-ru-915869c47f.jpg",
+   "vtt": "avrastro-film-topic-education-ru-915869c47f.vtt",
+   "title": "Накопления на учёбу ребёнка",
+   "description": "Университет — одна из самых крупных статей расходов семьи, и её дата заранее известна. Возьмите стоимость одного года, умножьте на годы учёбы, добавьте инфляцию, вычтите то, что уже накоплено, и разделите остаток на оставшиеся месяцы.",
+   "duration": 53.7
   }
  },
  "topic-expats": {
@@ -69,6 +383,14 @@
    "title": "Insurance in Cyprus for expats",
    "description": "Have you moved to Cyprus to work, to retire or with your family? The system may be quite different from what you know. Those entitled to GESY include people working in Cyprus, residents with permanent residence, their dependants, and EU citizens with a registered S1 form. If you are not entitled to GESY, you need private health insurance for everything.",
    "duration": 76
+  },
+  "ru": {
+   "video": "avrastro-film-topic-expats-ru-39275d8655.mp4",
+   "poster": "avrastro-film-topic-expats-ru-39275d8655.jpg",
+   "vtt": "avrastro-film-topic-expats-ru-39275d8655.vtt",
+   "title": "Страхование на Кипре для иностранцев",
+   "description": "Вы переехали на Кипр работать, на пенсию или вместе с семьёй? Здешняя система может сильно отличаться от привычной вам. Право на ГеСИ имеют, в частности, работающие на Кипре, жители с постоянным видом на жительство, члены их семей на иждивении и граждане ЕС с зарегистрированной формой S1. Если у вас нет права на ГеСИ, вам нужна частная медицинская страховка на всё.",
+   "duration": 79.7
   }
  },
  "topic-group": {
@@ -87,6 +409,14 @@
    "title": "Group plans for companies",
    "description": "How do you keep good people on your team? Often, with benefits they truly value. Group plans come in three main forms: a group health plan, group life and accident cover, and a provident fund.",
    "duration": 68.6
+  },
+  "ru": {
+   "video": "avrastro-film-topic-group-ru-3c0aae5565.mp4",
+   "poster": "avrastro-film-topic-group-ru-3c0aae5565.jpg",
+   "vtt": "avrastro-film-topic-group-ru-3c0aae5565.vtt",
+   "title": "Групповые программы для компаний",
+   "description": "Как удержать хороших людей в команде? Часто — с помощью льгот, которые они действительно ценят. Групповые программы бывают трёх основных видов: групповая медицинская программа, групповое страхование жизни и от несчастных случаев и накопительный фонд.",
+   "duration": 71.7
   }
  },
  "topic-health": {
@@ -105,6 +435,14 @@
    "title": "Health: GESY and private cover",
    "description": "You have GESY. Do you also need private health insurance? GESY covers a wide range of services: a personal doctor, specialists, tests, medicines and hospital care. A private plan does not replace it; it adds to it.",
    "duration": 54.5
+  },
+  "ru": {
+   "video": "avrastro-film-topic-health-ru-5ad9779ad1.mp4",
+   "poster": "avrastro-film-topic-health-ru-5ad9779ad1.jpg",
+   "vtt": "avrastro-film-topic-health-ru-5ad9779ad1.vtt",
+   "title": "Здоровье: GESY и частная страховка",
+   "description": "У вас есть ГеСИ. Нужна ли вам ещё и частная медицинская страховка? ГеСИ покрывает широкий круг услуг: личного врача, специалистов, анализы, лекарства и лечение в больнице. Частная программа его не заменяет, а дополняет.",
+   "duration": 57.5
   }
  },
  "topic-income": {
@@ -123,6 +461,14 @@
    "title": "Income protection",
    "description": "If an illness kept you away from work for months, how much would be missing each month? Loan repayments, rent and family costs do not wait.",
    "duration": 46.7
+  },
+  "ru": {
+   "video": "avrastro-film-topic-income-ru-52356058dd.mp4",
+   "poster": "avrastro-film-topic-income-ru-52356058dd.jpg",
+   "vtt": "avrastro-film-topic-income-ru-52356058dd.vtt",
+   "title": "Защита дохода",
+   "description": "Если бы болезнь на месяцы оторвала вас от работы, сколько денег не хватало бы каждый месяц? Платежи по кредиту, аренда и расходы семьи не ждут.",
+   "duration": 51.6
   }
  },
  "topic-life": {
@@ -141,24 +487,14 @@
    "title": "Life insurance",
    "description": "If your income stopped tomorrow, how would your family carry on? Life insurance pays a sum to the beneficiaries you choose, so they do not have to sell the home, stop studying or take on debt.",
    "duration": 63.7
-  }
- },
- "topic-loan": {
-  "el": {
-   "video": "avrastro-film-topic-loan-el-0ff7a44632.mp4",
-   "poster": "avrastro-film-topic-loan-el-0ff7a44632.jpg",
-   "vtt": "avrastro-film-topic-loan-el-0ff7a44632.vtt",
-   "title": "Προστασία δανείου",
-   "description": "Το σπίτι σας έχει δάνειο για είκοσι ή τριάντα χρόνια. Αν αύριο έλειπε το εισόδημά σας, ποιος θα πλήρωνε τη δόση; Για ένα στεγαστικό, η τράπεζα ζητά συνήθως ασφάλεια ζωής εκχωρημένη υπέρ της, και ασφάλεια του σπιτιού για φωτιά και σεισμό. Μπορείτε να τις αγοράσετε και από ασφαλιστική της επιλογής σας, εφόσον οι καλύψεις είναι αντίστοιχες.",
-   "duration": 89.4
   },
-  "en": {
-   "video": "avrastro-film-topic-loan-en-6c1f561502.mp4",
-   "poster": "avrastro-film-topic-loan-en-6c1f561502.jpg",
-   "vtt": "avrastro-film-topic-loan-en-6c1f561502.vtt",
-   "title": "Loan protection",
-   "description": "Your home has a loan for twenty or thirty years. If your income stopped tomorrow, who would pay the instalment? For a mortgage, the bank usually asks for life cover assigned to it, and home insurance against fire and earthquake. You can buy them from an insurer you choose, as long as the cover is equivalent.",
-   "duration": 82.7
+  "ru": {
+   "video": "avrastro-film-topic-life-ru-865b137538.mp4",
+   "poster": "avrastro-film-topic-life-ru-865b137538.jpg",
+   "vtt": "avrastro-film-topic-life-ru-865b137538.vtt",
+   "title": "Страхование жизни",
+   "description": "Если бы ваш доход прекратился завтра, как бы жила ваша семья? Страхование жизни выплачивает сумму выгодоприобретателям, которых вы выбираете, чтобы им не пришлось продавать дом, бросать учёбу или влезать в долги.",
+   "duration": 69.9
   }
  },
  "topic-retirement": {
@@ -177,6 +513,14 @@
    "title": "Retirement",
    "description": "Will you have enough income when you stop working? In Cyprus, retirement income usually comes from three sources: Social Insurance, a provident fund if you have one, and your own savings.",
    "duration": 50
+  },
+  "ru": {
+   "video": "avrastro-film-topic-retirement-ru-da4b201e4d.mp4",
+   "poster": "avrastro-film-topic-retirement-ru-da4b201e4d.jpg",
+   "vtt": "avrastro-film-topic-retirement-ru-da4b201e4d.vtt",
+   "title": "Пенсия",
+   "description": "Хватит ли вам дохода, когда вы перестанете работать? На Кипре пенсионный доход обычно складывается из трёх источников: Социального страхования, накопительного фонда, если он есть, и ваших собственных сбережений.",
+   "duration": 48.9
   }
  },
  "topic-review": {
@@ -194,6 +538,14 @@
    "vtt": "avrastro-film-topic-review-en-da7c2f7bec.vtt",
    "title": "Reviewing your policies",
    "description": "When did you last look at your policies? Life changes: a marriage, a child, a new loan, a new job. Policies, though, often stay the same for years, and what fitted five years ago may cover too little today.",
+   "duration": 74.1
+  },
+  "ru": {
+   "video": "avrastro-film-topic-review-ru-201076ab65.mp4",
+   "poster": "avrastro-film-topic-review-ru-201076ab65.jpg",
+   "vtt": "avrastro-film-topic-review-ru-201076ab65.vtt",
+   "title": "Пересмотр ваших полисов",
+   "description": "Когда вы в последний раз смотрели свои полисы? Жизнь меняется: свадьба, ребёнок, новый кредит, новая работа. А полисы часто годами остаются прежними, и то, что подходило пять лет назад, сегодня может покрывать слишком мало.",
    "duration": 74.1
   }
  },
@@ -213,6 +565,14 @@
    "title": "Emergency fund",
    "description": "A breakdown, a medical bill, a month without income. Are you ready? An emergency fund is the first layer of protection, before any other goal, so that something unexpected does not turn into debt.",
    "duration": 43.7
+  },
+  "ru": {
+   "video": "avrastro-film-topic-savings-ru-01080e9a51.mp4",
+   "poster": "avrastro-film-topic-savings-ru-01080e9a51.jpg",
+   "vtt": "avrastro-film-topic-savings-ru-01080e9a51.vtt",
+   "title": "Резервный фонд",
+   "description": "Поломка, счёт за лечение, месяц без дохода. Вы готовы? Резервный фонд — первый уровень защиты, раньше любой другой цели, чтобы неожиданность не превратилась в долг.",
+   "duration": 43.5
   }
  }
 }
