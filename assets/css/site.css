@@ -621,29 +621,72 @@ p { margin: 0 0 1em; max-width: 68ch; }
 .bcard-sec { padding-top: clamp(2rem, 5vw, 3.5rem); }
 @media (max-width: 560px) { .bcard__top { grid-template-columns: 84px minmax(0, 1fr); } .bcard__top img { width: 84px; } .bcard h1 { font-size: 2rem; } }
 
-/* ============ print views (14 Oct 2026): every page prints as a clean, readable document ============ */
+/* ============ print views: every page prints as one premium A4 document (14 Oct 2026; premium pass 15 Oct 2026) ============
+   build.py adds two hidden parts: .print-head (the GF lockup, his capacity, the date, the page's address) and .print-foot
+   (his details, the page's QR code, the note "general information"); the page margins carry his name, the website and
+   "page n / N". Brand: midnight blue, brass, GFS Didot titles, Commissioner text. */
+.print-only { display: none; }
+@page {
+  size: A4; margin: 15mm 17mm 17mm;
+  @bottom-left { content: "Giannis Farazis · farazisgiannis.com"; font: 400 7pt/1 "Commissioner", Arial, sans-serif; color: #7d8898; letter-spacing: .04em; vertical-align: top; padding-top: 6mm; }
+  @bottom-right { content: counter(page) " / " counter(pages); font: 600 7pt/1 "Commissioner", Arial, sans-serif; color: #7d8898; letter-spacing: .06em; vertical-align: top; padding-top: 6mm; }
+}
 @media print {
-  @page { margin: 16mm 14mm; }
-  html { font-size: 11pt; }
-  body { background: #fff !important; color: #000; }
-  .site-head, .site-foot, .callbar, .preview-banner, .ru-strip, .skip, .no-print, .cta-band, .film, .explainer, .callback, form, .jump, .crumbs,
-  .page-head__media, .page-head__tools, .page-head .actions, .faq-aside, .film-band, .actions, .booking, .hero .portrait { display: none !important; }
-  .page-head, .hero, .about-hero, .section.tint { background: none !important; color: #000 !important; box-shadow: none !important; }
-  .page-head h1, .page-head__lead, .page-head__kicker, .hero h1, .hero__lead { color: #000 !important; }
-  .page-head .wrap, .section, .section--tight { padding-top: 0 !important; padding-bottom: 8mm !important; }
-  .card a, .panel, .event, .lcards a, .meet-facts li, .form, .office-line, .needs-cta { box-shadow: none !important; border: 1px solid #bbb; break-inside: avoid; }
-  .event { page-break-inside: avoid; margin-bottom: 6mm; }
-  .qa { break-inside: avoid; }
+  html { font-size: 9.8pt; }
+  body { background: #fff !important; color: var(--ink); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  *, *::before, *::after { box-shadow: none !important; text-shadow: none !important; animation: none !important; transition: none !important; }
+  .site-head, .site-foot, .callbar, .preview-banner, .ru-strip, .skip, .no-print, .cta-band, .film, .films, .films-title, .explainer, .callback, form, .jump, .crumbs,
+  .page-head__media, .page-head__tools, .page-head .actions, .faq-aside, .film-band, .actions, .booking, .hero .portrait, video, iframe, .icon-panel, .qa__sign { display: none !important; }
+
+  /* first page: the GF lockup, his capacity, the date and the address of the page */
+  .print-head { display: flex !important; align-items: flex-end; justify-content: space-between; gap: 10mm; margin: 0 0 9mm; padding: 0 0 4.5mm; border-bottom: .8pt solid var(--brass); }
+  .print-head img { display: block; height: 12.5mm; width: auto; }
+  .print-head__meta { text-align: right; font-size: 7.4pt; line-height: 1.55; color: var(--muted); }
+  .print-head__meta p { margin: 0; }
+  .print-head__kicker { font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--brass-deep) !important; margin-bottom: 1mm !important; }
+
+  /* the page's own title and text */
+  .wrap { max-width: none !important; padding-inline: 0 !important; }
+  .page-head, .hero, .about-hero, .section, .section.tint, .section--tight { background: none !important; color: var(--ink) !important; padding: 0 !important; margin: 0 0 6mm !important; min-height: 0 !important; }
+  .page-head::before, .page-head::after, .hero::before, .hero::after { display: none !important; }
+  .page-head .wrap, .hero .wrap { display: block !important; }
+  .page-head__text, .hero__text { max-width: none !important; }
+  .page-head h1, .hero h1, .about-hero h1 { font: 400 23pt/1.12 var(--display) !important; color: var(--midnight) !important; margin: 0 0 2.6mm !important; max-width: 150mm; }
+  .page-head__lead, .hero__lead { font-size: 11pt !important; line-height: 1.5; color: var(--muted) !important; max-width: 150mm; margin: 0 !important; }
+  .page-head__kicker { font-size: 7pt !important; letter-spacing: .18em; text-transform: uppercase; color: var(--brass-deep) !important; }
+  h1, h2, h3 { color: var(--midnight) !important; break-after: avoid; text-wrap: balance; }
+  h2 { font: 400 15pt/1.2 var(--display) !important; margin: 6mm 0 2.4mm !important; }
+  h3 { font-size: 10.6pt !important; margin: 4mm 0 1.4mm !important; }
+  p, li { orphans: 3; widows: 3; }
+  a, a:visited { color: inherit !important; text-decoration: none !important; }
+  img { max-height: 62mm; object-fit: cover; border-radius: 3mm; }
+  hr.rule { border: 0; border-top: .8pt solid var(--brass) !important; width: 12mm; margin: 0 0 3mm !important; }
+  .card a, .panel, .event, .lcards a, .meet-facts li, .form, .office-line, .needs-cta { background: #fff !important; border: .5pt solid #d9e1eb !important; border-radius: 2.4mm !important; break-inside: avoid; }
+  .event { page-break-inside: avoid; margin-bottom: 5mm; padding: 4mm 5mm !important; }
+  .qa { break-inside: avoid; border-color: #d9e1eb !important; }
   .qa:not([open]) > .qa__a { display: block !important; }
   details > *:not(summary) { display: block !important; }
-  .qa__sign { display: none; }
-  a { color: #000; text-decoration: underline; }
-  .prose a[href^="http"]::after, .event a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .85em; word-break: break-all; }
-  h1, h2, h3 { color: #000 !important; break-after: avoid; }
-  img { max-height: 70mm; object-fit: cover; }
-  .icon-panel { display: none !important; }
+  .qa summary { font-weight: 600; color: var(--midnight); }
   /* «Print» on one life event prints only that event */
   body.print-one .event:not(.is-printing), body.print-one .events ~ .note, body.print-one .page-head__lead { display: none !important; }
+
+  /* closing block: his details, the page's QR code and the note — together, at the end */
+  .print-foot { display: block !important; break-inside: avoid; page-break-inside: avoid; margin: 10mm 0 0; padding: 6mm 0 0; border-top: .8pt solid var(--brass); }
+  .print-foot__row { display: flex; align-items: stretch; justify-content: space-between; gap: 10mm; }
+  .print-foot__sign { flex: 1 1 auto; display: flex; gap: 5mm; align-items: flex-start; min-width: 0; }
+  .print-foot__mark { width: 15mm; height: auto; border-radius: 0; max-height: none; flex: none; margin-top: .6mm; }
+  .print-foot__name { margin: 0; font: 400 16pt/1.15 var(--display); color: var(--midnight); }
+  .print-foot__role { margin: 1mm 0 3mm; font-size: 8.6pt; color: var(--muted); }
+  .print-foot__contact { list-style: none; margin: 0; padding: 0; display: grid; gap: 1mm; }
+  .print-foot__contact li { margin: 0; font-size: 8.6pt; display: grid; grid-template-columns: 20mm 1fr; align-items: baseline; color: var(--ink); }
+  .print-foot__contact li span { font-size: 6.4pt; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #8a94a6; }
+  .print-foot__qr { flex: 0 0 auto; width: 34mm; text-align: center; }
+  .print-foot__qr-code { display: block; width: 23mm; height: 23mm; margin: 0 auto; }
+  .print-foot__qr p { margin: 1.4mm 0 0; font-size: 6.4pt; line-height: 1.4; color: var(--muted); }
+  .print-foot__note { margin: 5mm 0 0; font-size: 7.2pt; color: var(--muted); }
+  /* the business card (/card/) carries his details and its own QR code already */
+  body:has(.bcard) .print-foot { display: none !important; }
+  .bcard h1, .bcard h2 { color: #fff !important; }
 }
 @media (min-width: 901px) { .page-head:not(.has-media) .page-head__text { max-width: min(700px, 64%); } }
 .ru-strip { max-width: none; }

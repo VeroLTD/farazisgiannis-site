@@ -114,9 +114,10 @@ CHECKLISTS = [
       'ru': 'Мы можем вместе посмотреть страхование жизни для вашей ипотеки до подписания кредита, чтобы одобрение не задержалось.'}),
 ]
 
-FOOT = {'el': 'Γενική ενημέρωση, όχι εξατομικευμένη συμβουλή. Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος · +357 97 840941 · +357 22 124867 · farazisgiannis.com',
-        'en': 'General information, not personal advice. Giannis Farazis, Insurance Advisor · +357 97 840941 · +357 22 124867 · farazisgiannis.com',
-        'ru': 'Общая информация, не персональная консультация. Яннис Фаразис, страховой консультант · +357 97 840941 · +357 22 124867 · farazisgiannis.com'}
+# the note under the signature block (15 Oct 2026: his details are a block of their own in tools/make_pdfs.py)
+FOOT = {'el': 'Γενική ενημέρωση, όχι εξατομικευμένη συμβουλή. Κάθε συμβόλαιο ισχύει με τους δικούς του όρους.',
+        'en': 'General information, not personal advice. Every policy applies on its own terms.',
+        'ru': 'Общая информация, не персональная консультация. Каждый полис действует на своих условиях.'}
 
 def pdf_name(stem, lang):
     return f'{stem}-{lang}.pdf'

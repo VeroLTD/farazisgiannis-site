@@ -29,3 +29,9 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
 - 14 Oct 2026 features: needs check in the booking form (answers go with the request note), Questions and answers page
   (schema.org FAQPage), Changes in your life page (per-event checklists, each printable), print views on every page,
   breadcrumbs (BreadcrumbList).
+- Premium print (15 Oct 2026, owner: everything printed or downloaded must look made with absolute care): every page
+  prints as an A4 document with the GF lockup, the date and the page address on top, his details (life-insurance
+  capacity and ICCS reg. no., mobile, office line, office address, website; no insurer, no e-mail) and the page's own
+  QR code at the end, and name + page numbers in the margins (`print_head`/`print_foot` in build.py, site.css print
+  block). The checklist PDFs (`tools/make_pdfs.py`, 4 × el/en/ru) use the same design, with a notes area and the QR
+  code of the Guides page; regenerate with `python3 tools/make_pdfs.py` (CHROMIUM=… names the browser if needed).

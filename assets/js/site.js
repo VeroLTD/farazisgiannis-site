@@ -111,7 +111,16 @@
     });
   });
   var closed = [];
+  // the printed page carries the day it was printed (15 Oct 2026, premium print views)
+  var day = document.querySelector('[data-print-date]');
+  function stamp() {
+    if (!day || !window.Intl) return;
+    var l = day.getAttribute('data-lang');
+    try { day.textContent = new Date().toLocaleDateString(l === 'ru' ? 'ru-RU' : l === 'en' ? 'en-GB' : 'el-GR', { day: 'numeric', month: 'long', year: 'numeric' }); } catch (e) { /* no date */ }
+  }
+  stamp();
   window.addEventListener('beforeprint', function () {
+    stamp();
     closed = [].filter.call(document.querySelectorAll('details.qa:not([open])'), function (d) { d.open = true; return true; });
   });
   window.addEventListener('afterprint', function () {

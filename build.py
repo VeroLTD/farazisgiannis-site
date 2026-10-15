@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'site')
 BASE = 'https://farazisgiannis.com'
 UPDATED = '2026-10-14'   # privacy page "last updated" (call-back requests added 14 Oct 2026)
-ASSET_V = '2026-10-14'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
+ASSET_V = '2026-10-15'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
 PHONE = '+357 97 840941'; TEL = '+35797840941'
 OFFICE = '+357 22 124867'; OFFICE_TEL = '+35722124867'
 WHATSAPP = 'https://wa.me/35797840941'
@@ -311,6 +311,7 @@ def head(lang, page, title, desc, extra_ld=None):
 <script type="application/ld+json">{json.dumps(ld if len(ld) > 1 else ld[0], ensure_ascii=False)}</script>
 </head>
 <body>
+{print_head(lang, canonical)}
 {('<div class="preview-banner" role="note">' + ('ΠΡΟΕΠΙΣΚΟΠΗΣΗ — αλλαγές που περιμένουν έγκριση. Δεν είναι η δημοσιευμένη σελίδα.' if lang == 'el' else 'PREVIEW — changes waiting for approval. This is not the published page.') + '</div>') if PREVIEW else ''}
 <a class="skip" href="#main">{L(T['skip'], lang)}</a>
 <header class="site-head"><div class="wrap">
@@ -330,10 +331,44 @@ def reg_line(lang):
         return ' · <span>' + (('Ασφαλιστικός Σύμβουλος κλάδου ζωής, Αρ. Μητρώου ΥΕΑΕ ' if lang == 'el' else 'Life insurance advisor, ICCS Reg. No. ') + esc(OWN_REG)) + '</span>'
     return (' · [Αρ. Μητρώου ΥΕΑΕ — συμπληρώνεται πριν από τη δημοσίευση]' if lang == 'el' else ' · [ICCS Reg. No. — filled in before publication]') if PREVIEW else ''
 
+# Print views (15 Oct 2026, owner: everything printed must be premium, with the GF brand and his details at the bottom).
+# Hidden on screen (site.css .print-only); on paper: the GF lockup, his capacity, the date and the page's address on the
+# first page; at the end of the page a signature block with his details and the QR code of the page (PRINT_QR is
+# replaced by the page's own code when the page is written, main()); "Giannis Farazis · farazisgiannis.com" and page
+# numbers in the margins of every page (site.css @page). Life business only: no insurer, no e-mail.
+PRINT_QR = '<!--print-qr-->'
+
+def print_head(lang, canonical):
+    el = lang == 'el'
+    return (f'<div class="print-only print-head" aria-hidden="true"><img src="/assets/img/gf-lockup.png" alt="" width="294" height="70">'
+            f'<div class="print-head__meta"><p class="print-head__kicker">{"Ασφαλιστικός Σύμβουλος κλάδου ζωής" if el else "Life insurance advisor"}</p>'
+            f'<p class="print-head__date" data-print-date data-lang="{lang}"></p><p>{esc(canonical.replace("https://", ""))}</p></div></div>')
+
+def print_foot(lang):
+    el = lang == 'el'
+    rows = [('Κινητό' if el else 'Mobile', PHONE), ('Γραφείο' if el else 'Office', OFFICE),
+            ('Διεύθυνση' if el else 'Address', OFFICE_EL if el else OFFICE_EN), ('Ιστότοπος' if el else 'Website', 'farazisgiannis.com')]
+    return (f'<div class="print-only print-foot" aria-hidden="true"><div class="print-foot__row"><div class="print-foot__sign">'
+            f'<img class="print-foot__mark" src="/assets/img/gf-mark.png" alt="" width="240" height="236">'
+            f'<div><p class="print-foot__name">{L(T["name"], lang)}</p>'
+            f'<p class="print-foot__role">{("Ασφαλιστικός Σύμβουλος κλάδου ζωής · Αρ. Μητρώου ΥΕΑΕ " if el else "Life insurance advisor · ICCS Reg. No. ") + esc(OWN_REG)}</p>'
+            '<ul class="print-foot__contact">' + ''.join(f'<li><span>{k}</span>{esc(v)}</li>' for k, v in rows) + '</ul></div></div>'
+            f'<div class="print-foot__qr">{PRINT_QR}<p>{"Σαρώστε για τη σελίδα online" if el else "Scan for this page online"}</p></div></div>'
+            f'<p class="print-foot__note">{"Γενική ενημέρωση, όχι εξατομικευμένη συμβουλή." if el else "General information, not personal advice."}</p></div>')
+
+def with_print_qr(doc, path):
+    """the page's own QR code in its print footer (tools/qr.py, inline SVG in the site's midnight blue)"""
+    if PRINT_QR not in doc: return doc
+    import qr
+    s = qr.svg(qr.encode(BASE + path)).replace('<svg ', '<svg class="print-foot__qr-code" aria-hidden="true" focusable="false" ', 1).replace('fill="#000"', 'fill="#142a4c"')
+    s = _re.sub(r' width="\d+" height="\d+"', '', s, count=1)
+    return doc.replace(PRINT_QR, s.strip())
+
 def foot(lang):
     el = lang == 'el'
     more = ['first', 'events', 'faq', 'employers', 'card', 'privacy']
     return f'''</main>
+{print_foot(lang)}
 <footer class="site-foot"><div class="wrap">
 <div class="foot-brand"><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="200" height="115" loading="lazy">
 <p>{L(T['foot'], lang)}</p></div>
@@ -1493,16 +1528,16 @@ def main():
     urls = []
     for pid, fn in PAGES.items():
         for lang in ('el', 'en'):
-            u = url(pid, lang); write(u.lstrip('/') + 'index.html', fn(lang)); urls.append((pid, lang, u))
+            u = url(pid, lang); write(u.lstrip('/') + 'index.html', with_print_qr(fn(lang), u)); urls.append((pid, lang, u))
         if RU_ON:
             RENDER['ru'] = True
             try:
-                u = url(pid, 'ru'); write(u.lstrip('/') + 'index.html', ru_page(fn('en'))); urls.append((pid, 'ru', u))
+                u = url(pid, 'ru'); write(u.lstrip('/') + 'index.html', with_print_qr(ru_page(fn('en')), u)); urls.append((pid, 'ru', u))
             finally:
                 RENDER['ru'] = False
     if RU_MISSING: print('Russian: not yet translated:', len(RU_MISSING), '→', sorted(RU_MISSING)[:8])
     for old, to in LEGACY.items(): write(f'{old}/index.html', redirect_page(to))
-    write('404.html', page_404())
+    write('404.html', with_print_qr(page_404(), '/'))
     if not PREFIX: write('CNAME', 'farazisgiannis.com\n')
     write('.nojekyll', '')
     # Search Console ownership file (URL-prefix property https://farazisgiannis.com/); keep it, or verification is lost
