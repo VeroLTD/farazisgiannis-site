@@ -256,6 +256,22 @@ def film_band(lang, key, title, tint=False, poster=None):
     if not f: return ''
     return (f'<section class="section section--film{" tint" if tint else ""}"><div class="wrap"><div class="section-head"><hr class="rule"><h2>{title}</h2></div>{f}</div></section>')
 
+# «Μικρές ιστορίες ζωής» (owner, 15 Nov 2026: the three AI films with actors also on his sites, not only on social media):
+# Greek films, so only on the Greek home page; each film plays only when pressed. The people are AI-generated: said once,
+# plainly, in the intro (on social media the platforms' AI labels do it). Nothing at all while the films are missing.
+STORY_FILMS = [('story-key', 'Ασφάλεια ζωής · προστασία οικογένειας'),
+               ('story-letter', 'Αποταμίευση για τη σύνταξη'),
+               ('story-promise', 'Αποταμίευση για τις σπουδές των παιδιών')]
+
+def story_films(lang):
+    if lang != 'el' or RENDER['ru']: return ''
+    cards = ''.join(f'<li>{f}<p class="story-films__topic">{t}</p></li>' for f, t in ((explainer(k, lang, 'explainer--card'), t) for k, t in STORY_FILMS) if f)
+    if not cards: return ''
+    return ('<section class="section section--film story-films"><div class="wrap"><div class="section-head"><hr class="rule">'
+            '<h2>Μικρές ιστορίες ζωής</h2><p class="lead">Τρεις μικρές ταινίες για όσα αξίζει να προστατεύουμε: την οικογένεια, '
+            'τη σύνταξη, τα όνειρα των παιδιών μας. Τα πρόσωπα είναι ψηφιακά δημιουργημένα· οι ιστορίες είναι όλων μας.</p></div>'
+            f'<ul class="story-films__grid">{cards}</ul></div></section>')
+
 def portrait(alt='', cls='', eager=False, n=''):
     # 15 Oct 2026: three portraits from the owner's shoot, one per page (home, About -2, digital card -3), so none repeats
     f = 'giannis-farazis-portrait' + (f'-{n}' if n else '')
@@ -627,6 +643,7 @@ def page_home(lang):
 </div>
 {film('film-home', lang, 'film--band')}
 </div></section>
+{story_films(lang)}
 
 <section class="section tint"><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Γιατί να συνεργαστούμε' if el else 'Why work with me'}</h2></div>

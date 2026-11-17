@@ -55,6 +55,14 @@ def main(src):
             if frame(os.path.join(DEST, it['video']), share * float(it.get('duration') or 0), os.path.join(DEST, f)):
                 e.setdefault('posters', {})[name] = f; keep.add(f)
         out.setdefault(it['key'], {})[it['lang']] = e
+    # the «Μικρές ιστορίες ζωής» films (story-*, 15 Nov 2026) are not in the vero-os web export: they come from the ad
+    # films (vero-os tools/video/ad) and are kept as they are
+    prev = json.load(open(os.path.join(DEST, 'explainers.json'), encoding='utf8')) if os.path.exists(os.path.join(DEST, 'explainers.json')) else {}
+    for k, langs in prev.items():
+        if k.startswith('story-'):
+            out[k] = langs
+            for e in langs.values():
+                keep.update(e[x] for x in ('video', 'poster', 'vtt') if e.get(x))
     for f in os.listdir(DEST):
         if f not in keep:
             os.remove(os.path.join(DEST, f))
