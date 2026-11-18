@@ -703,3 +703,23 @@ p { margin: 0 0 1em; max-width: 68ch; }
 .story-films__grid > li { margin: 0; }
 .story-films__topic { margin: .35rem 0 0; font-size: .9rem; opacity: .75; }
 @media (max-width: 900px) { .story-films__grid { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; } }
+
+/* 18 Nov 2026 — /mikra-xeria/: the colouring booklet for World Children's Day, free download */
+.booklet-cover img { aspect-ratio: auto; object-fit: contain; width: auto; max-width: 100%; max-height: 440px; border-radius: 10px; margin-inline: auto; display: block; }
+.booklet-cover::before { display: none; }
+@media (max-width: 860px) { .booklet-cover img { max-height: 320px; border-radius: 10px; aspect-ratio: auto; } }
+.booklet-steps { list-style: none; counter-reset: bs; margin: 0 0 2.2rem; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+@media (max-width: 760px) { .booklet-steps { grid-template-columns: 1fr; } }
+.booklet-steps li { counter-increment: bs; background: #fff; border-radius: var(--r); box-shadow: var(--shadow); padding: 1.3rem 1.3rem 1.4rem; }
+.booklet-steps li::before { content: counter(bs); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--shirt); color: var(--brass-deep); font-family: var(--display); font-size: 1.3rem; margin-bottom: .7rem; }
+.booklet-steps b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.35rem; color: var(--midnight); margin-bottom: .3rem; }
+.booklet-steps span { color: var(--muted); }
+.booklet-pages { margin: 0 0 2rem; }
+.booklet-pages img { width: 100%; height: auto; border-radius: var(--r); box-shadow: var(--shadow); }
+.booklet-hand { border-left: 3px solid var(--brass-deep); padding: .2rem 0 .2rem 1.2rem; margin: 0 0 2rem; max-width: 46rem; }
+.booklet-hand h3 { font-family: var(--display); font-weight: 400; font-size: 1.4rem; color: var(--midnight); margin: 0 0 .4rem; }
+.booklet-hand p { margin: 0; }
+.booklet-note { color: var(--muted); font-size: .92rem; margin-top: 1rem; }
+.booklet-parents p { max-width: 44rem; font-size: 1.08rem; }
+.booklet-parents .booklet-sign { font-family: var(--display); font-size: 1.5rem; color: var(--midnight); margin-top: 1.6rem; }
+.booklet-parents .booklet-sign small { display: block; font-family: inherit; font-size: .95rem; color: var(--muted); }

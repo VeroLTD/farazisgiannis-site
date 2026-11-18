@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'site')
 BASE = 'https://farazisgiannis.com'
 UPDATED = '2026-10-14'   # privacy page "last updated" (call-back requests added 14 Oct 2026)
-ASSET_V = '2026-10-15'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
+ASSET_V = '2026-11-18'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
 PHONE = '+357 97 840941'; TEL = '+35797840941'
 OFFICE = '+357 22 124867'; OFFICE_TEL = '+35722124867'
 WHATSAPP = 'https://wa.me/35797840941'
@@ -57,6 +57,7 @@ SLUGS = {
     'faq': {'el': 'syxnes-erotiseis', 'en': 'faq'},
     'events': {'el': 'allages-zois', 'en': 'life-events'},
     'privacy': {'el': 'aporrito', 'en': 'privacy'},
+    'booklet': {'el': 'mikra-xeria', 'en': 'mikra-xeria'},   # Greek only (page_booklet)
 }
 NAV = ['about', 'solutions', 'how', 'guides', 'contact']
 T = {
@@ -1457,6 +1458,53 @@ def page_privacy(lang):
     upd = f'<p class="note">{"Τελευταία ενημέρωση" if el else "Last updated"}: {UPDATED}</p>'
     return head(lang, 'privacy', title, desc) + page_head(title, desc, lang=lang) + f'<section class="section"><div class="wrap prose">{body}{upd}</div></section>' + foot(lang)
 
+def page_booklet():
+    """World Children's Day, 20 Nov 2026 (owner 16-18 Nov): the colouring booklet «Μικρά χέρια, μεγάλα όνειρα!» as a free
+    download, with a note to parents. Greek only; no form, no e-mail, no sign-up. The booklet itself is purely
+    educational; the insurance note is on this page only, addressed to parents, with no promise and no insurer name."""
+    import re
+    lang = 'el'
+    title = 'Μικρά χέρια, μεγάλα όνειρα! Δωρεάν βιβλιαράκι ζωγραφικής'
+    desc = 'Ένα βιβλιαράκι ζωγραφικής 16 σελίδων για την Παγκόσμια Ημέρα του Παιδιού. Κατεβάστε το δωρεάν, εκτυπώστε το και ζωγραφίστε μαζί με το παιδί σας. Χωρίς εγγραφή.'
+    d = os.path.join(ROOT, 'assets', 'booklet')
+    mb = lambda f: f'{os.path.getsize(os.path.join(d, f)) / 1048576:.0f} MB'.replace('.', ',')
+    a4, a3 = 'mikra-xeria-megala-oneira-A4.pdf', 'mikra-xeria-megala-oneira-A3-gia-diploma.pdf'
+    h = head(lang, 'booklet', title, desc)
+    h = re.sub(r'<link rel="alternate" hreflang="[^"]+" href="[^"]+">\n', '', h)      # one language: no alternates,
+    h = re.sub(r'<a class="lang" [^>]+>[^<]+</a>', '', h)                               # no language switch
+    h = h.replace(f'{BASE}/assets/img/og.jpg', f'{BASE}/assets/booklet/og.jpg')
+    dl = f'<a class="btn btn-primary" href="/assets/booklet/{a4}" download>{ICON["clear"]}Κατεβάστε το δωρεάν (PDF · {mb(a4)})</a>'
+    return h + f"""<section class="page-head on-dark has-media"><div class="wrap"><div class="page-head__text">{crumbs_html(lang, (), 'Μικρά χέρια, μεγάλα όνειρα')}
+<p class="page-head__kicker">20 Νοεμβρίου · Παγκόσμια Ημέρα του Παιδιού</p><h1>Μικρά χέρια, μεγάλα όνειρα!</h1>
+<p class="page-head__lead">Ένα βιβλιαράκι ζωγραφικής για ένα απόγευμα μαζί με το παιδί σας. Δωρεάν, χωρίς εγγραφή και χωρίς e-mail.</p>
+<div class="actions">{dl}</div></div>
+<figure class="page-head__media booklet-cover"><img src="/assets/booklet/exofyllo.jpg" alt="Το εξώφυλλο του βιβλιαρακιού «Μικρά χέρια, μεγάλα όνειρα!»: δύο παιδιά κάτω από ένα ουράνιο τόξο" width="911" height="1287"></figure></div></section>
+<section class="section"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>Τρία απλά βήματα</h2></div>
+<ol class="booklet-steps">
+<li><b>Κατεβάστε το</b><span>16 σελίδες Α4: η οικογένειά μου, η υγεία μου, η ασφάλειά μου, η φιλία, ο πλανήτης, τα όνειρά μου, τα χρώματα και μια σελίδα αναμνήσεων.</span></li>
+<li><b>Εκτυπώστε το</b><span>Σε απλό χαρτί Α4, στον εκτυπωτή του σπιτιού ή σε ένα φωτοτυπείο. Ασπρόμαυρο ή έγχρωμο, όπως θέλετε.</span></li>
+<li><b>Καθίστε δίπλα του</b><span>Αφήστε για λίγο το τηλέφωνο. Λίγες ξυλομπογιές και μισή ώρα φτάνουν.</span></li>
+</ol>
+<figure class="booklet-pages"><img src="/assets/booklet/selides.jpg" alt="Όλες οι σελίδες του βιβλιαρακιού, σε μικρογραφία" width="2400" height="846" loading="lazy"></figure>
+<div class="booklet-hand"><h3>Η σελίδα 10: «Το χεράκι μου»</h3>
+<p>Ακουμπήστε το χεράκι του παιδιού σας στο χαρτί και ζωγραφίστε γύρω του, σιγά σιγά. Γράψτε από κάτω την ηλικία και την ημερομηνία. Φυλάξτε τη σελίδα. Σε μερικά χρόνια θα είναι από τα πιο πολύτιμα χαρτιά του σπιτιού.</p></div>
+<ul class="dls booklet-dls">
+<li><a class="dl" href="/assets/booklet/{a4}" download><span class="dl__ico">{ICON['clear']}</span><span><b>Το βιβλιαράκι, σελίδα σελίδα</b><small>Για τον εκτυπωτή του σπιτιού. Τυπώστε όλες τις σελίδες ή μόνο όσες θέλετε.</small><small class="dl__meta">PDF · A4 · 16 σελίδες · {mb(a4)}</small></span></a></li>
+<li><a class="dl" href="/assets/booklet/{a3}" download><span class="dl__ico">{ICON['clear']}</span><span><b>Για φωτοτυπείο: σαν κανονικό βιβλιαράκι</b><small>Τέσσερα φύλλα Α3 διπλής όψης, στη σωστή σειρά. Διπλώνονται στη μέση και συρράπτονται.</small><small class="dl__meta">PDF · A3 · {mb(a3)}</small></span></a></li>
+</ul>
+<p class="booklet-note">Για προσωπική, οικογενειακή και σχολική χρήση. Παρακαλώ, όχι για πώληση.</p>
+</div></section>
+<section class="section tint"><div class="wrap booklet-parents">
+<div class="section-head"><hr class="rule"><h2>Δυο λόγια για τους γονείς</h2></div>
+<p>Τα παιδιά δεν θυμούνται τα δώρα. Θυμούνται ποιος κάθισε δίπλα τους. Γι’ αυτό έφτιαξα αυτό το βιβλιαράκι: για ένα απόγευμα χωρίς οθόνες, με ξυλομπογιές, γέλια και ένα μικρό χεράκι πάνω στο χαρτί.</p>
+<p>Στη δουλειά μου μιλώ κάθε μέρα με γονείς για το πώς φροντίζουμε από σήμερα όσα αγαπάμε: την υγεία της οικογένειας, το εισόδημα του σπιτιού, τις σπουδές και τα όνειρα των παιδιών. Αν κάποια στιγμή θελήσετε να το κουβεντιάσουμε, με απλά λόγια και χωρίς καμία δέσμευση, είμαι εδώ.</p>
+<p>Αν όχι, χαρείτε απλώς το βιβλιαράκι. Είναι δώρο.</p>
+<p class="booklet-sign">Γιάννης Φαραζής<small>Ασφαλιστικός Σύμβουλος</small></p>
+{actions(lang)}
+</div></section>
+""" + foot(lang)
+
 def redirect_page(to):
     return f'<!doctype html><html lang="el"><head><meta charset="utf-8"><title>Giannis Farazis</title><link rel="canonical" href="{BASE}{to}"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url={to}"></head><body><p><a href="{to}">farazisgiannis.com{to}</a></p></body></html>\n'
 
@@ -1553,6 +1601,7 @@ def main():
             finally:
                 RENDER['ru'] = False
     if RU_MISSING: print('Russian: not yet translated:', len(RU_MISSING), '→', sorted(RU_MISSING)[:8])
+    write('mikra-xeria/index.html', page_booklet()); urls.append(('booklet', 'el', '/mikra-xeria/'))   # Greek only
     for old, to in LEGACY.items(): write(f'{old}/index.html', redirect_page(to))
     write('404.html', with_print_qr(page_404(), '/'))
     if not PREFIX: write('CNAME', 'farazisgiannis.com\n')
@@ -1567,7 +1616,7 @@ def main():
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
     for pid, lang, u in urls:
         sm.append(f'<url><loc>{BASE}{u}</loc><lastmod>{ASSET_V}</lastmod>'
-                  ''.join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{BASE}{url(pid, l)}"/>' for l in LANGS) + '</url>')
+                  + ''.join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{BASE}{url(pid, l)}"/>' for l in LANGS if pid != 'booklet') + '</url>')
     sm.append('</urlset>')
     write('sitemap.xml', '\n'.join(sm) + '\n')
     write('llms.txt', f'''# Giannis Farazis — Insurance Advisor (Cyprus)
