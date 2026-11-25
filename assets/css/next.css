@@ -184,3 +184,4 @@ main > section:first-of-type:is(.hero, .page-head, .about-hero) > .wrap { paddin
 }
 @media (prefers-reduced-motion: reduce) { .card > a:hover figure img, .lcards a:hover { transform: none; } }
 @media print { main > section, main > .cta-band { margin-top: 0; border-radius: 0; } main > section:first-of-type > .wrap { padding-top: 0; } }
+.icon-panel--card, .card .icon-panel { background: var(--night); color: var(--gold); }

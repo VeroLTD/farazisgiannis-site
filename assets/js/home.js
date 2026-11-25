@@ -181,6 +181,7 @@
 
   // ---- the hero's film of the day: the latest open door, silent until the visitor asks for sound
   var today = $('#today');
+  if (today && !latest) today.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('a')) return; var s = $('#portes'); if (s) s.scrollIntoView({ behavior: still ? 'auto' : 'smooth' }); });
   if (today && latest) {
     var tv = $('.today__video', today), snd = $('.today__sound', today), img = $('.today__poster', today);
     var stem = base + 'porta-' + two(latest);
@@ -190,7 +191,7 @@
     function start() { if (started) return; started = true; tv.src = stem + '.mp4'; tv.hidden = false; }
     function play() { start(); var p = tv.play(); if (p && p.catch) p.catch(function () {}); }
     snd.hidden = false;
-    $('.today__frame', today).addEventListener('click', function (e) { if (e.target === snd) return; tv.pause(); openDoor(latest, $('.door[data-d="' + latest + '"]')); });
+    today.addEventListener('click', function (e) { if (e.target === snd || (e.target.closest && e.target.closest('a'))) return; tv.pause(); openDoor(latest, $('.door[data-d="' + latest + '"]')); });
     snd.addEventListener('click', function () {
       var onNow = tv.muted;   // turning sound on
       tv.muted = !onNow; snd.setAttribute('aria-pressed', onNow ? 'true' : 'false');
