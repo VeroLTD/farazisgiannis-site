@@ -15,11 +15,15 @@
 /* a string of lights under the header */
 /* it hangs at the top of the page and scrolls away with it (it must never lie over text) */
 .xmas main { position: relative; }
-.xmas-lights { position: absolute; left: 0; right: 0; top: 0; height: 40px; overflow: hidden; pointer-events: none; z-index: 2; }
+.xmas-lights { position: absolute; left: 0; right: 0; top: 0; opacity: .9; height: 40px; overflow: hidden; pointer-events: none; z-index: 2; }
 .xmas-lights svg { display: block; width: 100%; min-width: 1100px; height: 40px; }
 .xmas .ru-strip { position: relative; z-index: 3; }
-.xmas .hero > .wrap, .xmas .about-hero > .wrap { padding-top: clamp(3.6rem, 7vw, 6rem); }
-.xmas .page-head > .wrap { padding-top: clamp(3rem, 5vw, 3.6rem); }
+.xmas main > section:first-of-type:is(.hero, .page-head, .about-hero) > .wrap { padding-top: calc(88px + clamp(2.6rem, 5vw, 3.6rem)); }
+@media (max-width: 900px) { .xmas main > section:first-of-type:is(.hero, .page-head, .about-hero) > .wrap { padding-top: calc(72px + 2.6rem); } }
+body:has(main > section:first-of-type:is(.hero, .page-head, .about-hero)) .xmas-lights { top: 88px; }
+@media (max-width: 900px) { body:has(main > section:first-of-type:is(.hero, .page-head, .about-hero)) .xmas-lights { top: 72px; } }
+.brand { position: relative; display: inline-block; }
+.today__sound { display: none !important; }
 @media (max-width: 700px) { .xmas-lights svg { min-width: 760px; } }
 .xmas-lights .xl ellipse { filter: drop-shadow(0 0 5px currentColor); animation: x-bulb 3.6s ease-in-out infinite; }
 .xmas-lights .xl1 ellipse { animation-delay: -.7s; }
@@ -30,13 +34,12 @@
 
 /* a small star beside every section rule */
 .xmas .rule { position: relative; overflow: visible; }
-.xmas .rule::after { content: "✦"; position: absolute; left: 54px; top: 50%; transform: translateY(-54%); color: var(--brass); font-size: .85rem; line-height: 1; }
+.xmas .rule::after { content: "✦"; position: absolute; left: -5px; top: 100%; transform: none; color: var(--brass); font-size: .85rem; line-height: 1; }
 
 /* dark bands: the night sky of the film */
 .xmas .hero, .xmas .page-head, .xmas .about-hero { position: relative; overflow: hidden; }
 .xmas .hero > .wrap, .xmas .page-head > .wrap, .xmas .about-hero > .wrap { position: relative; z-index: 1; }
-.xmas .hero > .wrap { padding-bottom: clamp(6.5rem, 13vw, 10rem); }
-.xmas-dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.xmas-dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
 .xmas-skyline { position: absolute; left: 0; right: 0; bottom: -1px; height: clamp(76px, 11vw, 150px); pointer-events: none; }
 .xmas-skyline svg { display: block; width: 100%; height: 100%; }
 .xmas-skyline .xw { animation: x-win 5s ease-in-out infinite; filter: drop-shadow(0 0 4px #ffc46e); }
@@ -45,17 +48,18 @@
 .xmas-wish { font-family: var(--display); color: var(--brass-soft); font-size: 1.25rem; margin: 0 0 .4rem; }
 
 /* the hero's film of the day: a small screen leaning on the portrait */
-.hero__stage .today { position: absolute; left: -16%; bottom: -7%; width: 47%; margin: 0; z-index: 2; }
-.today__frame { position: relative; aspect-ratio: 9 / 16; border-radius: 18px; overflow: hidden; background: #0b1626; box-shadow: 0 0 0 4px #fff, 0 30px 50px -22px rgba(8, 15, 42, .95); transform: rotate(-4deg); }
+.hero__stage { position: absolute; z-index: 3; right: var(--gutter); bottom: calc(var(--sheet) + clamp(2.5rem, 6vw, 4.5rem)); width: clamp(120px, 15vw, 190px); }
+.hero__stage .today { position: relative; width: 100%; margin: 0; }
+.today__frame { position: relative; aspect-ratio: 9 / 16; border-radius: 999px 999px 14px 14px; overflow: hidden; background: #0b1626; box-shadow: 0 0 0 1px var(--gold), 0 0 0 7px rgba(201, 164, 92, .18), 0 30px 50px -22px #000; }
 .today__poster, .today__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.today__sound { position: absolute; right: 8px; top: 8px; font: 600 .74rem/1 var(--text); color: #fff; background: rgba(8, 16, 28, .72); border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px; padding: .45rem .7rem; cursor: pointer; }
-.today figcaption { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%) rotate(-4deg); width: max-content; max-width: 150%; }
-.today__k { display: block; font: 680 .78rem/1 var(--text); letter-spacing: 0; color: var(--ink); background: var(--sun); padding: .5rem .8rem; border-radius: 999px; box-shadow: 0 10px 20px -10px rgba(8, 15, 42, .8); }
+.today__sound { position: absolute; left: 50%; transform: translateX(-50%); top: 34%; font: 600 .74rem/1 var(--text); color: #fff; background: rgba(8, 16, 28, .72); border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px; padding: .45rem .7rem; cursor: pointer; }
+.today figcaption { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); width: max-content; max-width: 150%; }
+.today__k { display: block; font: 600 .76rem/1 var(--text); letter-spacing: .01em; color: var(--night); background: var(--gold); padding: .5rem .8rem; border-radius: 999px; box-shadow: 0 10px 20px -10px rgba(8, 15, 42, .8); }
 .today__line, .today__more { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-@media (max-width: 900px) { .hero__stage .today { left: -9%; width: 46%; } .today__k { font-size: .72rem; } }
+@media (max-width: 900px) { .hero__stage { position: relative; right: auto; bottom: auto; width: 124px; margin: 2rem auto 1.2rem 0; } .today__k { font-size: .7rem; padding: .45rem .7rem; } }
 
 /* 24 doors */
-.doors-sec { background: linear-gradient(180deg, var(--x-ground) 0%, #0b1a31 26%, #0f2240 100%); color: #d3ddea; padding-top: clamp(2.5rem, 6vw, 4.5rem); }
+.doors-sec { background: linear-gradient(180deg, #0a101c 0%, #0c1626 40%, #0f1c30 100%); color: #d3ddea; padding-top: clamp(2.5rem, 6vw, 4.5rem); }
 .doors-sec h2 { color: #fff; }
 .doors-sec .lead { color: #c3cfdf; }
 .doors__status { font-family: var(--display); font-size: 1.3rem; color: var(--brass-soft); margin: 1.2rem 0 0; }
@@ -130,7 +134,7 @@
 
 /* the film of the day leans toward the pointer */
 .today__frame { transition: transform .25s ease-out; cursor: pointer; }
-@media (hover: hover) { .today__frame:hover { transform: perspective(900px) rotate(-2deg) rotateY(calc(var(--tx, 0) * 9deg)) rotateX(calc(var(--ty, 0) * -7deg)) scale(1.03); } }
+@media (hover: hover) { .today__frame:hover { transform: perspective(900px) rotateY(calc(var(--tx, 0) * 9deg)) rotateX(calc(var(--ty, 0) * -7deg)) scale(1.03); } }
 
 /* doors: lit and leaning under the pointer; a closed door can be knocked on */
 .door::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s; background: radial-gradient(120px circle at var(--mx, 50%) var(--my, 30%), rgba(255, 226, 160, .32), rgba(255, 226, 160, 0) 70%); }
@@ -157,3 +161,8 @@
 ::view-transition-group(door-film) { animation-duration: .5s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
 ::view-transition-old(door-film), ::view-transition-new(door-film) { height: 100%; object-fit: cover; }
 @media (prefers-reduced-motion: reduce) { .xmas-hat { animation: none; } .today__frame:hover, .door:hover { transform: none !important; } }
+
+/* «Πύλη»: the doors section is a night sheet like the others; no skyline over the film */
+.xmas main > .doors-sec { padding-bottom: calc(clamp(3.5rem, 8vw, 6rem) + var(--sheet)); }
+.door-dialog { background: #0d1524; }
+.door-dialog .btn-primary { background: var(--gold); color: var(--night); }

@@ -730,8 +730,13 @@ def page_home(lang):
         ('question', L(T['nav']['faq'], lang), 'Σύντομες απαντήσεις για την πρώτη συνάντηση, το κόστος και τις αποζημιώσεις.' if el else 'Short answers about the first meeting, costs and claims.', url('faq', lang))])
     doors = doors_section() if el else ''
     motto_big = L(T['motto'], lang)
-    media = (f'<div class="hero__stage"><figure class="portrait">{LINES}{portrait("Ο Γιάννης Φαραζής" if el else "Giannis Farazis", eager=True)}</figure>'
-             + (today_card() if doors else '') + '</div>')
+    media = f'<div class="hero__stage">{today_card()}</div>' if doors else ''
+    pause, play = ('Παύση βίντεο', 'Αναπαραγωγή βίντεο') if el else ('Pause video', 'Play video')
+    hero_film = ('<div class="film hero__film"><video class="film__video" muted loop playsinline preload="none" poster="/assets/video/hero.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture>'
+                 '<source src="/assets/video/hero.mp4" type="video/mp4"></video>'
+                 f'<button class="film__toggle" type="button" hidden data-pause="{pause}" data-play="{play}" aria-label="{pause}">'
+                 '<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>'
+                 '<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button></div>')
     def moment(n, ev):
         eid, ico, t, when, check, papers, stem = ev
         tick = ICON['check']
@@ -755,13 +760,13 @@ def page_home(lang):
 <p>{'Για μένα κάθε πελάτης είναι ξεχωριστός. Ξεκινάμε από τις δικές σας ανάγκες και προχωράμε μόνο όταν όλα είναι ξεκάθαρα.' if el else 'Every client is different. We start from your needs and only go ahead once everything is clear.'}</p>
 <p><a class="btn btn-ghost" href="{url('about', lang)}">{'Περισσότερα για μένα και ένα σύντομο βίντεο' if el else 'More about me, and a short video'}</a></p>
 </div>
-<blockquote class="quote quote--card">{L(T["motto"], lang)}<span>{"Μαζί μπορούμε να χτίσουμε ένα ασφαλές και σταθερό αύριο." if el else "Together we can build a safe and steady future."}</span></blockquote>
+<figure class="portrait portrait--sm">{portrait("Ο Γιάννης Φαραζής" if el else "Giannis Farazis", n="")}</figure>
 </div>''')]
     tabset = ('<div class="tabs" data-tabs><div class="tabs__list" role="tablist" aria-label="' + ('Η συνεργασία μας' if el else 'Working together') + '">'
               + ''.join(f'<button class="tabs__tab" type="button" role="tab" id="tab-{k}" aria-controls="panel-{k}" aria-selected="{"true" if n == 0 else "false"}"{"" if n == 0 else " tabindex=-1"}>{t}</button>' for n, (k, t, _) in enumerate(tabs))
               + '</div>' + ''.join(f'<div class="tabs__panel" role="tabpanel" id="panel-{k}" aria-labelledby="tab-{k}"><h3 class="tabs__h">{t}</h3>{body}</div>' for k, t, body in tabs) + '</div>')
     return head(lang, 'home', title, desc) + f'''
-<section class="hero hero--day on-dark{' hero--today' if doors else ''}">{'<canvas class="xmas-dust" aria-hidden="true"></canvas>' if XMAS else ''}<div class="wrap">
+<section class="hero hero--film on-dark{' hero--today' if doors else ''}">{hero_film}{'<canvas class="xmas-dust" aria-hidden="true"></canvas>' if XMAS else ''}<div class="wrap">
 <div class="hero__text">
 <h1><span class="hero__who"><b>{L(T['name'], lang)}</b><i>{L(T['role'], lang)}</i></span><span class="hero__big">{motto_big}</span></h1>
 <p class="hero__lead">{'Προστασία, αποταμίευση και ηρεμία για εσάς και την οικογένειά σας, με καθαρές εξηγήσεις και χωρίς πίεση.' if el else 'Protection, savings and peace of mind for you and your family, with clear explanations and no pressure.'}</p>
@@ -769,7 +774,7 @@ def page_home(lang):
 <ul class="hero__facts"><li>{'Από το 2024' if el else 'Since 2024'}</li><li>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</li><li>{'Ελληνικά & Αγγλικά' if el else 'Greek & English'}</li></ul>
 </div>
 {media}
-</div>{xmas_skyline()}</section>
+</div></section>
 {doors}
 {moments}
 <section class="section"><div class="wrap">

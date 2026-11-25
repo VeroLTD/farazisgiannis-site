@@ -46,14 +46,16 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
   their day (fixed UTC times in home.js); the newest open door is the hero's film of the day. The Christmas film
   itself: `assets/xmas/liga-vimata-piso.mp4` + `.jpg`, opens 25 Dec 09:00. In the owner's preview only, `?day=7` shows
   the page as on the evening of 7 Dec.
-- The redesign «Μέρα» (25 Nov 2026, owner: the site looked dull and old; new from the root, brighter, more alive, and
-  not a copy of avrastro.com). `assets/css/next.css` + `assets/js/fx.js` on every page, loaded after site.css; they stay
-  after Christmas. Daylight palette: white and sky, one ultramarine (`--blue`), sun yellow (`--sun`) for the one thing
-  to press, deep ink for text; the old tokens are re-tuned in next.css so every older rule follows. One typeface talks:
-  Commissioner, heavy and tight in headlines; GFS Didot only for numerals and quoted words (no Literata here — that is
-  AVRASTRO's face). White glass header with the monogram in ink (CSS mask over gf-lockup.png), a reading line under it,
-  page-to-page view transitions. Home page: the motto is the headline, the portrait beside it (at Christmas the film
-  of the day leans on it), then «Ποια στιγμή ζείτε τώρα;» — the nine life events from EVENTS as a selector that shows
-  what to check and links to the full checklist. Seasonal interactions (xmas.css, home.js, fx.js): the Santa hat on
+- The redesign «Πύλη» (25 Nov 2026; the owner turned down a bright-blue try the same day: premium, one palette that
+  holds the whole site together, film across the whole top, shapes of its own, not a blog). `assets/css/next.css` +
+  `assets/js/fx.js` on every page, after site.css; they stay after Christmas. One night colour, one warm ivory, one
+  gold — the old tokens are re-tuned in next.css so every older rule follows. The shape is the arch (the monogram's
+  circle, the films' door): bands are sheets with a wide rounded top that slide over one another, subject photos stand
+  in arches, the header lies clear over the first dark band and turns to night glass once the page moves. GFS Didot,
+  large, for headlines; Commissioner for the rest. Home page: `assets/video/hero.mp4` (15 s silent montage of clean
+  shots from the films «Το κλειδί» and «Το γράμμα», AI-made like the films) fills the first screen with the motto as
+  the headline; then the doors (Christmas), «Ποια στιγμή ζείτε τώρα;» (the nine life events from EVENTS as a selector
+  with a link to the full checklist), subjects, films on night, the tabbed section, guides, call-back.
+  Seasonal interactions (xmas.css, home.js, fx.js): the Santa hat on
   the monogram, bulbs that can be tapped, doors that lean, closed doors that answer a knock with their date, a clock
   to the next door, the door's picture growing into its film.
