@@ -301,7 +301,8 @@ def head(lang, page, title, desc, extra_ld=None):
         'sameAs': [LINKEDIN, AVRASTRO + ('/en' if lang == 'en' else '') + '/giannis-farazis/'],
     }]
     if extra_ld: ld += extra_ld
-    xcss = f'\n<link rel="stylesheet" href="/assets/css/xmas.css?v={ASSET_V}">' if XMAS else ''
+    xcss = f'\n<link rel="stylesheet" href="/assets/css/next.css?v={ASSET_V}">' + (f'\n<link rel="stylesheet" href="/assets/css/xmas.css?v={ASSET_V}">' if XMAS else '')
+    hat = XMAS_HAT if XMAS else ''
     bodycls = ' class="xmas"' if XMAS else ''
     navlinks = ''.join(f'<a href="{url(p, lang)}"' + (' aria-current="page"' if p == page else '') + f'>{L(T["nav"][p], lang)}</a>' for p in NAV)
     return f'''<!doctype html>
@@ -334,7 +335,7 @@ def head(lang, page, title, desc, extra_ld=None):
 {('<div class="preview-banner" role="note">' + ('ΠΡΟΕΠΙΣΚΟΠΗΣΗ — αλλαγές που περιμένουν έγκριση. Δεν είναι η δημοσιευμένη σελίδα.' if lang == 'el' else 'PREVIEW — changes waiting for approval. This is not the published page.') + '</div>') if PREVIEW else ''}
 <a class="skip" href="#main">{L(T['skip'], lang)}</a>
 <header class="site-head"><div class="wrap">
-<a class="brand" href="{url('home', lang)}" aria-label="Giannis Farazis — {'Αρχική' if lang == 'el' else 'Home'}"><img src="/assets/img/gf-lockup.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="294" height="70"></a>
+<a class="brand" href="{url('home', lang)}" aria-label="Giannis Farazis — {'Αρχική' if lang == 'el' else 'Home'}"><img src="/assets/img/gf-lockup.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="294" height="70">{hat}</a>
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">{L(T['menu'], lang)}</button>
 <nav class="nav" id="nav" aria-label="{'Κύριο μενού' if lang == 'el' else 'Main menu'}">
 {navlinks}
@@ -389,7 +390,7 @@ def foot(lang):
     return f'''</main>
 {print_foot(lang)}
 <footer class="site-foot"><div class="wrap">
-<div class="foot-brand"><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="200" height="115" loading="lazy">
+<div class="foot-brand"><span class="foot-logo"><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="200" height="115" loading="lazy">{XMAS_HAT if XMAS else ''}</span>
 {('<p class="xmas-wish">' + ('Καλά Χριστούγεννα και ευτυχισμένο το 2027' if el else 'Merry Christmas and a happy 2027') + '</p>') if XMAS else ''}<p>{L(T['foot'], lang)}</p></div>
 <nav class="foot-col" aria-label="{'Σελίδες' if el else 'Pages'}"><h2>{'Σελίδες' if el else 'Pages'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in NAV)}</nav>
 <nav class="foot-col" aria-label="{'Χρήσιμα' if el else 'Useful'}"><h2>{'Χρήσιμα' if el else 'Useful'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in more)}</nav>
@@ -400,6 +401,7 @@ def foot(lang):
 </div><div class="wrap foot-legal">© {date.today().year} {L(T['name'], lang)}{reg_line(lang)}</div></footer>
 <div class="callbar"><a href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)}</a><a href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a><a href="{url('booking', lang)}">{ICON['cal']}{'Ραντεβού' if lang == 'el' else 'Book'}</a></div>
 <script src="/assets/js/site.js?v={ASSET_V}" defer></script>
+<script src="/assets/js/fx.js?v={ASSET_V}" defer></script>
 </body></html>
 '''
 
@@ -518,7 +520,8 @@ def doors_section():
 <section class="section doors-sec on-dark" id="portes"><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>24 πόρτες ως τα Χριστούγεννα</h2>
 <p class="lead">Κάθε απόγευμα στις 6 ανοίγει μια πόρτα: μια μικρή στιγμή από τη χριστουγεννιάτικη ταινία μας «Λίγα βήματα πίσω» και μια σκέψη για όσους αγαπάμε. Η ταινία έρχεται στις 25 Δεκεμβρίου, στις 9 το πρωί.</p>
-<p class="doors__status" id="doors-status" aria-live="polite">Η πρώτη πόρτα ανοίγει την Τρίτη 1 Δεκεμβρίου, στις 6 το απόγευμα.</p></div>
+<p class="doors__status" id="doors-status" aria-live="polite">Η πρώτη πόρτα ανοίγει την Τρίτη 1 Δεκεμβρίου, στις 6 το απόγευμα.</p>
+<div class="doors__next" id="doors-next" hidden><span class="doors__next-l"></span><span class="doors__clock" aria-hidden="true"><span><b>00</b>μέρες</span><span><b>00</b>ώρες</span><span><b>00</b>λεπτά</span><span><b>00</b>δευτ.</span></span></div></div>
 <ol class="doors">{''.join(door_tile(r) for r in DOORS)}{film}</ol>
 <p class="doors__note">Τα πρόσωπα στις ταινίες είναι ψηφιακά δημιουργημένα· οι ιστορίες είναι όλων μας.</p>
 </div>

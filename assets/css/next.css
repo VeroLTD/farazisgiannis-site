@@ -1,0 +1,59 @@
+/* farazisgiannis.com — the 2026 refresh (owner, 25 Nov 2026: more individual, more professional, closer to what sites
+   can do today). Stays after Christmas; the season itself is xmas.css.
+   Type: headings in Literata 72pt SemiBold — the typeface of the films' captions — so film, site and platform speak
+   with one voice. GFS Didot stays as the signature: the name on the home page, the motto, quotes, the doors' numbers.
+   Colour: the films' teal door joins navy and brass as the colour of things you can press; gold is lit like the lamp. */
+@font-face { font-family: "Literata"; src: url("../fonts/Literata-SemiBold.woff2") format("woff2"); font-weight: 500 700; font-style: normal; font-display: swap; }
+:root {
+  --head: "Literata", "GFS Didot", Georgia, serif;
+  --teal: #1b6680;
+  --teal-deep: #124c61;
+  --teal-soft: #e2f0f4;
+  --lamp: #f2bd5a;
+  --lamp-deep: #e0a53a;
+}
+::selection { background: var(--lamp); color: var(--midnight); }
+html { scrollbar-color: #9fb0c8 transparent; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+.on-dark :focus-visible, .site-head :focus-visible, .cta-band :focus-visible, .site-foot :focus-visible { outline-color: var(--lamp); }
+
+/* type */
+h1, h2, h3 { font-family: var(--head); font-weight: 600; letter-spacing: -.012em; text-wrap: balance; }
+h2 { font-size: clamp(1.75rem, 3.3vw, 2.55rem); line-height: 1.14; }
+h3 { letter-spacing: -.006em; }
+p, li { text-wrap: pretty; }
+.hero h1, .about-hero h1 { font-family: var(--display); font-weight: 400; letter-spacing: 0; }
+.card h3, .values h3, .steps-line h3 { font-size: 1.22rem; line-height: 1.25; }
+.lcards b, .dl b, .booklet-steps b { font-family: var(--head); font-weight: 600; font-size: 1.14rem; letter-spacing: -.006em; }
+.hero__facts li, .explainer__meta, .door-dialog__k { font-variant-numeric: tabular-nums; }
+
+/* things you can press are teal on light ground, lit gold on dark */
+a { color: var(--teal); }
+a:hover { color: var(--teal-deep); }
+.more, .btn-link { color: var(--teal); }
+.btn { transition: background-color .2s, color .2s, border-color .2s, transform .12s, box-shadow .2s; }
+.btn:active { transform: scale(.975); }
+.btn-primary:hover { background: var(--teal-deep); }
+.on-dark .btn-primary, .cta-band .btn-primary, .page-head .btn-primary { background: linear-gradient(180deg, #f7cd77, var(--lamp) 55%, var(--lamp-deep)); color: #10203c; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 8px 24px -10px rgba(242, 189, 90, .7); }
+.on-dark .btn-primary:hover, .cta-band .btn-primary:hover, .page-head .btn-primary:hover { background: linear-gradient(180deg, #ffd98d, #f6c667 55%, var(--lamp)); color: #10203c; }
+.tabs__tab[aria-selected="true"] { border-bottom-color: var(--teal); }
+.rail__btn:hover { background: var(--teal-deep); }
+.rail__bar i { background: var(--teal); }
+
+/* the header: glass, and smaller once the page has moved */
+.site-head { transition: box-shadow .3s, background-color .3s; }
+.site-head .wrap { transition: min-height .3s; }
+.brand img { transition: height .3s; }
+.site-head.is-stuck { background: rgba(16, 32, 60, .9); -webkit-backdrop-filter: saturate(1.5) blur(14px); backdrop-filter: saturate(1.5) blur(14px); box-shadow: 0 1px 0 rgba(255, 255, 255, .08), 0 16px 30px -22px #000; }
+@media (min-width: 901px) { .site-head.is-stuck .wrap { min-height: 68px; } .site-head.is-stuck .brand img { height: 54px; } }
+
+/* cards: a hairline instead of a heavy shadow, and a light that follows the pointer */
+.card > a, .card--static > div, .lcards a { position: relative; border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(20, 42, 76, .05); }
+.card > a { transition: transform .25s, box-shadow .25s, border-color .25s; }
+.card > a::after, .lcards a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s; background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgba(27, 102, 128, .14), rgba(242, 189, 90, .1) 45%, rgba(0, 0, 0, 0) 70%); }
+.card > a:hover, .card > a:focus-visible { transform: translateY(-3px); border-color: #b9cfdc; box-shadow: 0 14px 26px -18px rgba(18, 76, 97, .55); }
+.card > a:hover::after, .lcards a:hover::after { opacity: 1; }
+.lcards a { transition: border-color .25s, box-shadow .25s, transform .25s; }
+.lcards a:hover { border-color: #b9cfdc; transform: translateY(-2px); box-shadow: 0 14px 26px -18px rgba(18, 76, 97, .5); }
+.lcards__ico, .values__icon { color: var(--teal); }
+@media (prefers-reduced-motion: reduce) { .card > a:hover, .lcards a:hover { transform: none; } }

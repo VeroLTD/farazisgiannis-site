@@ -126,3 +126,54 @@
   .door-dialog__media video { width: auto; height: min(58vh, 520px); margin: 0 auto; }
 }
 @media print { .xmas-lights, .xmas-skyline, .xmas-dust, .doors-sec, .today { display: none !important; } }
+
+/* ---- 25 Nov 2026, second pass (owner: a hat on the logo, a page that answers the visitor) ---- */
+/* the hat on the monogram: it drops on once when the page opens and nods when the logo is touched */
+.brand { position: relative; display: inline-block; }
+.xmas-hat { position: absolute; left: 1.2%; top: -20%; height: 50%; width: auto; transform: rotate(-24deg); transform-origin: 50% 90%; pointer-events: none; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .35)); animation: x-hat-in .9s cubic-bezier(.3, 1.5, .5, 1) .25s both; }
+.xmas-hat.is-nod { animation: x-hat-nod .7s ease-in-out; }
+@keyframes x-hat-in { from { transform: translateY(-46px) rotate(-60deg); opacity: 0; } to { transform: rotate(-24deg); opacity: 1; } }
+@keyframes x-hat-nod { 0%, 100% { transform: rotate(-24deg); } 30% { transform: rotate(-40deg); } 65% { transform: rotate(-14deg); } }
+.foot-logo { position: relative; display: inline-block; }
+.foot-logo .xmas-hat { left: 26.5%; top: -11%; height: 30%; animation: none; }
+
+/* bulbs can be tapped */
+.xmas-lights .xl { pointer-events: auto; cursor: pointer; }
+.xmas-lights .xl.is-off ellipse { animation: none; opacity: .16; filter: none; }
+
+/* dawn behind the village, and the lamp's light where the pointer is */
+.xmas .hero { background: radial-gradient(ellipse 80% 34% at 28% 100%, rgba(233, 150, 86, .3) 0%, rgba(233, 150, 86, 0) 72%), radial-gradient(ellipse 55% 65% at 80% 28%, #27497c 0%, rgba(39, 73, 124, 0) 62%), linear-gradient(180deg, #0a1a33 0%, #122a50 68%, #1b3a66 100%); }
+.xmas .hero::before, .xmas .page-head::before, .doors-sec::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .5s; background: radial-gradient(380px circle at var(--lx, 70%) var(--ly, 30%), rgba(246, 198, 103, .17), rgba(246, 198, 103, 0) 70%); }
+.xmas .hero.is-lit::before, .xmas .page-head.is-lit::before, .doors-sec.is-lit::before { opacity: 1; }
+.doors-sec { position: relative; }
+.doors-sec > .wrap { position: relative; }
+
+/* the film of the day leans toward the pointer */
+.today__frame { transition: transform .25s ease-out; cursor: pointer; }
+@media (hover: hover) { .today__frame:hover { transform: perspective(900px) rotateY(calc(var(--tx, 0) * 9deg)) rotateX(calc(var(--ty, 0) * -7deg)); } }
+
+/* doors: lit and leaning under the pointer; a closed door can be knocked on */
+.door::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s; background: radial-gradient(120px circle at var(--mx, 50%) var(--my, 30%), rgba(255, 226, 160, .32), rgba(255, 226, 160, 0) 70%); }
+.door[aria-disabled="true"] { cursor: pointer; }
+@media (hover: hover) {
+  .door:hover::after { opacity: 1; }
+  .door:not(.door--film):hover { transform: perspective(520px) rotateY(calc(var(--tx, 0) * 16deg)) rotateX(calc(var(--ty, 0) * -10deg)) translateY(-3px); }
+}
+.door.is-knock { animation: x-knock .55s ease-in-out; }
+@keyframes x-knock { 0%, 100% { transform: none; } 15% { transform: translateX(-3px) rotate(-1.4deg); } 35% { transform: translateX(3px) rotate(1.2deg); } 55% { transform: translateX(-2px) rotate(-.8deg); } 78% { transform: translateX(1px); } }
+.door-bubble { position: absolute; z-index: 3; transform: translate(-50%, calc(-100% - 12px)); width: max-content; max-width: min(78vw, 300px); padding: .65rem .95rem; border-radius: 14px; background: #fff; color: var(--midnight); font-size: .95rem; line-height: 1.4; text-align: center; box-shadow: 0 18px 40px -14px #000; pointer-events: none; opacity: 0; transition: opacity .2s; }
+.door-bubble b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.15rem; color: var(--x-coat); }
+.door-bubble::after { content: ""; position: absolute; left: var(--ax, 50%); bottom: -6px; width: 12px; height: 12px; background: #fff; transform: translateX(-50%) rotate(45deg); }
+.door-bubble.is-on { opacity: 1; }
+
+/* time to the next door */
+.doors__next { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: 1.3rem 0 0; color: #c3cfdf; }
+.doors__next[hidden] { display: none; }
+.doors__clock { display: flex; gap: .45rem; }
+.doors__clock span { display: grid; justify-items: center; min-width: 3.4rem; padding: .5rem .5rem .4rem; border-radius: 12px; background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(246, 198, 103, .28); font-size: .74rem; color: #9fb0c8; }
+.doors__clock b { font: 400 1.7rem/1 var(--display); color: #fff; font-variant-numeric: tabular-nums; }
+
+/* a door's picture grows into the film when the door is opened (browsers with view transitions) */
+::view-transition-group(door-film) { animation-duration: .5s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
+::view-transition-old(door-film), ::view-transition-new(door-film) { height: 100%; object-fit: cover; }
+@media (prefers-reduced-motion: reduce) { .xmas-hat { animation: none; } .today__frame:hover, .door:hover { transform: none !important; } }

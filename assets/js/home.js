@@ -98,7 +98,7 @@
   function left(d) { var n = 25 - d; return n === 1 ? 'αύριο Χριστούγεννα' : n + ' μέρες ως τα Χριστούγεννα'; }
 
   var dlg = $('#door-dialog'), dv = dlg && $('video', dlg);
-  function openDoor(d) {
+  function openDoor(d, from) {
     var r = byDay[d], film = d === 25;
     if (!film && !r) return;
     var src = base + (film ? 'liga-vimata-piso.mp4' : 'porta-' + two(d) + '.mp4');
@@ -108,7 +108,13 @@
     $('#door-dialog-th').textContent = film ? 'Κάποιος πρέπει να στέκεται λίγα βήματα πίσω. Καλά Χριστούγεννα.' : r.t;
     dv.poster = film ? base + 'liga-vimata-piso.jpg' : base + 'porta-' + two(d) + '.jpg';
     dv.src = src; dv.muted = false;
-    dlg.showModal();
+    var tile = from && $('.door__in img', from);
+    var show = function () { if (tile) tile.style.viewTransitionName = ''; dv.style.viewTransitionName = 'door-film'; dlg.showModal(); };
+    if (tile && document.startViewTransition && !still) {
+      tile.style.viewTransitionName = 'door-film';
+      var vt = document.startViewTransition(show);
+      vt.finished.then(function () { dv.style.viewTransitionName = ''; }, function () {});
+    } else { show(); dv.style.viewTransitionName = ''; }
     var p = dv.play(); if (p && p.catch) p.catch(function () {});
   }
   if (dlg) {
@@ -116,19 +122,49 @@
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
     $('.door-dialog__x', dlg).addEventListener('click', function () { dlg.close(); });
   }
+  // a closed door answers a knock: it shakes and says when it opens
+  var DAYS = ['την Κυριακή', 'τη Δευτέρα', 'την Τρίτη', 'την Τετάρτη', 'την Πέμπτη', 'την Παρασκευή', 'το Σάββατο'];
+  var sec = $('#portes'), wrap = sec && $('.wrap', sec), bubble, bubbleT;
+  function knock(b, d) {
+    if (!still) { b.classList.remove('is-knock'); void b.offsetWidth; b.classList.add('is-knock'); }
+    if (!bubble) { bubble = document.createElement('p'); bubble.className = 'door-bubble'; bubble.setAttribute('role', 'status'); wrap.appendChild(bubble); }
+    var when = DAYS[new Date(Date.UTC(2026, 11, d, 12)).getUTCDay()] + ' ' + d + ' Δεκεμβρίου, ' + (d === 25 ? 'στις 9 το πρωί' : 'στις 6 το απόγευμα');
+    bubble.innerHTML = '<b>Τοκ, τοκ…</b>' + (d === 25 ? 'Η ταινία έρχεται ' : 'Ανοίγει ') + when + '.';
+    var r = b.getBoundingClientRect(), w = wrap.getBoundingClientRect(), cx = r.left + r.width / 2 - w.left;
+    var half = Math.min(150, w.width * .39), x = Math.max(half + 4, Math.min(w.width - half - 4, cx));
+    bubble.style.left = x + 'px'; bubble.style.top = (r.top - w.top) + 'px'; bubble.style.setProperty('--ax', (50 + (cx - x) / (2 * half) * 100) + '%');
+    bubble.classList.add('is-on'); clearTimeout(bubbleT); bubbleT = setTimeout(function () { bubble.classList.remove('is-on'); }, 3200);
+  }
+  // the time left to the next door, counted every second (real time only, never the preview's ?day=)
+  (function () {
+    var box = $('#doors-next'); if (!box) return;
+    var next = 0; for (var d = 1; d <= 25; d++) if (!isOpen(d)) { next = d; break; }
+    if (!next) return;
+    var lab = $('.doors__next-l', box), cells = $$('.doors__clock b', box);
+    lab.textContent = next === 25 ? 'Η ταινία σε' : (next === 1 ? 'Η πρώτη πόρτα ανοίγει σε' : 'Η επόμενη πόρτα ανοίγει σε');
+    function tick() {
+      var ms = opensAt(next) - (now + (Date.now() - t0)); if (ms <= 0) { location.reload(); return; }
+      var s = Math.floor(ms / 1000), v = [Math.floor(s / 86400), Math.floor(s % 86400 / 3600), Math.floor(s % 3600 / 60), s % 60];
+      for (var i = 0; i < 4; i++) cells[i].textContent = two(v[i]);
+    }
+    var t0 = Date.now(); box.hidden = false; tick();
+    setInterval(function () { if (!document.hidden) tick(); }, 1000);
+  })();
+
   $$('.door').forEach(function (b, i) {
     var d = +b.getAttribute('data-d');
     if (d === 25) {
       if (isOpen(25) && data.film) { b.disabled = false; b.classList.add('is-open'); b.addEventListener('click', function () { openDoor(25); }); }
+      else { b.disabled = false; b.setAttribute('aria-disabled', 'true'); b.addEventListener('click', function () { knock(b, 25); }); }
       return;
     }
-    if (!isOpen(d)) return;
+    if (!isOpen(d)) { b.disabled = false; b.setAttribute('aria-disabled', 'true'); b.addEventListener('click', function () { knock(b, d); }); return; }
     var ready = !!byDay[d];
     setTimeout(function () { b.classList.add('is-open'); if (d === latest) b.classList.add('is-today'); }, still ? 0 : 250 + i * 70);
     if (ready) {
       b.disabled = false;
       b.setAttribute('aria-label', 'Πόρτα ' + d + ' · δείτε το βίντεο και τη σκέψη της ημέρας');
-      b.addEventListener('click', function () { openDoor(d); });
+      b.addEventListener('click', function () { openDoor(d, b); });
     }
   });
   var status = $('#doors-status'), line = $('#today-line');
@@ -152,6 +188,7 @@
     function start() { if (started) return; started = true; tv.src = stem + '.mp4'; tv.hidden = false; }
     function play() { start(); var p = tv.play(); if (p && p.catch) p.catch(function () {}); }
     snd.hidden = false;
+    $('.today__frame', today).addEventListener('click', function (e) { if (e.target === snd) return; tv.pause(); openDoor(latest, $('.door[data-d="' + latest + '"]')); });
     snd.addEventListener('click', function () {
       var onNow = tv.muted;   // turning sound on
       tv.muted = !onNow; snd.setAttribute('aria-pressed', onNow ? 'true' : 'false');
