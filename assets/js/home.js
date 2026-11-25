@@ -36,12 +36,14 @@
   });
 
   // ---- tabs
-  $$('[data-tabs]').forEach(function (box) {
+  $$('[data-tabs]').forEach(function (box, bi) {
+    var vt = 'tabs-' + bi;
     var tabs = $$('[role="tab"]', box), panels = $$('[role="tabpanel"]', box);
     if (!tabs.length) return;
     box.classList.add('is-js');
-    function show(i, focus) {
-      tabs.forEach(function (t, n) { t.setAttribute('aria-selected', n === i ? 'true' : 'false'); t.tabIndex = n === i ? 0 : -1; panels[n].hidden = n !== i; });
+    function set(i) { tabs.forEach(function (t, n) { t.setAttribute('aria-selected', n === i ? 'true' : 'false'); t.tabIndex = n === i ? 0 : -1; panels[n].hidden = n !== i; panels[n].style.viewTransitionName = n === i ? vt : ''; }); }
+    function show(i, focus, first) {
+      if (!first && document.startViewTransition && !still) document.startViewTransition(function () { set(i); }); else set(i);
       if (focus) tabs[i].focus();
     }
     tabs.forEach(function (t, i) {
@@ -51,7 +53,7 @@
         if (d) { e.preventDefault(); show((i + d + tabs.length) % tabs.length, true); }
       });
     });
-    show(0);
+    show(0, false, true);
   });
 
   // ---- gold dust in the hero (decorative; never for visitors who ask for less motion)

@@ -542,7 +542,7 @@ def today_card():
     return ('''<figure class="today" id="today"><div class="today__frame"><img class="today__poster" src="/assets/xmas/door-closed.jpg" alt="Μια μπλε ξύλινη πόρτα σε πέτρινο σοκάκι, χαράματα" width="720" height="1290" fetchpriority="high">
 <video class="today__video" muted loop playsinline preload="none" hidden></video>
 <button class="today__sound" type="button" hidden aria-pressed="false" data-on="Χωρίς ήχο" data-off="Με ήχο">Με ήχο</button></div>
-<figcaption><b class="today__k">24 πόρτες ως τα Χριστούγεννα</b><span class="today__line" id="today-line">Η πρώτη πόρτα ανοίγει την Τρίτη 1 Δεκεμβρίου, στις 6 το απόγευμα.</span>
+<figcaption><b class="today__k">Η πόρτα της ημέρας</b><span class="today__line" id="today-line">Η πρώτη πόρτα ανοίγει την Τρίτη 1 Δεκεμβρίου, στις 6 το απόγευμα.</span>
 <a class="today__more" href="#portes">Δείτε το ημερολόγιο''' + ICON['arrow'] + '</a></figcaption></figure>')
 
 def rail(inner, label, cls=''):
@@ -729,8 +729,23 @@ def page_home(lang):
         ('list', L(T['nav']['events'], lang), 'Τι να ελέγξετε και ποια χαρτιά να έχετε σε κάθε μεγάλη αλλαγή.' if el else 'What to check, and which papers to have ready, at each big change.', url('events', lang)),
         ('question', L(T['nav']['faq'], lang), 'Σύντομες απαντήσεις για την πρώτη συνάντηση, το κόστος και τις αποζημιώσεις.' if el else 'Short answers about the first meeting, costs and claims.', url('faq', lang))])
     doors = doors_section() if el else ''
-    media = (today_card() if doors else
-             f'<figure class="portrait">{LINES}{portrait("Ο Γιάννης Φαραζής" if el else "Giannis Farazis", eager=True)}</figure>')
+    motto_big = L(T['motto'], lang)
+    media = (f'<div class="hero__stage"><figure class="portrait">{LINES}{portrait("Ο Γιάννης Φαραζής" if el else "Giannis Farazis", eager=True)}</figure>'
+             + (today_card() if doors else '') + '</div>')
+    def moment(n, ev):
+        eid, ico, t, when, check, papers, stem = ev
+        tick = ICON['check']
+        return (f'<div class="moments__panel" role="tabpanel" id="moment-{eid}" aria-labelledby="mtab-{eid}"><h3>{L(t, lang)}</h3><p class="moments__when">{L(when, lang)}</p>'
+                f'<ul class="ticks">{"".join(f"<li>{tick}{L(x, lang)}</li>" for x in check[:3])}</ul>'
+                f'<div class="actions"><a class="btn btn-primary" href="{url("events", lang)}#{eid}">{"Όλη η λίστα ελέγχου" if el else "The full checklist"}</a>'
+                f'<a class="btn btn-ghost" href="{url("booking", lang)}">{"Να το δούμε μαζί" if el else "Let us look at it together"}</a></div></div>')
+    moments = (f'''
+<section class="section moments" data-tabs><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Ποια στιγμή ζείτε τώρα;' if el else 'Which moment are you living now?'}</h2>
+<p class="lead">{'Κάθε αλλαγή στη ζωή αλλάζει και όσα αξίζει να προστατεύσετε. Διαλέξτε μία και δείτε τι να ελέγξετε.' if el else 'Every change in life changes what is worth protecting. Pick one and see what to check.'}</p></div>
+<div class="moments__grid"><div class="moments__list" role="tablist" aria-label="{'Στιγμές της ζωής' if el else 'Moments of life'}">'''
+               + ''.join(f'<button class="moments__tab" type="button" role="tab" id="mtab-{ev[0]}" aria-controls="moment-{ev[0]}" aria-selected="{"true" if n == 0 else "false"}">{ICON[ev[1]]}<span>{L(ev[2], lang)}</span></button>' for n, ev in enumerate(EVENTS))
+               + '</div>' + ''.join(moment(n, ev) for n, ev in enumerate(EVENTS)) + '</div></div></section>')
     tabs = [('why', 'Γιατί να συνεργαστούμε' if el else 'Why work with me', values_grid(lang)),
             ('how', 'Πώς δουλεύω' if el else 'How I work',
              f'<p class="lead">{"Τέσσερα βήματα, από την πρώτη κουβέντα μέχρι τη στιγμή που θα χρειαστείτε την κάλυψη." if el else "Four steps, from the first conversation to the moment you need your cover."}</p>' + steps_grid(lang)),
@@ -740,24 +755,23 @@ def page_home(lang):
 <p>{'Για μένα κάθε πελάτης είναι ξεχωριστός. Ξεκινάμε από τις δικές σας ανάγκες και προχωράμε μόνο όταν όλα είναι ξεκάθαρα.' if el else 'Every client is different. We start from your needs and only go ahead once everything is clear.'}</p>
 <p><a class="btn btn-ghost" href="{url('about', lang)}">{'Περισσότερα για μένα και ένα σύντομο βίντεο' if el else 'More about me, and a short video'}</a></p>
 </div>
-{f'<figure class="portrait portrait--sm">{portrait("Ο Γιάννης Φαραζής", n="")}</figure>' if doors else f'<blockquote class="quote quote--card">{L(T["motto"], lang)}<span>{"Μαζί μπορούμε να χτίσουμε ένα ασφαλές και σταθερό αύριο." if el else "Together we can build a safe and steady future."}</span></blockquote>'}
+<blockquote class="quote quote--card">{L(T["motto"], lang)}<span>{"Μαζί μπορούμε να χτίσουμε ένα ασφαλές και σταθερό αύριο." if el else "Together we can build a safe and steady future."}</span></blockquote>
 </div>''')]
     tabset = ('<div class="tabs" data-tabs><div class="tabs__list" role="tablist" aria-label="' + ('Η συνεργασία μας' if el else 'Working together') + '">'
               + ''.join(f'<button class="tabs__tab" type="button" role="tab" id="tab-{k}" aria-controls="panel-{k}" aria-selected="{"true" if n == 0 else "false"}"{"" if n == 0 else " tabindex=-1"}>{t}</button>' for n, (k, t, _) in enumerate(tabs))
               + '</div>' + ''.join(f'<div class="tabs__panel" role="tabpanel" id="panel-{k}" aria-labelledby="tab-{k}"><h3 class="tabs__h">{t}</h3>{body}</div>' for k, t, body in tabs) + '</div>')
     return head(lang, 'home', title, desc) + f'''
-<section class="hero on-dark{' hero--today' if doors else ''}">{'<canvas class="xmas-dust" aria-hidden="true"></canvas>' if XMAS else ''}<div class="wrap">
+<section class="hero hero--day on-dark{' hero--today' if doors else ''}">{'<canvas class="xmas-dust" aria-hidden="true"></canvas>' if XMAS else ''}<div class="wrap">
 <div class="hero__text">
-<p class="hero__role">{L(T['role'], lang)}</p>
-<h1>{L(T['name'], lang)}</h1>
+<h1><span class="hero__who"><b>{L(T['name'], lang)}</b><i>{L(T['role'], lang)}</i></span><span class="hero__big">{motto_big}</span></h1>
 <p class="hero__lead">{'Προστασία, αποταμίευση και ηρεμία για εσάς και την οικογένειά σας, με καθαρές εξηγήσεις και χωρίς πίεση.' if el else 'Protection, savings and peace of mind for you and your family, with clear explanations and no pressure.'}</p>
-<p class="hero__motto">{L(T['motto'], lang)}</p>
 {actions(lang)}
 <ul class="hero__facts"><li>{'Από το 2024' if el else 'Since 2024'}</li><li>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</li><li>{'Ελληνικά & Αγγλικά' if el else 'Greek & English'}</li></ul>
 </div>
 {media}
 </div>{xmas_skyline()}</section>
 {doors}
+{moments}
 <section class="section"><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Τι μπορούμε να δούμε μαζί' if el else 'What we can look at together'}</h2>
 <p class="lead">{'Ασφάλιση με βάση τις δικές σας ανάγκες: τι θέλετε να προστατεύσετε, για πόσο, και με ποιο κόστος.' if el else 'Insurance built around your own needs: what you want to protect, for how long, and at what cost.'}</p></div>

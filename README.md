@@ -46,10 +46,14 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
   their day (fixed UTC times in home.js); the newest open door is the hero's film of the day. The Christmas film
   itself: `assets/xmas/liga-vimata-piso.mp4` + `.jpg`, opens 25 Dec 09:00. In the owner's preview only, `?day=7` shows
   the page as on the evening of 7 Dec.
-- The 2026 refresh (25 Nov 2026, owner: more individual, more professional, more of what sites can do today):
-  `assets/css/next.css` and `assets/js/fx.js` on every page, and they stay after Christmas. Headings in Literata 72pt
-  SemiBold (the films' caption face; GFS Didot stays for the name, the motto, quotes and the doors' numbers), teal
-  (`--teal`) for links, focus and other things you press, lit-gold primary buttons on dark, a glass header once the
-  page has scrolled, hairline cards lit under the pointer. Seasonal interactions (xmas.css, home.js, fx.js): the Santa
-  hat on the monogram, bulbs that can be tapped, lamp light under the pointer, doors that lean, closed doors that
-  answer a knock with their date, a clock to the next door, the door's picture growing into its film.
+- The redesign «Μέρα» (25 Nov 2026, owner: the site looked dull and old; new from the root, brighter, more alive, and
+  not a copy of avrastro.com). `assets/css/next.css` + `assets/js/fx.js` on every page, loaded after site.css; they stay
+  after Christmas. Daylight palette: white and sky, one ultramarine (`--blue`), sun yellow (`--sun`) for the one thing
+  to press, deep ink for text; the old tokens are re-tuned in next.css so every older rule follows. One typeface talks:
+  Commissioner, heavy and tight in headlines; GFS Didot only for numerals and quoted words (no Literata here — that is
+  AVRASTRO's face). White glass header with the monogram in ink (CSS mask over gf-lockup.png), a reading line under it,
+  page-to-page view transitions. Home page: the motto is the headline, the portrait beside it (at Christmas the film
+  of the day leans on it), then «Ποια στιγμή ζείτε τώρα;» — the nine life events from EVENTS as a selector that shows
+  what to check and links to the full checklist. Seasonal interactions (xmas.css, home.js, fx.js): the Santa hat on
+  the monogram, bulbs that can be tapped, doors that lean, closed doors that answer a knock with their date, a clock
+  to the next door, the door's picture growing into its film.
