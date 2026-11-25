@@ -1,0 +1,180 @@
+/* farazisgiannis.com — Christmas 2026 (owner, 24–25 Nov 2026). Loaded only while build.py has XMAS = True.
+   The look comes from the Christmas film «Λίγα βήματα πίσω»: a Cyprus village lane at blue dawn, a teal wooden door,
+   a warm street lamp, a child's red coat. Night blue and brass stay the site's own colours. */
+:root {
+  --x-night: #0a1a33;
+  --x-ground: #071120;
+  --x-door: #1f5f7d;
+  --x-door-2: #174a63;
+  --x-door-3: #0f3549;
+  --x-stone: #a48e6a;
+  --x-coat: #b3262b;
+  --x-lamp: #f6c667;
+}
+
+/* a string of lights under the header */
+/* it hangs at the top of the page and scrolls away with it (it must never lie over text) */
+.xmas main { position: relative; }
+.xmas-lights { position: absolute; left: 0; right: 0; top: 0; opacity: .9; height: 40px; overflow: hidden; pointer-events: none; z-index: 2; }
+.xmas-lights svg { display: block; width: 100%; min-width: 1100px; height: 40px; }
+.xmas .ru-strip { position: relative; z-index: 3; }
+.xmas main > section:first-of-type:is(.hero, .page-head, .about-hero) > .wrap { padding-top: calc(88px + clamp(2.6rem, 5vw, 3.6rem)); }
+@media (max-width: 900px) { .xmas main > section:first-of-type:is(.hero, .page-head, .about-hero) > .wrap { padding-top: calc(72px + 2.6rem); } }
+body:has(main > section:first-of-type:is(.hero, .page-head, .about-hero)) .xmas-lights { top: 88px; }
+@media (max-width: 900px) { body:has(main > section:first-of-type:is(.hero, .page-head, .about-hero)) .xmas-lights { top: 72px; } }
+.brand { position: relative; display: inline-block; }
+.today__sound { display: none !important; }
+@media (max-width: 700px) { .xmas-lights svg { min-width: 760px; } }
+.xmas-lights .xl ellipse { filter: drop-shadow(0 0 5px currentColor); animation: x-bulb 3.6s ease-in-out infinite; }
+.xmas-lights .xl1 ellipse { animation-delay: -.7s; }
+.xmas-lights .xl2 ellipse { animation-delay: -1.5s; }
+.xmas-lights .xl3 ellipse { animation-delay: -2.2s; }
+.xmas-lights .xl4 ellipse { animation-delay: -2.9s; }
+@keyframes x-bulb { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+
+/* a small star beside every section rule */
+.xmas .rule { position: relative; overflow: visible; }
+.xmas .rule::after { content: "✦"; position: absolute; left: -5px; top: 100%; transform: none; color: var(--brass); font-size: .85rem; line-height: 1; }
+
+/* dark bands: the night sky of the film */
+.xmas .hero, .xmas .page-head, .xmas .about-hero { position: relative; overflow: hidden; }
+.xmas .hero > .wrap, .xmas .page-head > .wrap, .xmas .about-hero > .wrap { position: relative; z-index: 1; }
+.xmas-dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.xmas-skyline { position: absolute; left: 0; right: 0; bottom: -1px; height: clamp(76px, 11vw, 150px); pointer-events: none; }
+.xmas-skyline svg { display: block; width: 100%; height: 100%; }
+.xmas-skyline .xw { animation: x-win 5s ease-in-out infinite; filter: drop-shadow(0 0 4px #ffc46e); }
+.xmas-skyline .xw1 { animation-delay: -1.2s; } .xmas-skyline .xw2 { animation-delay: -2.6s; } .xmas-skyline .xw3 { animation-delay: -3.9s; }
+@keyframes x-win { 0%, 100% { opacity: 1; } 50% { opacity: .6; } }
+.xmas-wish { font-family: var(--display); color: var(--brass-soft); font-size: 1.25rem; margin: 0 0 .4rem; }
+
+/* the hero's film of the day: a small screen leaning on the portrait */
+.hero__stage { position: absolute; z-index: 3; right: var(--gutter); bottom: calc(var(--sheet) + clamp(2.5rem, 6vw, 4.5rem)); width: clamp(120px, 15vw, 190px); }
+.hero__stage .today { position: relative; width: 100%; margin: 0; }
+.today__frame { position: relative; aspect-ratio: 9 / 16; border-radius: 999px 999px 14px 14px; overflow: hidden; background: #0b1626; box-shadow: 0 0 0 1px var(--gold), 0 0 0 7px rgba(201, 164, 92, .18), 0 30px 50px -22px #000; }
+.today__poster, .today__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.today__sound { position: absolute; left: 50%; transform: translateX(-50%); top: 34%; font: 600 .74rem/1 var(--text); color: #fff; background: rgba(8, 16, 28, .72); border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px; padding: .45rem .7rem; cursor: pointer; }
+.today figcaption { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); width: max-content; max-width: 150%; }
+.today__k { display: block; font: 600 .76rem/1 var(--text); letter-spacing: .01em; color: var(--night); background: var(--gold); padding: .5rem .8rem; border-radius: 999px; box-shadow: 0 10px 20px -10px rgba(8, 15, 42, .8); }
+.today__line, .today__more { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* phone: the film of the day is one row across the screen — a small arch, the day's words, an arrow — between the buttons and the facts */
+@media (max-width: 900px) {
+  .hero--film > .wrap { display: flex; flex-direction: column; }
+  .hero--film .hero__text { display: contents; }
+  .hero--film h1 { order: 1; } .hero--film .hero__lead { order: 2; } .hero--film .actions { order: 3; } .hero--film .hero__stage { order: 4; } .hero--film .hero__facts { order: 5; margin-top: 1.4rem; }
+  .hero__stage { position: relative; right: auto; bottom: auto; width: 100%; margin: 1.6rem 0 0; }
+  .hero__stage .today { display: grid; grid-template-columns: 58px minmax(0, 1fr) 20px; gap: .9rem; align-items: center; padding: .55rem .9rem .55rem .55rem; border-radius: 40px 18px 18px 18px; background: rgba(10, 16, 28, .58); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(201, 164, 92, .55); cursor: pointer; }
+  .hero__stage .today__frame { aspect-ratio: 3 / 4; border-radius: 999px 999px 8px 8px; box-shadow: 0 0 0 1px var(--gold); }
+  .hero__stage .today figcaption { position: static; transform: none; width: auto; max-width: none; display: grid; gap: .15rem; }
+  .hero__stage .today__k { background: none; box-shadow: none; padding: 0; color: var(--gold-soft); font: 560 .8rem/1.3 var(--text); }
+  .hero__stage .today__line { position: static; width: auto; height: auto; clip-path: none; white-space: normal; overflow: visible; font: 400 1.08rem/1.25 var(--display); color: #fff; }
+  .hero__stage .today::after { content: ""; width: 9px; height: 9px; border-right: 1.5px solid var(--gold); border-top: 1.5px solid var(--gold); transform: rotate(45deg); justify-self: center; }
+}
+
+/* 24 doors */
+.doors-sec { background: linear-gradient(180deg, #0a101c 0%, #0c1626 40%, #0f1c30 100%); color: #d3ddea; padding-top: clamp(2.5rem, 6vw, 4.5rem); }
+.doors-sec h2 { color: #fff; }
+.doors-sec .lead { color: #c3cfdf; }
+.doors__status { font-family: var(--display); font-size: 1.3rem; color: var(--brass-soft); margin: 1.2rem 0 0; }
+.doors { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: clamp(.7rem, 1.6vw, 1.3rem); }
+@media (max-width: 1000px) { .doors { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .doors { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem .7rem; } }
+.doors__film { grid-column: 1 / -1; margin-top: .6rem; }
+.door { position: relative; display: block; width: 100%; aspect-ratio: 3 / 4; padding: 0; border: 0; border-radius: 999px 999px 5px 5px; overflow: hidden; background: #0a1525; color: inherit; font: inherit; cursor: pointer; perspective: 520px; box-shadow: 0 0 0 3px var(--x-stone), 0 0 0 4px #5d4f3a, 0 16px 26px -16px #000; transition: box-shadow .4s, transform .3s; -webkit-tap-highlight-color: transparent; }
+.door[disabled] { cursor: default; }
+.door__in { position: absolute; inset: 0; background: radial-gradient(circle at 50% 62%, #f6c667 0%, #b9762a 42%, #2a1a0c 100%); }
+.door__in img { width: 100%; height: 100%; object-fit: cover; }
+.door__l, .door__r { position: absolute; top: 0; bottom: 0; width: 50.5%; transition: transform 1s cubic-bezier(.2, .7, .2, 1); backface-visibility: hidden; }
+.door__l { left: 0; transform-origin: left center; background: linear-gradient(90deg, var(--x-door-2), var(--x-door) 70%, var(--x-door-2)); box-shadow: inset -1px 0 0 var(--x-door-3); }
+.door__r { right: 0; transform-origin: right center; background: radial-gradient(circle at 18% 53%, #e0bd72 0 2.5px, #5b4520 3px 4.5px, rgba(0, 0, 0, 0) 5px), linear-gradient(90deg, var(--x-door-2), var(--x-door) 30%, var(--x-door-2)); }
+.door__l::before, .door__r::before, .door__l::after, .door__r::after { content: ""; position: absolute; left: 20%; right: 20%; border: 1px solid rgba(8, 35, 50, .75); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06), 0 0 0 1px rgba(255, 255, 255, .04); }
+.door__l::before, .door__r::before { top: 22%; height: 26%; }
+.door__l::after, .door__r::after { top: 58%; bottom: 9%; }
+.door__n { position: absolute; left: 0; right: 0; top: 35%; transform: translateY(-50%); text-align: center; font: 400 clamp(1.5rem, 3vw, 2.5rem)/1 var(--display); color: #f1d9a2; text-shadow: 0 1px 0 rgba(0, 0, 0, .5), 0 0 14px rgba(246, 198, 103, .4); transition: opacity .3s; pointer-events: none; }
+.door__star { display: none; }
+.door.is-open .door__l { transform: rotateY(-82deg); }
+.door.is-open .door__r { transform: rotateY(82deg); }
+.door.is-open .door__n { top: auto; bottom: 7%; transform: none; width: fit-content; margin-inline: auto; font-size: clamp(.85rem, 1.5vw, 1.1rem); padding: .2em .65em .25em; border-radius: 999px; background: rgba(8, 16, 28, .68); color: #fff; text-shadow: none; }
+.door.is-open:not([disabled]):hover { transform: translateY(-3px); box-shadow: 0 0 0 3px var(--x-lamp), 0 0 0 4px #5d4f3a, 0 0 34px -4px rgba(246, 198, 103, .6), 0 18px 28px -16px #000; }
+.door.is-today { box-shadow: 0 0 0 3px var(--x-lamp), 0 0 0 4px #5d4f3a, 0 0 34px -2px rgba(246, 198, 103, .7), 0 16px 26px -16px #000; }
+.door.is-today .door__star { display: block; position: absolute; top: 9%; left: 0; right: 0; text-align: center; color: var(--x-lamp); font-size: 1.1rem; text-shadow: 0 0 10px #f6c667; animation: x-star 2.4s ease-in-out infinite; }
+@keyframes x-star { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: .75; } }
+.door--film { aspect-ratio: auto; border-radius: 16px; padding: 1.7rem 1.2rem 1.8rem; text-align: center; display: grid; gap: .3rem; justify-items: center; background: radial-gradient(ellipse 80% 140% at 50% 0%, #c8322d 0%, #8d1b21 60%, #6d1318 100%); box-shadow: 0 0 0 1px rgba(246, 198, 103, .75), 0 0 0 7px rgba(7, 17, 32, .5), 0 0 0 8px rgba(246, 198, 103, .25), 0 24px 40px -22px #000; }
+.door__film-k { font: 600 .8rem/1.3 var(--text); letter-spacing: .16em; text-transform: uppercase; color: #f6d9a0; }
+.door__film-t { font-family: var(--display); font-size: clamp(1.8rem, 4.4vw, 2.8rem); line-height: 1.1; color: #fff; }
+.door__film-s { color: #f3d9d6; font-size: 1rem; }
+.doors__note { margin: 1.8rem 0 0; font-size: .9rem; color: #9fb0c8; max-width: none; }
+
+/* a door's film and thought */
+.door-dialog { border: 0; padding: 0; width: min(94vw, 860px); max-height: 94vh; overflow: auto; border-radius: 20px; background: #0d1d36; color: #e6edf6; box-shadow: 0 0 0 1px rgba(201, 163, 95, .55), 0 50px 100px -30px #000; }
+.door-dialog::backdrop { background: rgba(4, 10, 20, .8); }
+.door-dialog__grid { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: clamp(1.25rem, 4vw, 2.5rem); align-items: center; padding: clamp(1rem, 3vw, 1.75rem); }
+.door-dialog__media { display: grid; justify-items: center; }
+.door-dialog__media video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 14px; background: #000; }
+.door-dialog__k { font: 600 .78rem/1.3 var(--text); letter-spacing: .16em; text-transform: uppercase; color: var(--brass); margin: 0 0 .7rem; }
+.door-dialog h3 { color: #fff; font-size: clamp(1.6rem, 3.2vw, 2.2rem); margin: 0 0 1.4rem; }
+.door-dialog__label { font: 600 .78rem/1.3 var(--text); letter-spacing: .16em; text-transform: uppercase; color: #9fb0c8; margin: 0 0 .4rem; }
+.door-dialog__thought { font-size: 1.12rem; color: #e6edf6; margin: 0 0 1.5rem; }
+.door-dialog .btn-primary { background: var(--brass); color: var(--midnight); }
+.door-dialog .btn-ghost { border-color: rgba(255, 255, 255, .6); color: #fff; }
+.door-dialog__fine { font-size: .82rem; color: #8fa0b8; margin: 1.2rem 0 0; }
+.door-dialog__x { position: sticky; float: right; top: .6rem; margin: .6rem .6rem 0 0; z-index: 2; width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .35); background: rgba(8, 16, 28, .8); color: #fff; font-size: 1.5rem; line-height: 1; cursor: pointer; }
+.door-dialog__x:hover { border-color: var(--brass); }
+@media (max-width: 700px) {
+  .door-dialog__grid { grid-template-columns: 1fr; }
+  .door-dialog__media video { width: auto; height: min(58vh, 520px); margin: 0 auto; }
+}
+@media print { .xmas-lights, .xmas-skyline, .xmas-dust, .doors-sec, .today { display: none !important; } }
+
+/* ---- 25 Nov 2026, second pass (owner: a hat on the logo, a page that answers the visitor) ---- */
+/* the hat on the monogram: it drops on once when the page opens and nods when the logo is touched */
+.xmas-hat { position: absolute; z-index: 1; left: 1.2%; top: -20%; height: 50%; width: auto; transform: rotate(-24deg); transform-origin: 50% 90%; pointer-events: none; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .35)); animation: x-hat-in .9s cubic-bezier(.3, 1.5, .5, 1) .25s both; }
+.xmas-hat.is-nod { animation: x-hat-nod .7s ease-in-out; }
+@keyframes x-hat-in { from { transform: translateY(-46px) rotate(-60deg); opacity: 0; } to { transform: rotate(-24deg); opacity: 1; } }
+@keyframes x-hat-nod { 0%, 100% { transform: rotate(-24deg); } 30% { transform: rotate(-40deg); } 65% { transform: rotate(-14deg); } }
+.foot-logo { position: relative; display: inline-block; }
+.foot-logo .xmas-hat { left: 26.5%; top: -11%; height: 30%; animation: none; }
+
+/* bulbs can be tapped */
+.xmas-lights .xl { pointer-events: auto; cursor: pointer; }
+.xmas-lights .xl.is-off ellipse { animation: none; opacity: .16; filter: none; }
+
+/* dawn behind the village, and the lamp's light where the pointer is */
+.xmas .hero::before, .xmas .page-head::before, .doors-sec::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .5s; background: radial-gradient(380px circle at var(--lx, 70%) var(--ly, 30%), rgba(246, 198, 103, .17), rgba(246, 198, 103, 0) 70%); }
+.xmas .hero.is-lit::before, .xmas .page-head.is-lit::before, .doors-sec.is-lit::before { opacity: 1; }
+.doors-sec { position: relative; }
+.doors-sec > .wrap { position: relative; }
+
+/* the film of the day leans toward the pointer */
+.today__frame { transition: transform .25s ease-out; cursor: pointer; }
+@media (hover: hover) { .today__frame:hover { transform: perspective(900px) rotateY(calc(var(--tx, 0) * 9deg)) rotateX(calc(var(--ty, 0) * -7deg)) scale(1.03); } }
+
+/* doors: lit and leaning under the pointer; a closed door can be knocked on */
+.door::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s; background: radial-gradient(120px circle at var(--mx, 50%) var(--my, 30%), rgba(255, 226, 160, .32), rgba(255, 226, 160, 0) 70%); }
+.door[aria-disabled="true"] { cursor: pointer; }
+@media (hover: hover) {
+  .door:hover::after { opacity: 1; }
+  .door:not(.door--film):hover { transform: perspective(520px) rotateY(calc(var(--tx, 0) * 16deg)) rotateX(calc(var(--ty, 0) * -10deg)) translateY(-3px); }
+}
+.door.is-knock { animation: x-knock .55s ease-in-out; }
+@keyframes x-knock { 0%, 100% { transform: none; } 15% { transform: translateX(-3px) rotate(-1.4deg); } 35% { transform: translateX(3px) rotate(1.2deg); } 55% { transform: translateX(-2px) rotate(-.8deg); } 78% { transform: translateX(1px); } }
+.door-bubble { position: absolute; z-index: 3; transform: translate(-50%, calc(-100% - 12px)); width: max-content; max-width: min(78vw, 300px); padding: .65rem .95rem; border-radius: 14px; background: #fff; color: var(--midnight); font-size: .95rem; line-height: 1.4; text-align: center; box-shadow: 0 18px 40px -14px #000; pointer-events: none; opacity: 0; transition: opacity .2s; }
+.door-bubble b { display: block; font-family: var(--display); font-weight: 400; font-size: 1.15rem; color: var(--x-coat); }
+.door-bubble::after { content: ""; position: absolute; left: var(--ax, 50%); bottom: -6px; width: 12px; height: 12px; background: #fff; transform: translateX(-50%) rotate(45deg); }
+.door-bubble.is-on { opacity: 1; }
+
+/* time to the next door */
+.doors__next { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin: 1.3rem 0 0; color: #c3cfdf; }
+.doors__next[hidden] { display: none; }
+.doors__clock { display: flex; gap: .45rem; }
+.doors__clock span { display: grid; justify-items: center; min-width: 3.4rem; padding: .5rem .5rem .4rem; border-radius: 12px; background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(246, 198, 103, .28); font-size: .74rem; color: #9fb0c8; }
+.doors__clock b { font: 400 1.7rem/1 var(--display); color: #fff; font-variant-numeric: tabular-nums; }
+
+/* a door's picture grows into the film when the door is opened (browsers with view transitions) */
+::view-transition-group(door-film) { animation-duration: .5s; animation-timing-function: cubic-bezier(.2, .7, .2, 1); }
+::view-transition-old(door-film), ::view-transition-new(door-film) { height: 100%; object-fit: cover; }
+@media (prefers-reduced-motion: reduce) { .xmas-hat { animation: none; } .today__frame:hover, .door:hover { transform: none !important; } }
+
+/* «Πύλη»: the doors section is a night sheet like the others; no skyline over the film */
+.xmas main > .doors-sec { padding-bottom: calc(clamp(3.5rem, 8vw, 6rem) + var(--sheet)); }
+.door-dialog { background: #0d1524; }
+.door-dialog .btn-primary { background: var(--gold); color: var(--night); }

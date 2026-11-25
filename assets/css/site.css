@@ -723,3 +723,40 @@ p { margin: 0 0 1em; max-width: 68ch; }
 .booklet-parents p { max-width: 44rem; font-size: 1.08rem; }
 .booklet-parents .booklet-sign { font-family: var(--display); font-size: 1.5rem; color: var(--midnight); margin-top: 1.6rem; }
 .booklet-parents .booklet-sign small { display: block; font-family: inherit; font-size: .95rem; color: var(--muted); }
+
+/* Home page, 25 Nov 2026 (owner: the page was too long): rows of cards that scroll sideways with snap, and one tabbed
+   section for «why / how / about me». Without JavaScript the rows still scroll and the three panels show one under the
+   other. */
+.rail { position: relative; }
+.rail > ul { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * 1.25rem) / 3); gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; padding: .6rem .6rem 2rem; margin: -.6rem -.6rem 0; scrollbar-width: none; }
+.rail > ul::-webkit-scrollbar { display: none; }
+.rail > ul > li { scroll-snap-align: start; min-width: 0; }
+.rail--l > ul { grid-auto-columns: calc((100% - 1.25rem) / 2.4); }
+@media (max-width: 960px) { .rail > ul { grid-auto-columns: 46%; } .rail--l > ul { grid-auto-columns: 62%; } }
+@media (max-width: 600px) { .rail > ul { grid-auto-columns: 84%; gap: .9rem; } .rail--l > ul { grid-auto-columns: 90%; gap: .9rem; } }
+.rail__nav { position: absolute; right: 0; top: -4.4rem; display: flex; gap: .5rem; }
+.rail__btn { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--midnight); display: grid; place-items: center; cursor: pointer; box-shadow: var(--shadow); transition: background .2s, color .2s, opacity .2s; }
+.rail__btn svg { width: 18px; height: 18px; }
+.rail__btn:hover { background: var(--midnight); color: #fff; }
+.rail__btn[disabled] { opacity: .35; cursor: default; background: #fff; color: var(--midnight); }
+.rail__btn--prev svg { transform: scaleX(-1); }
+.rail__bar { height: 3px; border-radius: 3px; background: var(--line); overflow: hidden; max-width: 180px; margin: 0 auto; }
+.rail__bar i { display: block; height: 100%; width: 30%; background: var(--brass); border-radius: 3px; transform-origin: left; }
+@media (max-width: 760px) { .rail__nav { display: none; } }
+@media (min-width: 761px) { .rail__bar { display: none; } }
+
+.tabs__list { display: flex; gap: .25rem; border-bottom: 1px solid var(--line); margin: 0 0 2.2rem; overflow-x: auto; scrollbar-width: none; }
+.tabs__list::-webkit-scrollbar { display: none; }
+.tabs__tab { flex: none; font: 520 1.05rem/1.3 var(--text); color: var(--muted); background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: .85rem 1.15rem; cursor: pointer; white-space: nowrap; }
+.tabs__tab:hover { color: var(--midnight); }
+.tabs__tab[aria-selected="true"] { color: var(--midnight); border-bottom-color: var(--brass); }
+.tabs:not(.is-js) .tabs__list { display: none; }
+.tabs:not(.is-js) .tabs__panel + .tabs__panel { margin-top: 3.5rem; }
+.tabs.is-js .tabs__h { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.tabs.is-js .tabs__panel[hidden] { display: none; }
+.tabs__panel .lead { margin-bottom: 2rem; }
+.tabs__panel .about-teaser { align-items: center; }
+.tabs__panel .portrait--sm { width: min(100%, 300px); }
+@media (max-width: 860px) { .tabs__panel .about-teaser { grid-template-columns: 1fr; } .tabs__panel .portrait--sm { width: min(70%, 260px); order: -1; } }
+@media (max-width: 900px) { .story-films__grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 86%; overflow-x: auto; scroll-snap-type: x mandatory; max-width: none; gap: .9rem; padding-bottom: 1rem; scrollbar-width: none; } .story-films__grid::-webkit-scrollbar { display: none; } .story-films__grid > li { scroll-snap-align: start; } }
+@media print { .rail > ul { display: block; overflow: visible; } .rail__nav, .rail__bar, .tabs__list { display: none; } .tabs .tabs__panel[hidden] { display: block !important; } }

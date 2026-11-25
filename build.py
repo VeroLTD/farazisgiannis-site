@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'site')
 BASE = 'https://farazisgiannis.com'
 UPDATED = '2026-10-14'   # privacy page "last updated" (call-back requests added 14 Oct 2026)
-ASSET_V = '2026-11-18'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
+ASSET_V = '2026-11-25'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
 PHONE = '+357 97 840941'; TEL = '+35797840941'
 OFFICE = '+357 22 124867'; OFFICE_TEL = '+35722124867'
 WHATSAPP = 'https://wa.me/35797840941'
@@ -301,6 +301,9 @@ def head(lang, page, title, desc, extra_ld=None):
         'sameAs': [LINKEDIN, AVRASTRO + ('/en' if lang == 'en' else '') + '/giannis-farazis/'],
     }]
     if extra_ld: ld += extra_ld
+    xcss = f'\n<link rel="stylesheet" href="/assets/css/next.css?v={ASSET_V}">' + (f'\n<link rel="stylesheet" href="/assets/css/xmas.css?v={ASSET_V}">' if XMAS else '')
+    hat = XMAS_HAT if XMAS else ''
+    bodycls = ' class="xmas"' if XMAS else ''
     navlinks = ''.join(f'<a href="{url(p, lang)}"' + (' aria-current="page"' if p == page else '') + f'>{L(T["nav"][p], lang)}</a>' for p in NAV)
     return f'''<!doctype html>
 <html lang="{cur}">
@@ -324,22 +327,22 @@ def head(lang, page, title, desc, extra_ld=None):
 <link rel="icon" href="/assets/img/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/GFSDidot-Regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="/assets/css/site.css?v={ASSET_V}">
+<link rel="stylesheet" href="/assets/css/site.css?v={ASSET_V}">{xcss}
 <script type="application/ld+json">{json.dumps(ld if len(ld) > 1 else ld[0], ensure_ascii=False)}</script>
 </head>
-<body>
+<body{bodycls}>
 {print_head(lang, canonical)}
 {('<div class="preview-banner" role="note">' + ('ΠΡΟΕΠΙΣΚΟΠΗΣΗ — αλλαγές που περιμένουν έγκριση. Δεν είναι η δημοσιευμένη σελίδα.' if lang == 'el' else 'PREVIEW — changes waiting for approval. This is not the published page.') + '</div>') if PREVIEW else ''}
 <a class="skip" href="#main">{L(T['skip'], lang)}</a>
 <header class="site-head"><div class="wrap">
-<a class="brand" href="{url('home', lang)}" aria-label="Giannis Farazis — {'Αρχική' if lang == 'el' else 'Home'}"><img src="/assets/img/gf-lockup.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="294" height="70"></a>
+<a class="brand" href="{url('home', lang)}" aria-label="Giannis Farazis — {'Αρχική' if lang == 'el' else 'Home'}"><img src="/assets/img/gf-lockup.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="294" height="70">{hat}</a>
 <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">{L(T['menu'], lang)}</button>
 <nav class="nav" id="nav" aria-label="{'Κύριο μενού' if lang == 'el' else 'Main menu'}">
 {navlinks}
 {switch}
 <a class="nav-call" href="tel:{TEL}">{ICON['phone']}{PHONE}</a>
 </nav></div></header>
-<main id="main">
+<main id="main">{xmas_lights()}
 ''' + ('<p class="ru-strip">Встречи проходят на греческом или английском языке; в нашем офисе вам поможет сотрудник, говорящий по-русски.</p>' if cur == 'ru' else '')
 
 def reg_line(lang):
@@ -387,8 +390,8 @@ def foot(lang):
     return f'''</main>
 {print_foot(lang)}
 <footer class="site-foot"><div class="wrap">
-<div class="foot-brand"><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="200" height="115" loading="lazy">
-<p>{L(T['foot'], lang)}</p></div>
+<div class="foot-brand"><span class="foot-logo"><img src="/assets/img/gf-logo.png" alt="Giannis Farazis — Mazi sou, kathe stigmi" width="200" height="115" loading="lazy">{XMAS_HAT if XMAS else ''}</span>
+{('<p class="xmas-wish">' + ('Καλά Χριστούγεννα και ευτυχισμένο το 2027' if el else 'Merry Christmas and a happy 2027') + '</p>') if XMAS else ''}<p>{L(T['foot'], lang)}</p></div>
 <nav class="foot-col" aria-label="{'Σελίδες' if el else 'Pages'}"><h2>{'Σελίδες' if el else 'Pages'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in NAV)}</nav>
 <nav class="foot-col" aria-label="{'Χρήσιμα' if el else 'Useful'}"><h2>{'Χρήσιμα' if el else 'Useful'}</h2>{''.join(f'<a href="{url(p, lang)}">{L(T["nav"][p], lang)}</a>' for p in more)}</nav>
 <div class="foot-col"><h2>{'Επικοινωνία' if el else 'Contact'}</h2>
@@ -398,6 +401,7 @@ def foot(lang):
 </div><div class="wrap foot-legal">© {date.today().year} {L(T['name'], lang)}{reg_line(lang)}</div></footer>
 <div class="callbar"><a href="tel:{TEL}">{ICON['phone']}{L(T['call'], lang)}</a><a href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a><a href="{url('booking', lang)}">{ICON['cal']}{'Ραντεβού' if lang == 'el' else 'Book'}</a></div>
 <script src="/assets/js/site.js?v={ASSET_V}" defer></script>
+<script src="/assets/js/fx.js?v={ASSET_V}" defer></script>
 </body></html>
 '''
 
@@ -437,6 +441,113 @@ def cta_band(lang):
 <p>{'Καλέστε, στείλτε μήνυμα στο WhatsApp ή αφήστε τα στοιχεία σας και θα σας καλέσω εγώ.' if el else 'Call, send a WhatsApp message, or leave your details and I will call you.'}</p>
 {actions(lang, f'<a class="btn btn-link" href="{url("contact", lang)}">{"Φόρμα επικοινωνίας" if el else "Contact form"}{ICON["arrow"]}</a>')}</div>
 </div></section>'''
+
+# ------------------------------------------------------------------ Christmas 2026
+# Owner, 24–25 Nov 2026: the sites in a Christmas look for December, and «24 πόρτες ως τα Χριστούγεννα» on the home page:
+# every day at 18:00 (Cyprus time) one door opens — that day's short film from the countdown to the Christmas film
+# «Λίγα βήματα πίσω» (25 Dec, 09:00) and one thought for the day. XMAS = False takes the season off again (after 6 Jan).
+# The doors: tools/xmas/doors.json (day, phrase, thought); a door has a film once assets/xmas/porta-NN.mp4 is there, and
+# only those days are written into the page. Opening is by the visitor's clock against fixed UTC times (home.js).
+XMAS = True
+_doors_file = os.path.join(ROOT, 'tools', 'xmas', 'doors.json')
+DOORS = json.load(open(_doors_file, encoding='utf8')) if os.path.exists(_doors_file) else []
+def door_ready(d): return os.path.exists(os.path.join(ROOT, 'assets', 'xmas', f'porta-{d:02d}.mp4'))
+XMAS_FILM = os.path.exists(os.path.join(ROOT, 'assets', 'xmas', 'liga-vimata-piso.mp4'))   # the film itself, from 25 Dec
+
+def _rng(seed):
+    st = [seed]
+    def r():
+        st[0] = (st[0] * 1664525 + 1013904223) % 4294967296
+        return st[0] / 4294967296
+    return r
+
+def xmas_lights():
+    """a string of small warm lights under the header (decorative)"""
+    if not XMAS: return ''
+    r = _rng(11); W = 1600; n = 16; seg = W / n
+    wire = 'M0 4' + ''.join(f' Q{seg * (i + .5):.0f} 26 {seg * (i + 1):.0f} 4' for i in range(n))
+    cols = ['#f6c667', '#d8443c', '#f3ead6', '#2f8fa8']
+    bulbs = ''
+    for i in range(n * 2):
+        t = (i + .5) / 2; x = seg * t; u = t % 1; y = 4 + 22 * (1 - (2 * u - 1) ** 2) * .98
+        c = cols[i % 4]
+        bulbs += f'<g class="xl xl{i % 5}" transform="translate({x:.0f} {y:.0f})" style="color:{c}"><rect x="-2" y="-1" width="4" height="4" fill="#0b1626"/><ellipse cx="0" cy="9" rx="4.2" ry="6.2" fill="currentColor"/></g>'
+    return (f'<div class="xmas-lights" aria-hidden="true"><svg viewBox="0 0 {W} 40" preserveAspectRatio="xMidYMin slice">'
+            f'<path d="{wire}" fill="none" stroke="#0b1626" stroke-width="1.6"/>{bulbs}</svg></div>')
+
+def xmas_skyline():
+    """the village of the film as a night silhouette with lit windows, at the foot of a dark band (decorative)"""
+    if not XMAS: return ''
+    r = _rng(7); W = 1600; H = 150; x = -10; out = []
+    hills = 'M0 150 ' + ' '.join(f'L{px} {150 - 96 - 18 * __import__("math").sin(px * .0041 + 1) - 12 * __import__("math").sin(px * .011):.0f}' for px in range(0, W + 1, 40)) + f' L{W} 150Z'
+    out.append(f'<path d="{hills}" fill="#0c1c33"/>')
+    wins = []
+    while x < W + 10:
+        w = 46 + r() * 70; h = 34 + r() * 52; flat = r() < .55
+        if flat: out.append(f'<path d="M{x:.0f} 150V{150 - h:.0f}h{w:.0f}V150Z M{x - 2:.0f} {150 - h - 3:.0f}h{w + 4:.0f}v4h-{w + 4:.0f}z" fill="#071120"/>')
+        else: out.append(f'<path d="M{x:.0f} 150V{150 - h + 12:.0f}L{x + w / 2:.0f} {150 - h - 6:.0f}L{x + w:.0f} {150 - h + 12:.0f}V150Z" fill="#071120"/>')
+        for _ in range(1 + int(r() * 2)):
+            if r() < .78: wins.append((x + w * (.16 + r() * .6), 150 - h * (.72 - r() * .3)))
+        x += w - 4
+    for i, (wx, wy) in enumerate(wins):
+        out.append(f'<rect class="xw xw{i % 4}" x="{wx:.0f}" y="{wy:.0f}" width="7" height="10" fill="#ffd696"/>')
+    for tx in (190, 640, 1010, 1420):   # orange trees
+        out.append(f'<circle cx="{tx}" cy="112" r="24" fill="#08172a"/><rect x="{tx - 2}" y="128" width="4" height="22" fill="#08172a"/>'
+                   + ''.join(f'<circle cx="{tx - 14 + r() * 28:.0f}" cy="{98 + r() * 26:.0f}" r="2.2" fill="#e8892f"/>' for _ in range(6)))
+    return f'<div class="xmas-skyline" aria-hidden="true"><svg viewBox="0 0 {W} {H}" preserveAspectRatio="xMidYMax slice">{"".join(out)}</svg></div>'
+
+XMAS_HAT = ('<svg class="xmas-hat" viewBox="0 0 120 100" aria-hidden="true"><path d="M22 78C26 40 52 14 78 12c18 0 30 14 34 32-8-10-20-14-28-10 10 16 14 30 14 44Z" fill="#c8322d"/>'
+            '<rect x="12" y="72" width="94" height="20" rx="10" fill="#fbf6ea"/><circle cx="112" cy="46" r="11" fill="#fbf6ea"/></svg>')
+MONTH_GEN = 'Δεκεμβρίου'
+
+def door_tile(row):
+    d = row['d']; ready = door_ready(d)
+    img = f'<img src="/assets/xmas/tile-{d:02d}.jpg" alt="" width="360" height="480" loading="lazy" decoding="async">' if ready else ''
+    return (f'<li><button class="door" type="button" data-d="{d}" disabled aria-label="Πόρτα {d} · ανοίγει {d} {MONTH_GEN}, 6 το απόγευμα">'
+            f'<span class="door__in">{img}</span><span class="door__l"></span><span class="door__r"></span>'
+            f'<span class="door__n">{d}</span><span class="door__star" aria-hidden="true">✦</span></button></li>')
+
+def doors_section():
+    """«24 πόρτες ως τα Χριστούγεννα» (Greek home page): all doors closed in the page itself; home.js opens those whose
+    time has come. The films' people are AI-generated: said once, plainly, as in «Μικρές ιστορίες ζωής»."""
+    if not (XMAS and DOORS): return ''
+    data = [{'d': r['d'], 'p': r['phrase'], 't': r['thought']} for r in DOORS if door_ready(r['d'])]
+    film = ('<li class="doors__film"><button class="door door--film" type="button" data-d="25" disabled aria-label="25 Δεκεμβρίου, 9 το πρωί · η ταινία «Λίγα βήματα πίσω»">'
+            '<span class="door__film-k">25 Δεκεμβρίου · 9 το πρωί</span><span class="door__film-t">«Λίγα βήματα πίσω»</span>'
+            '<span class="door__film-s">Η χριστουγεννιάτικη ταινία μας</span></button></li>')
+    payload = json.dumps({'days': data, 'film': XMAS_FILM, 'preview': PREVIEW}, ensure_ascii=False).replace('</', '<\\/')
+    return f'''
+<section class="section doors-sec on-dark" id="portes"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>24 πόρτες ως τα Χριστούγεννα</h2>
+<p class="lead">Κάθε απόγευμα στις 6 ανοίγει μια πόρτα: μια μικρή στιγμή από τη χριστουγεννιάτικη ταινία μας «Λίγα βήματα πίσω» και μια σκέψη για όσους αγαπάμε. Η ταινία έρχεται στις 25 Δεκεμβρίου, στις 9 το πρωί.</p>
+<p class="doors__status" id="doors-status" aria-live="polite">Η πρώτη πόρτα ανοίγει την Τρίτη 1 Δεκεμβρίου, στις 6 το απόγευμα.</p>
+<div class="doors__next" id="doors-next" hidden><span class="doors__next-l"></span><span class="doors__clock" aria-hidden="true"><span><b>00</b>μέρες</span><span><b>00</b>ώρες</span><span><b>00</b>λεπτά</span><span><b>00</b>δευτ.</span></span></div></div>
+<ol class="doors">{''.join(door_tile(r) for r in DOORS)}{film}</ol>
+<p class="doors__note">Τα πρόσωπα στις ταινίες είναι ψηφιακά δημιουργημένα· οι ιστορίες είναι όλων μας.</p>
+</div>
+<dialog class="door-dialog" id="door-dialog" aria-labelledby="door-dialog-t">
+<button class="door-dialog__x" type="button" aria-label="Κλείσιμο">×</button>
+<div class="door-dialog__grid"><div class="door-dialog__media"><video playsinline controls preload="none" width="720" height="1280"></video></div>
+<div class="door-dialog__text"><p class="door-dialog__k" id="door-dialog-k"></p><h3 id="door-dialog-t"></h3>
+<p class="door-dialog__label">Η σκέψη της ημέρας</p><p class="door-dialog__thought" id="door-dialog-th"></p>
+<div class="actions"><a class="btn btn-primary" href="tel:{TEL}">{ICON['phone']}Καλέστε με</a><a class="btn btn-ghost" href="{WHATSAPP}" rel="noopener">{ICON['wa']}WhatsApp</a></div>
+<p class="door-dialog__fine">Γενική πληροφόρηση· δεν αποτελεί προσωπική συμβουλή.</p></div></div>
+</dialog>
+<script type="application/json" id="doors-data">{payload}</script>
+</section>'''
+
+def today_card():
+    """the hero's film of the day (Greek home page): the closed door until the first door opens; home.js then puts the
+    latest open door's film here (and the Christmas film from 25 Dec)."""
+    return ('''<figure class="today" id="today"><div class="today__frame"><img class="today__poster" src="/assets/xmas/door-closed.jpg" alt="Μια μπλε ξύλινη πόρτα σε πέτρινο σοκάκι, χαράματα" width="720" height="1290" fetchpriority="high">
+<video class="today__video" muted loop playsinline preload="none" hidden></video>
+<button class="today__sound" type="button" hidden aria-pressed="false" data-on="Χωρίς ήχο" data-off="Με ήχο">Με ήχο</button></div>
+<figcaption><b class="today__k">Η πόρτα της ημέρας</b><span class="today__line" id="today-line">Η πρώτη πόρτα ανοίγει την Τρίτη 1 Δεκεμβρίου, στις 6 το απόγευμα.</span>
+<a class="today__more" href="#portes">Δείτε το ημερολόγιο''' + ICON['arrow'] + '</a></figcaption></figure>')
+
+def rail(inner, label, cls=''):
+    """a row that scrolls sideways with snap (cards); home.js adds the two arrow buttons"""
+    return f'<div class="rail {cls}" data-rail aria-label="{label}" role="group">{inner}</div>'
 
 # ------------------------------------------------------------------ content
 # (id, photo, title, short, long, includes[], question)
@@ -617,60 +728,71 @@ def page_home(lang):
     guides = link_cards(lang, [(GUIDE_ICON[gid], L(t, lang), L(st, lang), url('guides', lang, gid)) for gid, img, t, st, _ in GUIDES] + [
         ('list', L(T['nav']['events'], lang), 'Τι να ελέγξετε και ποια χαρτιά να έχετε σε κάθε μεγάλη αλλαγή.' if el else 'What to check, and which papers to have ready, at each big change.', url('events', lang)),
         ('question', L(T['nav']['faq'], lang), 'Σύντομες απαντήσεις για την πρώτη συνάντηση, το κόστος και τις αποζημιώσεις.' if el else 'Short answers about the first meeting, costs and claims.', url('faq', lang))])
-    return head(lang, 'home', title, desc) + f'''
-<section class="hero on-dark"><div class="wrap">
-<div class="hero__text">
-<p class="hero__role">{L(T['role'], lang)}</p>
-<h1>{L(T['name'], lang)}</h1>
-<p class="hero__lead">{'Προστασία, αποταμίευση και ηρεμία για εσάς και την οικογένειά σας, με καθαρές εξηγήσεις και χωρίς πίεση.' if el else 'Protection, savings and peace of mind for you and your family, with clear explanations and no pressure.'}</p>
-<p class="hero__motto">{L(T['motto'], lang)}</p>
-{actions(lang)}
-<ul class="hero__facts"><li>{'Από το 2024' if el else 'Since 2024'}</li><li>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</li><li>{'Ελληνικά & Αγγλικά' if el else 'Greek & English'}</li></ul>
-</div>
-<figure class="portrait">{LINES}{portrait('Ο Γιάννης Φαραζής' if el else 'Giannis Farazis', eager=True)}</figure>
-</div></section>
-
-<section class="section"><div class="wrap">
-<div class="section-head"><hr class="rule"><h2>{'Τι μπορούμε να δούμε μαζί' if el else 'What we can look at together'}</h2>
-<p class="lead">{'Ασφάλιση με βάση τις δικές σας ανάγκες: τι θέλετε να προστατεύσετε, για πόσο, και με ποιο κόστος.' if el else 'Insurance built around your own needs: what you want to protect, for how long, and at what cost.'}</p></div>
-{sol_cards(lang, [x for x in SOLUTIONS if x[0] not in ('group', 'expats')])}
-</div></section>
-
-<section class="film-band on-dark"><div class="wrap">
-<div class="film-band__text">
-<h2 class="film-band__motto">{L(T['motto'], lang)}</h2>
-<p class="film-band__triad">{L(T['triad'], lang)}</p>
-<p>{'Σε κάθε στάδιο της ζωής: όταν μεγαλώνει η οικογένεια, όταν χρειάζεστε φροντίδα, όταν τα παιδιά σπουδάζουν και όταν έρθει η ώρα της σύνταξης.' if el else 'At every stage of life: as your family grows, when you need care, while your children study, and when it is time to retire.'}</p>
-</div>
-{film('film-home', lang, 'film--band')}
-</div></section>
-{story_films(lang)}
-
-<section class="section tint"><div class="wrap">
-<div class="section-head"><hr class="rule"><h2>{'Γιατί να συνεργαστούμε' if el else 'Why work with me'}</h2></div>
-{values_grid(lang)}
-</div></section>
-
-<section class="section"><div class="wrap">
-<div class="section-head"><hr class="rule"><h2>{'Πώς δουλεύω' if el else 'How I work'}</h2>
-<p class="lead">{'Τέσσερα βήματα, από την πρώτη κουβέντα μέχρι τη στιγμή που θα χρειαστείτε την κάλυψη.' if el else 'Four steps, from the first conversation to the moment you need your cover.'}</p></div>
-{steps_grid(lang)}
-</div></section>
-
-<section class="section tint"><div class="wrap about-teaser">
-<div><hr class="rule">
-<h2>{'Λίγα λόγια για μένα' if el else 'A few words about me'}</h2>
+    doors = doors_section() if el else ''
+    motto_big = L(T['motto'], lang)
+    media = f'<div class="hero__stage">{today_card()}</div>' if doors else ''
+    pause, play = ('Παύση βίντεο', 'Αναπαραγωγή βίντεο') if el else ('Pause video', 'Play video')
+    hero_film = ('<div class="film hero__film"><video class="film__video" muted loop playsinline preload="none" poster="/assets/video/hero.jpg" aria-hidden="true" tabindex="-1" disablepictureinpicture>'
+                 '<source src="/assets/video/hero.mp4" type="video/mp4"></video>'
+                 f'<button class="film__toggle" type="button" hidden data-pause="{pause}" data-play="{play}" aria-label="{pause}">'
+                 '<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>'
+                 '<svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></button></div>')
+    def moment(n, ev):
+        eid, ico, t, when, check, papers, stem = ev
+        tick = ICON['check']
+        return (f'<div class="moments__panel" role="tabpanel" id="moment-{eid}" aria-labelledby="mtab-{eid}"><h3>{L(t, lang)}</h3><p class="moments__when">{L(when, lang)}</p>'
+                f'<ul class="ticks">{"".join(f"<li>{tick}{L(x, lang)}</li>" for x in check[:3])}</ul>'
+                f'<div class="actions"><a class="btn btn-primary" href="{url("events", lang)}#{eid}">{"Όλη η λίστα ελέγχου" if el else "The full checklist"}</a>'
+                f'<a class="btn btn-ghost" href="{url("booking", lang)}">{"Να το δούμε μαζί" if el else "Let us look at it together"}</a></div></div>')
+    moments = (f'''
+<section class="section moments" data-tabs><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Ποια στιγμή ζείτε τώρα;' if el else 'Which moment are you living now?'}</h2>
+<p class="lead">{'Κάθε αλλαγή στη ζωή αλλάζει και όσα αξίζει να προστατεύσετε. Διαλέξτε μία και δείτε τι να ελέγξετε.' if el else 'Every change in life changes what is worth protecting. Pick one and see what to check.'}</p></div>
+<div class="moments__grid"><div class="moments__list" role="tablist" aria-label="{'Στιγμές της ζωής' if el else 'Moments of life'}">'''
+               + ''.join(f'<button class="moments__tab" type="button" role="tab" id="mtab-{ev[0]}" aria-controls="moment-{ev[0]}" aria-selected="{"true" if n == 0 else "false"}">{ICON[ev[1]]}<span>{L(ev[2], lang)}</span></button>' for n, ev in enumerate(EVENTS))
+               + '</div>' + ''.join(moment(n, ev) for n, ev in enumerate(EVENTS)) + '</div></div></section>')
+    tabs = [('why', 'Γιατί να συνεργαστούμε' if el else 'Why work with me', values_grid(lang)),
+            ('how', 'Πώς δουλεύω' if el else 'How I work',
+             f'<p class="lead">{"Τέσσερα βήματα, από την πρώτη κουβέντα μέχρι τη στιγμή που θα χρειαστείτε την κάλυψη." if el else "Four steps, from the first conversation to the moment you need your cover."}</p>' + steps_grid(lang)),
+            ('me', 'Λίγα λόγια για μένα' if el else 'A few words about me', f'''<div class="about-teaser">
+<div>
 <p>{'Είμαι Ασφαλιστικός Σύμβουλος από το 2024, με βάση τη Λευκωσία, και εξυπηρετώ πελάτες σε όλη την Κύπρο, στα Ελληνικά και στα Αγγλικά. Πιστεύω ότι η ασφάλιση δεν είναι απλώς ένα προϊόν· είναι ένα εργαλείο για να σχεδιάσει κανείς με ηρεμία το μέλλον του.' if el else 'I have been an Insurance Advisor since 2024. I am based in Nicosia and work with clients across Cyprus, in Greek and English. I believe insurance is not just a product; it is a way to plan your future calmly.'}</p>
 <p>{'Για μένα κάθε πελάτης είναι ξεχωριστός. Ξεκινάμε από τις δικές σας ανάγκες και προχωράμε μόνο όταν όλα είναι ξεκάθαρα.' if el else 'Every client is different. We start from your needs and only go ahead once everything is clear.'}</p>
 <p><a class="btn btn-ghost" href="{url('about', lang)}">{'Περισσότερα για μένα και ένα σύντομο βίντεο' if el else 'More about me, and a short video'}</a></p>
 </div>
-<blockquote class="quote quote--card">{L(T['motto'], lang)}<span>{'Μαζί μπορούμε να χτίσουμε ένα ασφαλές και σταθερό αύριο.' if el else 'Together we can build a safe and steady future.'}</span></blockquote>
+<figure class="portrait portrait--sm">{portrait("Ο Γιάννης Φαραζής" if el else "Giannis Farazis", n="")}</figure>
+</div>''')]
+    tabset = ('<div class="tabs" data-tabs><div class="tabs__list" role="tablist" aria-label="' + ('Η συνεργασία μας' if el else 'Working together') + '">'
+              + ''.join(f'<button class="tabs__tab" type="button" role="tab" id="tab-{k}" aria-controls="panel-{k}" aria-selected="{"true" if n == 0 else "false"}"{"" if n == 0 else " tabindex=-1"}>{t}</button>' for n, (k, t, _) in enumerate(tabs))
+              + '</div>' + ''.join(f'<div class="tabs__panel" role="tabpanel" id="panel-{k}" aria-labelledby="tab-{k}"><h3 class="tabs__h">{t}</h3>{body}</div>' for k, t, body in tabs) + '</div>')
+    return head(lang, 'home', title, desc) + f'''
+<section class="hero hero--film on-dark{' hero--today' if doors else ''}">{hero_film}{'<canvas class="xmas-dust" aria-hidden="true"></canvas>' if XMAS else ''}<div class="wrap">
+<div class="hero__text">
+<h1><span class="hero__who"><b>{L(T['name'], lang)}</b><i>{L(T['role'], lang)}</i></span><span class="hero__big">{motto_big}</span></h1>
+<p class="hero__lead">{'Προστασία, αποταμίευση και ηρεμία για εσάς και την οικογένειά σας, με καθαρές εξηγήσεις και χωρίς πίεση.' if el else 'Protection, savings and peace of mind for you and your family, with clear explanations and no pressure.'}</p>
+{actions(lang)}
+<ul class="hero__facts"><li>{'Από το 2024' if el else 'Since 2024'}</li><li>{'Λευκωσία · Παγκύπρια' if el else 'Nicosia · all of Cyprus'}</li><li>{'Ελληνικά & Αγγλικά' if el else 'Greek & English'}</li></ul>
+</div>
+{media}
+</div></section>
+{doors}
+{moments}
+<section class="section"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Τι μπορούμε να δούμε μαζί' if el else 'What we can look at together'}</h2>
+<p class="lead">{'Ασφάλιση με βάση τις δικές σας ανάγκες: τι θέλετε να προστατεύσετε, για πόσο, και με ποιο κόστος.' if el else 'Insurance built around your own needs: what you want to protect, for how long, and at what cost.'}</p></div>
+{rail(sol_cards(lang, [x for x in SOLUTIONS if x[0] not in ('group', 'expats')]), 'Θέματα' if el else 'Subjects')}
+</div></section>
+{story_films(lang)}
+
+<section class="section tint"><div class="wrap">
+<div class="section-head"><hr class="rule"><h2>{'Η συνεργασία μας' if el else 'Working together'}</h2></div>
+{tabset}
 </div></section>
 
 <section class="section"><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Χρήσιμοι οδηγοί' if el else 'Helpful guides'}</h2>
 <p class="lead">{'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά, και λίστες για τις μεγάλες αλλαγές της ζωής.' if el else 'Short answers to the questions I hear most often, and lists for the big changes in life.'}</p></div>
-{guides}
+{rail(guides, 'Οδηγοί' if el else 'Guides', 'rail--l')}
 </div></section>
 
 <section class="section tint"><div class="wrap callback-wrap">
@@ -678,7 +800,7 @@ def page_home(lang):
 <p>{'Αν δεν σας βολεύει να τηλεφωνήσετε τώρα, αφήστε μου όνομα και τηλέφωνο. Σας καλώ εγώ το πρωί, το μεσημέρι ή το απόγευμα, όπως σας βολεύει.' if el else 'If it is not a good moment to phone, leave me your name and number. I will call you in the morning, at midday or in the afternoon, whichever suits you.'}</p></div>
 {callback_form(lang, heading=False)}
 </div></section>
-''' + cta_band(lang) + callback_script() + foot(lang)
+''' + cta_band(lang) + callback_script() + f'<script src="/assets/js/home.js?v={ASSET_V}" defer></script>' + foot(lang)
 
 def page_about(lang):
     el = lang == 'el'
