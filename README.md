@@ -35,3 +35,14 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
   QR code at the end, and name + page numbers in the margins (`print_head`/`print_foot` in build.py, site.css print
   block). The checklist PDFs (`tools/make_pdfs.py`, 4 × el/en/ru) use the same design, with a notes area and the QR
   code of the Guides page; regenerate with `python3 tools/make_pdfs.py` (CHROMIUM=… names the browser if needed).
+- Christmas 2026 and the shorter home page (25 Nov 2026, owner: «κάνε τα μοναδικά και χριστουγεννιάτικα», the home page
+  was too long). Home page: the solutions and the guides are rows that scroll sideways (`rail()`, `assets/js/home.js`),
+  «why / how / about me» is one tabbed section, the silent film band is gone; on a phone the page is about 30% shorter
+  even with the doors. Season: `XMAS = True` in build.py adds `assets/css/xmas.css` and the class `xmas` on every page
+  (lights under the header, night sky, village skyline, a wish in the footer); set it to False after 6 Jan.
+  «24 πόρτες ως τα Χριστούγεννα» (Greek home page only): `tools/xmas/doors.json` holds the 24 phrases and thoughts; a
+  door has a film once `assets/xmas/porta-NN.mp4` + `porta-NN.jpg` + `tile-NN.jpg` exist (720×1280 from the countdown
+  videos), and only those days are written into the page. Doors open by the visitor's clock at 18:00 Cyprus time of
+  their day (fixed UTC times in home.js); the newest open door is the hero's film of the day. The Christmas film
+  itself: `assets/xmas/liga-vimata-piso.mp4` + `.jpg`, opens 25 Dec 09:00. In the owner's preview only, `?day=7` shows
+  the page as on the evening of 7 Dec.
