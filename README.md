@@ -46,3 +46,10 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
   their day (fixed UTC times in home.js); the newest open door is the hero's film of the day. The Christmas film
   itself: `assets/xmas/liga-vimata-piso.mp4` + `.jpg`, opens 25 Dec 09:00. In the owner's preview only, `?day=7` shows
   the page as on the evening of 7 Dec.
+- The 2026 refresh (25 Nov 2026, owner: more individual, more professional, more of what sites can do today):
+  `assets/css/next.css` and `assets/js/fx.js` on every page, and they stay after Christmas. Headings in Literata 72pt
+  SemiBold (the films' caption face; GFS Didot stays for the name, the motto, quotes and the doors' numbers), teal
+  (`--teal`) for links, focus and other things you press, lit-gold primary buttons on dark, a glass header once the
+  page has scrolled, hairline cards lit under the pointer. Seasonal interactions (xmas.css, home.js, fx.js): the Santa
+  hat on the monogram, bulbs that can be tapped, lamp light under the pointer, doors that lean, closed doors that
+  answer a knock with their date, a clock to the next door, the door's picture growing into its film.
