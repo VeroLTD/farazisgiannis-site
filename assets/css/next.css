@@ -185,3 +185,40 @@ main > section:first-of-type:is(.hero, .page-head, .about-hero) > .wrap { paddin
 @media (prefers-reduced-motion: reduce) { .card > a:hover figure img, .lcards a:hover { transform: none; } }
 @media print { main > section, main > .cta-band { margin-top: 0; border-radius: 0; } main > section:first-of-type > .wrap { padding-top: 0; } }
 .icon-panel--card, .card .icon-panel { background: var(--night); color: var(--gold); }
+
+/* ================= 26 Nov 2026 (owner, after avrastro.com) — the row of joined boxes: five sections of the home page open
+   one at a time under the box that is pressed; the closing band shows the advisor himself ================= */
+.deck { position: relative; z-index: 1; background: var(--night); margin-top: calc(-1 * var(--sheet) - clamp(1.6rem, 4.5vw, 3.6rem)); padding: 0 0 calc(var(--sheet) + clamp(1.3rem, 3vw, 2rem)); }
+.deck[hidden] { display: none; }
+.deck__tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; }
+.deck__tab { position: relative; margin: 0; padding: 1.15rem .6rem 1.1rem; border: 0; border-radius: 0; background: #111a2b; color: var(--ivory); font: 400 clamp(1rem, .9rem + .45vw, 1.22rem)/1.2 var(--display); cursor: pointer; box-shadow: 0 0 0 1px rgba(201, 164, 92, .45); transition: background-color .25s, color .25s; }
+.deck__tab:first-child { border-radius: 16px 0 0 16px; } .deck__tab:last-child { border-radius: 0 16px 16px 0; }
+.deck__tab::before { content: ""; display: block; width: 14px; height: 11px; margin: 0 auto .55rem; border: 1.5px solid currentColor; border-bottom: 0; border-radius: 999px 999px 0 0; opacity: .6; transition: opacity .25s, background-color .25s; }
+.deck__tab:hover { background: #18243a; }
+.deck__tab[aria-selected="true"] { background: linear-gradient(180deg, var(--gold-soft), var(--gold)); color: var(--night); z-index: 1; }
+.deck__tab[aria-selected="true"]::before { opacity: 1; background: var(--night); }
+.deck__tab[aria-selected="true"]::after { content: ""; position: absolute; left: 50%; top: calc(100% + 1px); width: 26px; height: 13px; margin-left: -13px; background: var(--gold); clip-path: polygon(0 0, 100% 0, 50% 100%); }
+.deck__tab:focus-visible { outline: 0; box-shadow: 0 0 0 1px rgba(201, 164, 92, .45), inset 0 0 0 3px #fff; z-index: 2; }
+main > section[data-deck-panel][hidden] { display: none; }
+@media (max-width: 760px) {
+  /* phone: one joined row drawn sideways — three and a bit in view, the chosen box comes to the middle */
+  .deck > .wrap { padding: 0; }
+  .deck__tabs { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 37%; justify-content: start; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity; scrollbar-width: none; overscroll-behavior-x: contain; padding: 2px var(--gutter) 16px; scroll-padding-inline: var(--gutter); }
+  .deck__tabs::-webkit-scrollbar { display: none; }
+  .deck__tab { padding: .9rem .4rem .85rem; font-size: 1rem; scroll-snap-align: center; }
+  .deck { padding-bottom: calc(var(--sheet) + .4rem); }
+}
+@media print { .deck { display: none !important; } main > section[data-deck-panel][hidden] { display: block !important; } }
+
+/* the closing band: the advisor, cut out of his portrait, stands on the band's lower edge (one logo fewer on the page) */
+.cta-band .wrap { grid-template-columns: clamp(210px, 24vw, 310px) 1fr; align-items: end; padding-bottom: 0; }
+.cta-band .wrap > div { align-self: center; padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+.cta-band__me { position: relative; margin: 0; align-self: end; }
+.cta-band__me::before { content: ""; position: absolute; left: 50%; top: 4%; width: 92%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, rgba(201, 164, 92, .3) 0%, rgba(201, 164, 92, .08) 46%, rgba(201, 164, 92, 0) 68%); }
+.cta-band__me img { position: relative; display: block; width: 100%; height: auto; }
+@media (max-width: 720px) {
+  .cta-band .wrap { grid-template-columns: 1fr; }
+  .cta-band .wrap > div { padding-bottom: 1rem; }
+  .cta-band__me { order: 2; width: min(64vw, 250px); margin-inline: auto; }
+}
+@media print { .cta-band__me { display: none; } }

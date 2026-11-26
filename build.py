@@ -20,7 +20,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, 'site')
 BASE = 'https://farazisgiannis.com'
 UPDATED = '2026-10-14'   # privacy page "last updated" (call-back requests added 14 Oct 2026)
-ASSET_V = '2026-11-25'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
+ASSET_V = '2026-11-26'   # cache key of site.css / site.js, and the sitemap date (ideas track pages added 14 Oct 2026)
 PHONE = '+357 97 840941'; TEL = '+35797840941'
 OFFICE = '+357 22 124867'; OFFICE_TEL = '+35722124867'
 WHATSAPP = 'https://wa.me/35797840941'
@@ -436,7 +436,7 @@ def page_head(title, lead, img=None, alt='', movie=None, lang='el', trail=(), ki
 def cta_band(lang):
     el = lang == 'el'
     return f'''<section class="cta-band on-dark"><div class="wrap">
-<div class="cta-band__mark" aria-hidden="true"><img src="/assets/img/gf-mark.png" alt="" width="240" height="236" loading="lazy"></div>
+<figure class="cta-band__me"><img src="/assets/img/giannis-farazis-cutout.webp" alt="{'Ο Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος' if el else 'Giannis Farazis, Insurance Advisor'}" width="720" height="756" loading="lazy" decoding="async"></figure>
 <div><h2>{'Μια πρώτη συζήτηση, χωρίς δέσμευση' if el else 'A first conversation, with no commitment'}</h2>
 <p>{'Καλέστε, στείλτε μήνυμα στο WhatsApp ή αφήστε τα στοιχεία σας και θα σας καλέσω εγώ.' if el else 'Call, send a WhatsApp message, or leave your details and I will call you.'}</p>
 {actions(lang, f'<a class="btn btn-link" href="{url("contact", lang)}">{"Φόρμα επικοινωνίας" if el else "Contact form"}{ICON["arrow"]}</a>')}</div>
@@ -504,7 +504,7 @@ def door_tile(row):
     d = row['d']; ready = door_ready(d)
     img = f'<img src="/assets/xmas/tile-{d:02d}.jpg" alt="" width="360" height="480" loading="lazy" decoding="async">' if ready else ''
     return (f'<li><button class="door" type="button" data-d="{d}" disabled aria-label="Πόρτα {d} · ανοίγει {d} {MONTH_GEN}, 6 το απόγευμα">'
-            f'<span class="door__in">{img}</span><span class="door__l"></span><span class="door__r"></span>'
+            f'<span class="door__in">{img}</span><img class="door__shut" src="/assets/xmas/door-shut.jpg" alt="" width="360" height="480" loading="lazy" decoding="async">'
             f'<span class="door__n">{d}</span><span class="door__star" aria-hidden="true">✦</span></button></li>')
 
 def doors_section():
@@ -512,17 +512,20 @@ def doors_section():
     time has come. The films' people are AI-generated: said once, plainly, as in «Μικρές ιστορίες ζωής»."""
     if not (XMAS and DOORS): return ''
     data = [{'d': r['d'], 'p': r['phrase'], 't': r['thought']} for r in DOORS if door_ready(r['d'])]
-    film = ('<li class="doors__film"><button class="door door--film" type="button" data-d="25" disabled aria-label="25 Δεκεμβρίου, 9 το πρωί · η ταινία «Λίγα βήματα πίσω»">'
+    # 26 Nov 2026 (owner): the doors are the real blue door of the films, in ONE row (the last one that opened in the
+    # middle, arrows to go back and forth), and the film of 25 December waits beside them as a red envelope
+    film = ('<div class="doors__film"><button class="door door--film" type="button" data-d="25" disabled aria-label="25 Δεκεμβρίου, 9 το πρωί · η ταινία «Λίγα βήματα πίσω»">'
+            '<span class="env__flap" aria-hidden="true"></span><span class="env__seal" aria-hidden="true">✦</span>'
             '<span class="door__film-k">25 Δεκεμβρίου · 9 το πρωί</span><span class="door__film-t">«Λίγα βήματα πίσω»</span>'
-            '<span class="door__film-s">Η χριστουγεννιάτικη ταινία μας</span></button></li>')
+            '<span class="door__film-s">Η χριστουγεννιάτικη ταινία μας</span></button></div>')
     payload = json.dumps({'days': data, 'film': XMAS_FILM, 'preview': PREVIEW}, ensure_ascii=False).replace('</', '<\\/')
     return f'''
 <section class="section doors-sec on-dark" id="portes"><div class="wrap">
-<div class="section-head"><hr class="rule"><h2>24 πόρτες ως τα Χριστούγεννα</h2>
+<div class="doors-top"><div class="section-head"><hr class="rule"><h2>24 πόρτες ως τα Χριστούγεννα</h2>
 <p class="lead">Κάθε απόγευμα στις 6 ανοίγει μια πόρτα: μια μικρή στιγμή από τη χριστουγεννιάτικη ταινία μας «Λίγα βήματα πίσω» και μια σκέψη για όσους αγαπάμε. Η ταινία έρχεται στις 25 Δεκεμβρίου, στις 9 το πρωί.</p>
 <p class="doors__status" id="doors-status" aria-live="polite">Η πρώτη πόρτα ανοίγει την Τρίτη 1 Δεκεμβρίου, στις 6 το απόγευμα.</p>
-<div class="doors__next" id="doors-next" hidden><span class="doors__next-l"></span><span class="doors__clock" aria-hidden="true"><span><b>00</b>μέρες</span><span><b>00</b>ώρες</span><span><b>00</b>λεπτά</span><span><b>00</b>δευτ.</span></span></div></div>
-<ol class="doors">{''.join(door_tile(r) for r in DOORS)}{film}</ol>
+<div class="doors__next" id="doors-next" hidden><span class="doors__next-l"></span><span class="doors__clock" aria-hidden="true"><span><b>00</b>μέρες</span><span><b>00</b>ώρες</span><span><b>00</b>λεπτά</span><span><b>00</b>δευτ.</span></span></div></div>{film}</div>
+<div class="doors-rail" data-prev="Προηγούμενες πόρτες" data-next="Επόμενες πόρτες"><ol class="doors">{''.join(door_tile(r) for r in DOORS)}</ol></div>
 <p class="doors__note">Τα πρόσωπα στις ταινίες είναι ψηφιακά δημιουργημένα· οι ιστορίες είναι όλων μας.</p>
 </div>
 <dialog class="door-dialog" id="door-dialog" aria-labelledby="door-dialog-t">
@@ -725,9 +728,22 @@ def page_home(lang):
     title = 'Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος στη Λευκωσία' if el else 'Giannis Farazis, Insurance Advisor in Nicosia, Cyprus'
     desc = ('Ασφάλεια ζωής, υγείας, σύνταξη, αποταμίευση και σπουδές παιδιών. Προσωπική καθοδήγηση σε όλη την Κύπρο, στα Ελληνικά και Αγγλικά. +357 97 840941.' if el
             else 'Life and health cover, retirement, savings and children’s education. Personal guidance across Cyprus, in Greek and English. +357 97 840941.')
-    guides = link_cards(lang, [(GUIDE_ICON[gid], L(t, lang), L(st, lang), url('guides', lang, gid)) for gid, img, t, st, _ in GUIDES] + [
-        ('list', L(T['nav']['events'], lang), 'Τι να ελέγξετε και ποια χαρτιά να έχετε σε κάθε μεγάλη αλλαγή.' if el else 'What to check, and which papers to have ready, at each big change.', url('events', lang)),
-        ('question', L(T['nav']['faq'], lang), 'Σύντομες απαντήσεις για την πρώτη συνάντηση, το κόστος και τις αποζημιώσεις.' if el else 'Short answers about the first meeting, costs and claims.', url('faq', lang))])
+    # 26 Nov 2026 (owner): the guides get pictures, like the subjects — the same arch cards, in the same row. A photo of the
+    # site stands on one page only, so these are stills of our own short films (people digitally created, as said on the page).
+    still = {'life-cover': ('family', 44, 'Ένα παιδάκι κάνει τα πρώτα του βήματα προς τη μητέρα του', 'A toddler taking first steps towards a mother'),
+             'gesy': ('health', 50, 'Μητέρα κρατά το νεογέννητο μωρό της', 'A mother holding her newborn baby'),
+             'review': ('income', 82, 'Άντρας γράφει σε χαρτιά στο τραπέζι της κουζίνας, αργά το βράδυ', 'A man writing on papers at the kitchen table late in the evening'),
+             'events': ('home', 38, 'Ζευγάρι ανοίγει την πόρτα του νέου του σπιτιού', 'A couple opening the door of their new home'),
+             'faq': ('retirement', 100, 'Ζευγάρι κάθεται σε μεγάλο τραπέζι κάτω από φωτάκια', 'A couple sitting at a long table under string lights')}
+    def still_img(k):
+        name, x, a_el, a_en = still[k]
+        return f'<img src="/assets/img/home/still-{name}.webp" alt="{esc(a_el if el else a_en)}" width="560" height="420" loading="lazy" decoding="async" style="object-position:{x}% 50%">'
+    guide_items = [(gid, L(t, lang), L(st, lang), url('guides', lang, gid)) for gid, img, t, st, _ in GUIDES] + [
+        ('events', L(T['nav']['events'], lang), 'Τι να ελέγξετε και ποια χαρτιά να έχετε σε κάθε μεγάλη αλλαγή.' if el else 'What to check, and which papers to have ready, at each big change.', url('events', lang)),
+        ('faq', L(T['nav']['faq'], lang), 'Σύντομες απαντήσεις για την πρώτη συνάντηση, το κόστος και τις αποζημιώσεις.' if el else 'Short answers about the first meeting, costs and claims.', url('faq', lang))]
+    guides = '<ul class="cards">' + ''.join(
+        f'<li class="card"><a href="{h}"><figure>{still_img(k)}</figure><h3>{t}</h3><p>{d}</p><span class="card__more">{L(T["more"], lang)}{ICON["arrow"]}</span></a></li>'
+        for k, t, d, h in guide_items) + '</ul>'
     doors = doors_section() if el else ''
     motto_big = L(T['motto'], lang)
     media = f'<div class="hero__stage">{today_card()}</div>' if doors else ''
@@ -745,7 +761,7 @@ def page_home(lang):
                 f'<div class="actions"><a class="btn btn-primary" href="{url("events", lang)}#{eid}">{"Όλη η λίστα ελέγχου" if el else "The full checklist"}</a>'
                 f'<a class="btn btn-ghost" href="{url("booking", lang)}">{"Να το δούμε μαζί" if el else "Let us look at it together"}</a></div></div>')
     moments = (f'''
-<section class="section moments" data-tabs><div class="wrap">
+<section class="section moments" id="deck-moment" data-deck-panel data-tabs><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Ποια στιγμή ζείτε τώρα;' if el else 'Which moment are you living now?'}</h2>
 <p class="lead">{'Κάθε αλλαγή στη ζωή αλλάζει και όσα αξίζει να προστατεύσετε. Διαλέξτε μία και δείτε τι να ελέγξετε.' if el else 'Every change in life changes what is worth protecting. Pick one and see what to check.'}</p></div>
 <div class="moments__grid"><div class="moments__list" role="tablist" aria-label="{'Στιγμές της ζωής' if el else 'Moments of life'}">'''
@@ -765,6 +781,12 @@ def page_home(lang):
     tabset = ('<div class="tabs" data-tabs><div class="tabs__list" role="tablist" aria-label="' + ('Η συνεργασία μας' if el else 'Working together') + '">'
               + ''.join(f'<button class="tabs__tab" type="button" role="tab" id="tab-{k}" aria-controls="panel-{k}" aria-selected="{"true" if n == 0 else "false"}"{"" if n == 0 else " tabindex=-1"}>{t}</button>' for n, (k, t, _) in enumerate(tabs))
               + '</div>' + ''.join(f'<div class="tabs__panel" role="tabpanel" id="panel-{k}" aria-labelledby="tab-{k}"><h3 class="tabs__h">{t}</h3>{body}</div>' for k, t, body in tabs) + '</div>')
+    deck_items = [('moment', 'Η στιγμή σας' if el else 'Your moment'), ('topics', 'Τι βλέπουμε μαζί' if el else 'What we look at'), ('together', 'Η συνεργασία μας' if el else 'Working together'),
+                  ('guides', 'Οδηγοί' if el else 'Guides'), ('call', 'Να σας καλέσω;' if el else 'Shall I call you?')]
+    # printed hidden: home.js shows the boxes and closes all sections but the chosen one; without scripts every section shows
+    deck = ('<div class="deck on-dark" data-deck hidden><div class="wrap"><div class="deck__tabs" role="tablist" aria-label="' + ('Από πού θέλετε να ξεκινήσουμε;' if el else 'Where shall we start?') + '">'
+            + ''.join(f'<button class="deck__tab" type="button" role="tab" id="deck-tab-{k}" aria-controls="deck-{k}" aria-selected="false" tabindex="-1"><span>{t}</span></button>' for k, t in deck_items)
+            + '</div></div></div>')
     return head(lang, 'home', title, desc) + f'''
 <section class="hero hero--film on-dark{' hero--today' if doors else ''}">{hero_film}{'<canvas class="xmas-dust" aria-hidden="true"></canvas>' if XMAS else ''}<div class="wrap">
 <div class="hero__text">
@@ -776,30 +798,31 @@ def page_home(lang):
 {media}
 </div></section>
 {doors}
+{deck}
 {moments}
-<section class="section"><div class="wrap">
+<section class="section" id="deck-topics" data-deck-panel><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Τι μπορούμε να δούμε μαζί' if el else 'What we can look at together'}</h2>
 <p class="lead">{'Ασφάλιση με βάση τις δικές σας ανάγκες: τι θέλετε να προστατεύσετε, για πόσο, και με ποιο κόστος.' if el else 'Insurance built around your own needs: what you want to protect, for how long, and at what cost.'}</p></div>
 {rail(sol_cards(lang, [x for x in SOLUTIONS if x[0] not in ('group', 'expats')]), 'Θέματα' if el else 'Subjects')}
 </div></section>
-{story_films(lang)}
 
-<section class="section tint"><div class="wrap">
+<section class="section tint" id="deck-together" data-deck-panel><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Η συνεργασία μας' if el else 'Working together'}</h2></div>
 {tabset}
 </div></section>
 
-<section class="section"><div class="wrap">
+<section class="section" id="deck-guides" data-deck-panel><div class="wrap">
 <div class="section-head"><hr class="rule"><h2>{'Χρήσιμοι οδηγοί' if el else 'Helpful guides'}</h2>
 <p class="lead">{'Σύντομες απαντήσεις στις ερωτήσεις που ακούω πιο συχνά, και λίστες για τις μεγάλες αλλαγές της ζωής.' if el else 'Short answers to the questions I hear most often, and lists for the big changes in life.'}</p></div>
-{rail(guides, 'Οδηγοί' if el else 'Guides', 'rail--l')}
+{rail(guides, 'Οδηγοί' if el else 'Guides')}
 </div></section>
 
-<section class="section tint"><div class="wrap callback-wrap">
+<section class="section tint" id="deck-call" data-deck-panel><div class="wrap callback-wrap">
 <div class="callback-side"><hr class="rule"><h2>{'Προτιμάτε να σας καλέσω;' if el else 'Would you rather I called you?'}</h2>
 <p>{'Αν δεν σας βολεύει να τηλεφωνήσετε τώρα, αφήστε μου όνομα και τηλέφωνο. Σας καλώ εγώ το πρωί, το μεσημέρι ή το απόγευμα, όπως σας βολεύει.' if el else 'If it is not a good moment to phone, leave me your name and number. I will call you in the morning, at midday or in the afternoon, whichever suits you.'}</p></div>
 {callback_form(lang, heading=False)}
 </div></section>
+{story_films(lang)}
 ''' + cta_band(lang) + callback_script() + f'<script src="/assets/js/home.js?v={ASSET_V}" defer></script>' + foot(lang)
 
 def page_about(lang):
@@ -971,7 +994,7 @@ def page_contact(lang):
 </form>
 </div>
 </div></section>
-<section class="section tint"><div class="wrap callback-wrap">
+<section class="section tint" id="deck-call" data-deck-panel><div class="wrap callback-wrap">
 <div class="callback-side"><hr class="rule"><h2>{'Ή απλώς ζητήστε να σας καλέσω' if el else 'Or simply ask me to call you'}</h2>
 <p>{'Χωρίς μήνυμα και χωρίς e-mail: μόνο όνομα, τηλέφωνο και πότε σας βολεύει.' if el else 'No message and no e-mail: just your name, your phone number and when suits you.'}</p></div>
 {callback_form(lang, heading=False)}
@@ -1298,7 +1321,7 @@ def page_employers(lang):
 {cards}
 </div></section>
 {film_band(lang, 'fg-employers', 'Η ενημέρωση, σε ένα σύντομο βίντεο' if el else 'The talk, in a short film')}
-<section class="section tint"><div class="wrap callback-wrap">
+<section class="section tint" id="deck-call" data-deck-panel><div class="wrap callback-wrap">
 <div class="callback-side"><hr class="rule"><h2>{'Πώς γίνεται' if el else 'How it works'}</h2>{ul(how)}<p class="note">{note}</p></div>
 {callback_form(lang, topic='business', title='Ζητήστε μια ενημέρωση' if el else 'Ask for a talk', lead='Αφήστε όνομα και τηλέφωνο και σας καλώ για να κανονίσουμε μέρα, χώρο και διάρκεια.' if el else 'Leave your name and phone number and I will call you to agree a day, a place and the length.')}
 </div></section>''' + cta_band(lang) + callback_script() + foot(lang)

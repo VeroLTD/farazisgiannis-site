@@ -10,6 +10,36 @@
   var save = navigator.connection && navigator.connection.saveData;
   var ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
+  // ---- the row of joined boxes: five sections open one at a time under the box that is pressed (26 Nov 2026)
+  (function () {
+    var deck = $('[data-deck]'); if (!deck) return;
+    var tabs = $$('.deck__tab', deck).filter(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+    if (tabs.length < 2) return;
+    var bar = $('.deck__tabs', deck);
+    tabs.forEach(function (t) { var p = document.getElementById(t.getAttribute('aria-controls')); p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', t.id); });
+    function open(t, quiet) {
+      var swap = function () {
+        tabs.forEach(function (x) { var on = x === t; x.setAttribute('aria-selected', on ? 'true' : 'false'); x.tabIndex = on || (!t && x === tabs[0]) ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; });
+        window.dispatchEvent(new Event('resize'));
+        if (t && bar.scrollWidth > bar.clientWidth + 4) bar.scrollTo({ left: t.offsetLeft - (bar.clientWidth - t.offsetWidth) / 2, behavior: quiet || still ? 'auto' : 'smooth' });
+      };
+      if (!quiet && document.startViewTransition && !still) document.startViewTransition(swap); else swap();
+    }
+    deck.addEventListener('click', function (e) { var t = e.target.closest && e.target.closest('.deck__tab'); if (t) open(t.getAttribute('aria-selected') === 'true' ? null : t); });
+    deck.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement); if (i < 0) return;
+      var j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : null;
+      if (j === null) return; e.preventDefault(); j = (j + tabs.length) % tabs.length; tabs[j].focus(); open(tabs[j]);
+    });
+    // an address that points inside a closed section opens it first
+    function byHash() {
+      var h = location.hash.slice(1), el2 = h && document.getElementById(h), p = el2 && el2.closest('[data-deck-panel]');
+      if (p && p.hidden) { open(document.getElementById(p.getAttribute('aria-labelledby')), true); el2.scrollIntoView(); }
+    }
+    window.addEventListener('hashchange', byHash);
+    deck.hidden = false; open(tabs[0], true); byHash();
+  })();
+
   // ---- rows that scroll sideways
   $$('[data-rail]').forEach(function (rail) {
     var list = $('ul', rail); if (!list) return;
@@ -169,6 +199,19 @@
       b.addEventListener('click', function () { openDoor(d, b); });
     }
   });
+  // the doors are one row: the last door that opened is brought to the middle; two arrows go back and forth
+  (function () {
+    var row = $('.doors'), rail = $('.doors-rail'); if (!row || !rail) return;
+    var mid = function (li, smooth) { var to = li.offsetLeft - (row.clientWidth - li.offsetWidth) / 2; if (smooth && row.scrollTo) row.scrollTo({ left: to, behavior: 'smooth' }); else row.scrollLeft = to; };
+    var at = $('.door[data-d="' + (latest || 1) + '"]', row); if (at && latest) mid(at.parentNode, false);
+    var nav = document.createElement('div'); nav.className = 'doors-rail__nav';
+    [-1, 1].forEach(function (dir) { var b = document.createElement('button'); b.type = 'button'; b.setAttribute('data-dir', dir); b.setAttribute('aria-label', rail.getAttribute(dir < 0 ? 'data-prev' : 'data-next') || ''); nav.appendChild(b); });
+    rail.appendChild(nav);
+    var sync = function () { nav.firstChild.disabled = row.scrollLeft < 8; nav.lastChild.disabled = row.scrollLeft > row.scrollWidth - row.clientWidth - 8; };
+    nav.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('button'); if (b) row.scrollBy({ left: +b.getAttribute('data-dir') * row.clientWidth * .66, behavior: still ? 'auto' : 'smooth' }); });
+    row.addEventListener('scroll', sync, { passive: true }); window.addEventListener('resize', sync); sync();
+  })();
+
   var status = $('#doors-status'), line = $('#today-line');
   if (latest) {
     var txt = isOpen(25) ? 'Καλά Χριστούγεννα! Και οι 24 πόρτες είναι ανοιχτές.' : 'Σήμερα: πόρτα ' + latest + ' · ' + left(latest) + '. Πατήστε μια ανοιχτή πόρτα.';

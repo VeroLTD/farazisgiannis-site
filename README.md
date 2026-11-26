@@ -46,6 +46,15 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
   their day (fixed UTC times in home.js); the newest open door is the hero's film of the day. The Christmas film
   itself: `assets/xmas/liga-vimata-piso.mp4` + `.jpg`, opens 25 Dec 09:00. In the owner's preview only, `?day=7` shows
   the page as on the evening of 7 Dec.
+- After avrastro.com (26 Nov 2026, owner: «τώρα το άβραστρο μου αρέσει περισσότερο… να υπάρχει σύνδεση»): on the home page the
+  door of the day stands tall on the right of the hero (computer); «24 πόρτες» are the real blue door of the films in ONE row
+  (`assets/xmas/door-shut.jpg` closed, the day's `tile-NN.jpg` when open; the last open door is brought to the middle, two
+  arrows), with the film of 25 December beside them as a red envelope; five sections («Ποια στιγμή ζείτε τώρα;», «Τι μπορούμε
+  να δούμε μαζί», «Η συνεργασία μας», «Χρήσιμοι οδηγοί», «Προτιμάτε να σας καλέσω;») open one at a time under a row of
+  joined boxes (`[data-deck]` in `build.py`, `home.js`; printed hidden, so without scripts every section shows; on phones the
+  row is drawn sideways); «Μικρές ιστορίες ζωής» stays in view under them. The guide cards carry stills of our own films
+  (`assets/img/home/still-*.webp` — a site photo may stand on one page only). The closing band shows the advisor cut out of
+  his second portrait (`assets/img/giannis-farazis-cutout.webp`, made locally with OpenCV GrabCut) instead of one more logo.
 - The redesign «Πύλη» (25 Nov 2026; the owner turned down a bright-blue try the same day: premium, one palette that
   holds the whole site together, film across the whole top, shapes of its own, not a blog). `assets/css/next.css` +
   `assets/js/fx.js` on every page, after site.css; they stay after Christmas. One night colour, one warm ivory, one
