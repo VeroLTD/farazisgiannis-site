@@ -54,7 +54,7 @@ Personal website of Giannis Farazis, Insurance Advisor (Nicosia, Cyprus). Greek 
   joined boxes (`[data-deck]` in `build.py`, `home.js`; printed hidden, so without scripts every section shows; on phones the
   row is drawn sideways); «Μικρές ιστορίες ζωής» stays in view under them. The guide cards carry stills of our own films
   (`assets/img/home/still-*.webp` — a site photo may stand on one page only). The closing band shows the advisor cut out of
-  his second portrait (`assets/img/giannis-farazis-cutout.webp`, made locally with OpenCV GrabCut) instead of one more logo.
+  the advisor himself (`assets/img/giannis-farazis-cutout.webp`: his own background-free picture, which he supplied on 26 Nov 2026 — only resized here) instead of one more logo.
 - The redesign «Πύλη» (25 Nov 2026; the owner turned down a bright-blue try the same day: premium, one palette that
   holds the whole site together, film across the whole top, shapes of its own, not a blog). `assets/css/next.css` +
   `assets/js/fx.js` on every page, after site.css; they stay after Christmas. One night colour, one warm ivory, one

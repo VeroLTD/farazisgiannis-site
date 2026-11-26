@@ -436,7 +436,7 @@ def page_head(title, lead, img=None, alt='', movie=None, lang='el', trail=(), ki
 def cta_band(lang):
     el = lang == 'el'
     return f'''<section class="cta-band on-dark"><div class="wrap">
-<figure class="cta-band__me"><img src="/assets/img/giannis-farazis-cutout.webp" alt="{'Ο Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος' if el else 'Giannis Farazis, Insurance Advisor'}" width="720" height="756" loading="lazy" decoding="async"></figure>
+<figure class="cta-band__me"><img src="/assets/img/giannis-farazis-cutout.webp" alt="{'Ο Γιάννης Φαραζής, Ασφαλιστικός Σύμβουλος' if el else 'Giannis Farazis, Insurance Advisor'}" width="720" height="898" loading="lazy" decoding="async"></figure>
 <div><h2>{'Μια πρώτη συζήτηση, χωρίς δέσμευση' if el else 'A first conversation, with no commitment'}</h2>
 <p>{'Καλέστε, στείλτε μήνυμα στο WhatsApp ή αφήστε τα στοιχεία σας και θα σας καλέσω εγώ.' if el else 'Call, send a WhatsApp message, or leave your details and I will call you.'}</p>
 {actions(lang, f'<a class="btn btn-link" href="{url("contact", lang)}">{"Φόρμα επικοινωνίας" if el else "Contact form"}{ICON["arrow"]}</a>')}</div>
